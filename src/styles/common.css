@@ -1,0 +1,61 @@
+/*垂直居中*/
+.vetically {
+  display: flex;
+  align-items: center;
+}
+.marginRight20 {
+  margin-right: 20px;
+}
+/*弹性布局*/
+.flex {
+  display: flex;
+}
+.searchBox {
+  display: flex;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.searchBox1 {
+  display: flex;
+  font-size: 12px;
+}
+.searchItem {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+.container {
+  width: 100%;
+  height: 100%;
+}
+.containerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.whiteBackground {
+  background-color: #fff;
+}
+.frameContent {
+  width: 100%;
+  height: 100%;
+}
+.moduleBox {
+  /*background-color: #fff;*/
+  padding: 10px;
+}
+.templateBox {
+  height: 100%;
+  width: 100%;
+  background: radial-gradient(#21365d, #0b0f24); /* 标准的语法 */
+}
+.flexCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flexColumn {
+  flex-direction: column;
+}

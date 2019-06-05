@@ -1,0 +1,71 @@
+/*选择器*/
+.ant-select {
+  font-size: 12px;
+  width: 120px;
+}
+.ant-select-dropdown {
+  font-size: 12px;
+}
+.ant-select-dropdown-menu-item {
+  line-height: 1.8rem;
+}
+/*表格*/
+.ant-table,
+.ant-pagination {
+  font-size: 12px;
+}
+.ant-table {
+  background-color: white;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
+  padding: 10px 16px;
+}
+.ant-table-thead > tr > th {
+  font-weight: bold;
+}
+
+/*按钮*/
+.ant-btn-sm {
+  font-size: 1.2rem;
+}
+.ant-btn {
+  min-width: 6rem;
+  font-size: 1.2rem;
+}
+
+/*单选框*/
+.ant-radio-wrapper {
+  font-size: 12px;
+}
+
+/*文字提示*/
+.ant-tooltip-arrow {
+  display: none;
+}
+.ant-tooltip-inner {
+  background-color: #fff;
+  color: #333;
+  padding: 0;
+}
+
+.ant-popover-inner-content {
+  padding: 0 !important;
+}
+/*.ant-dropdown-menu{*/
+/*width: 200px;*/
+/*}*/
+.ant-dropdown-menu-item,
+.ant-dropdown-menu-submenu-title {
+  padding: 15px 20px;
+  font-size: 16px;
+}
+
+/*form表单*/
+.ant-form-item,
+.ant-form label {
+  font-size: 12px !important;
+}
+.ant-form-item {
+  margin-bottom: 0 !important;
+}

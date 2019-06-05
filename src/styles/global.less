@@ -1,0 +1,76 @@
+@white_color: white;
+@yellow_color1: #fbee21;
+@border_color: #303c58;
+//@border_color: #2e3954;
+//@border_position: border;
+.size(@width:100%;@height:100%) {
+    width: @width;
+    height: @height;
+}
+.flex(@justify_content:initial;@align_items:initial;@flex_direction:initial) {
+    display: flex;
+    justify-content: @justify_content;
+    align-items: @align_items;
+    flex-direction: @flex_direction;
+}
+.font(@font_size:initial;@color:inherit;@font_weight:initial) {
+    font-size: @font_size;
+    color: @color;
+    font-weight: @font_weight;
+}
+.lineHeight(@line_height:initial) {
+    line-height: @line_height;
+}
+.color(@color:inherit) {
+    color: @color;
+}
+//margin
+.margin(@margin:initial) {
+    margin: @margin;
+}
+.marginLeft(@margin_left: initial) {
+    margin-left: @margin_left;
+}
+.marginRight(@margin_right: initial) {
+    margin-right: @margin_right;
+}
+.marginTop(@margin_top: initial) {
+    margin-top: @margin_top;
+}
+.marginBottom(@margin_bottom: initial) {
+    margin-bottom: @margin_bottom;
+}
+
+//padding
+.padding(@padding:initial) {
+    padding: @padding;
+}
+.paddingRight(@padding_right:initial) {
+    padding-right: @padding_right;
+}
+.paddingLeft(@padding_left:initial) {
+    padding-left: @padding_left;
+}
+.paddingTop(@padding_top:initial) {
+    padding-top: @padding_top;
+}
+.paddingBottom(@padding_bottom:initial) {
+    padding-bottom: @padding_bottom;
+}
+
+//border
+.border(@border_width:1px;@border_color:@border_color; @border_type:solid) {
+    border: @border_width @border_type @border_color;
+}
+.borderLeft(@border_width:1px;@border_color:@border_color; @border_type:solid) {
+    border-left: @border_width @border_type @border_color;
+}
+.borderRight(@border_width:1px;@border_color:@border_color; @border_type:solid) {
+    border-right: @border_width @border_type @border_color;
+}
+.borderTop(@border_width:1px;@border_color:@border_color; @border_type:solid) {
+    border-top: @border_width @border_type @border_color;
+}
+.borderBottom(@border_width:1px;@border_color:@border_color; @border_type:solid) {
+    border-bottom: @border_width @border_type @border_color;
+}

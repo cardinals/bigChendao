@@ -1,0 +1,40 @@
+.blueButton1 {
+  color: #5473f6;
+  border-color: #5473f6;
+}
+
+.antCarousel {
+  height: 100%;
+  width: 100%;
+}
+.antCarousel .slick-slider {
+  height: 100% !important;
+  width: 100% !important;
+}
+.antCarousel .slick-dots {
+  bottom: 10px !important;
+  height: 10px !important;
+}
+.antCarousel .slick-dots li.slick-active button {
+  height: 10px;
+  width: 10px !important;
+  border-radius: 50%;
+}
+.antCarousel .slick-dots li button {
+  height: 10px !important;
+  width: 10px !important;
+  border-radius: 50% !important;
+}
+.ant-carousel .slick-dots li {
+  padding: 0 5px !important;
+}
+.ant-carousel .slick-list {
+  height: calc(100% - 20px) !important;
+  width: 100% !important;
+}
+.ant-carousel .slick-track {
+  height: 100% !important;
+}
+.ant-carousel .slick-track div {
+  height: 100% !important;
+}
