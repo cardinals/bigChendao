@@ -23,9 +23,9 @@ export default {
     cale() {
       const self = this;
       const html = document.getElementsByTagName("html")[0];
-      const width = html.clientWidth || 1280;
-      const height = html.clientHeight || 588;
-      const fontSize = (10 / 1280) * width;
+      const width = html.clientWidth || 1920;
+      const height = html.clientHeight || 1080;
+      const fontSize = (16 / 1920) * width;
       html.style.setProperty("--font-size", `${fontSize}px`);
       self.$store.dispatch("getClientSize", { width, height });
     }

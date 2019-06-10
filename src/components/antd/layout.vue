@@ -14,7 +14,9 @@
         <a-layout>
             <a-layout-header class="layoutHeader">
                 <div class="headLeft">
-                    <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="() => (collapsed = !collapsed)" />
+                    <!--<a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="() => (collapsed = !collapsed)" />-->
+                    <img style="width: 16px" src="@/assets/icon/leftacllback.png" alt="" />
+                    慧旅云官网
                 </div>
                 <div class="headCenter">
                     <slot name="headCenter"></slot>
@@ -59,7 +61,7 @@ export default {
 }
 .menu {
     width: 100%;
-    height: 100%;
+    /*height: 100%;*/
     overflow-y: auto;
 }
 .layout {
@@ -84,11 +86,14 @@ export default {
     flex: 0 0 80px !important;
 }
 .layoutHeader {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 64px;
     display: flex;
     line-height: 64px;
-    background-color: #fff;
+    background-color: #F1F6FC;
     padding: 0;
     justify-content: space-between;
 }
@@ -97,6 +102,9 @@ export default {
     text-align: left;
     height: 100%;
     line-height: 64px;
+    padding-left: 60px;
+    font-size: 18px;
+    color: #8E9196;
 }
 .headCenter {
     width: 40%;
