@@ -1,21 +1,18 @@
 <template>
     <div class="navMenu">
 
-        <template v-for="navMenu in navMenus">
+        <template v-for="navMenu in navMenus" >
             <!-- 最后一级菜单 -->
-            <el-menu-item v-if="!navMenu.childs&&navMenu.entity"
-                          :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name" :route="navMenu.entity.value"
-            >
+            <el-menu-item v-if="!navMenu.childs&&navMenu.entity" :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name" :route="navMenu.entity.value" >
                 <!--<i :class="navMenu.entity.icon"></i>-->
-                <span slot="title">{{navMenu.entity.alias}}</span>
+                <span slot="title" >{{navMenu.entity.alias}}</span>
             </el-menu-item>
 
             <!-- 此菜单下还有子菜单 -->
-            <el-submenu v-if="navMenu.childs&&navMenu.entity"
-                        :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name">
-                <template slot="title">
+            <el-submenu v-if="navMenu.childs&&navMenu.entity" :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name" >
+                <template slot="title" @click="handlerouter">
                     <!--<i :class="navMenu.entity.icon"></i>-->
-                    <span> {{navMenu.entity.alias}}</span>
+                    <span > {{navMenu.entity.alias}}</span>
                 </template>
 
                 <NavMenu :navMenus="navMenu.childs"></NavMenu>
@@ -32,7 +29,11 @@
         data() {
             return {}
         },
-        methods: {}
+        methods: {
+            handlerouter () {
+                console.log(1)
+            }
+        }
     }
 </script>
 

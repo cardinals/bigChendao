@@ -30,9 +30,6 @@ export default {
   methods: {
     getBreadcrumb() {
         let matched = this.$route.matched
-
-        console.log(matched)
-        console.log(this.$route.path)
         this.levelList = matched
     }
   }

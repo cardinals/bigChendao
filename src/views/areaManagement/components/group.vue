@@ -1,9 +1,9 @@
 <template>
     <div class="layer">
-        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">关键词：
+        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">分组名称：
             <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" type="primary">主要按钮</el-button>
-            <el-button size="medium" @click="addmap" style="float: right" type="warning">添加图层</el-button>
+            <el-button size="medium" type="primary">查询</el-button>
+            <el-button size="medium" @click="addgroup" style="float: right" type="warning">添加分组</el-button>
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -118,9 +118,9 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        addmap () {
+        addgroup () {
             this.$router.push({
-                path: "/mapManagement/mapManagementLayer/addmap",
+                path: "/areaManagement/areagroupManagement/addgroup",
             })
         },
         //批量删除

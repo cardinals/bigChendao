@@ -82,7 +82,7 @@ export default {
                     //一级
                     entity: {
                         id: 1,
-                        name: "/mapManagement",
+                        name: "/mapManagementList",
                         icon: "el-icon-message",
                         alias: "地图管理"
                     },
@@ -95,7 +95,7 @@ export default {
                                 icon: "el-icon-loading",
                                 alias: "底图管理",
                                 value: { path: "/mapManagement/mapManagementLower" }
-                            }
+                            },
                         },
                         {
                             entity: {
@@ -105,6 +105,60 @@ export default {
                                 alias: "图层管理",
                                 value: "/mapManagement/mapManagementLayer"
                             }
+                        },
+
+                    ]
+                },
+                {
+                    //一级
+                    entity: {
+                        id: 23,
+                        name: "/areaManagement",
+                        icon: "el-icon-message",
+                        alias: "区域管理"
+                    },
+                    //二级
+                    childs: [
+                        {
+                            entity: {
+                                id: 24,
+                                name: "/areaManagement/areagroupManagement",
+                                icon: "el-icon-loading",
+                                alias: "区域分组管理",
+                                value: { path: "/areaManagement/areagroupManagement" }
+                            },
+                        },
+
+
+                    ]
+                },
+                {
+                    //一级
+                    entity: {
+                        id: 21,
+                        name: "/resourceEquipmentManagement",
+                        icon: "el-icon-message",
+                        alias: "资源设备管理"
+                    },
+                    //二级
+                    childs: [
+                        {
+                            entity: {
+                                id: 22,
+                                name: "/resourceEquipmentManagement/resourceManagement",
+                                icon: "el-icon-loading",
+                                alias: "设备管理",
+                                value: { path: "/resourceEquipmentManagement/resourceManagement" }
+                            },
+                        },
+                        {
+                            entity: {
+                                id: 25,
+                                name: "/resourceEquipmentManagement/equipmentManagement",
+                                icon: "el-icon-loading",
+                                alias: "资源管理",
+                                value: { path: "/resourceEquipmentManagement/equipmentManagement" }
+                            },
                         },
 
                     ]
@@ -218,10 +272,6 @@ export default {
                 self.$router.push({ path: `/${key}` });
             }
         },
-        hasChildren() {
-
-        },
-
         handleOpen(key, keyPath) {
             console.log(key, keyPath);
         },
