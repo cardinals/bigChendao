@@ -111,18 +111,16 @@ export default {
     },
     created() {
         if(this.$route.query.type === 1) {
-            this.$route.meta.title = '添加' + this.$route.query.name
-            this.labelname = this.$route.query.name
+            this.$route.meta.title = '添加车辆'
         }else {
-            this.$route.meta.title = '编辑' + this.$route.query.name
-            this.labelname = this.$route.query.name
+            this.$route.meta.title = '编辑车辆'
         }
 
     },
     methods: {
         goback () {
             this.$router.push({
-                path:'/resourceEquipmentManagement/resourceManagement'
+                path:'/locationManagement/carManagement'
             })
         },
         submitForm(formName) {

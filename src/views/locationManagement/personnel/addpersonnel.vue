@@ -111,18 +111,18 @@ export default {
     },
     created() {
         if(this.$route.query.type === 1) {
-            this.$route.meta.title = '添加' + this.$route.query.name
-            this.labelname = this.$route.query.name
+            this.$route.meta.title = '添加人员'
+
         }else {
-            this.$route.meta.title = '编辑' + this.$route.query.name
-            this.labelname = this.$route.query.name
+            this.$route.meta.title = '编辑人员'
+
         }
 
     },
     methods: {
         goback () {
             this.$router.push({
-                path:'/resourceEquipmentManagement/resourceManagement'
+                path:'/locationManagement/personnelManagement'
             })
         },
         submitForm(formName) {

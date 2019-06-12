@@ -1,9 +1,9 @@
 <template>
     <div class="layer">
-        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">关键词：
+        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">景点名称：
             <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
-            <el-button size="medium" @click="addmap" style="float: right" type="warning">添加图层</el-button>
+            <el-button size="medium" @click="addgroup" style="float: right" type="warning">添加360全景</el-button>
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -27,7 +27,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        label="日期"
+                        label="全景编号ID"
                         width="120"
                         prop="date"
                 >
@@ -35,12 +35,18 @@
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="姓名"
+                        label="全景名称"
                         width="120">
                 </el-table-column>
                 <el-table-column
-                        prop="address"
-                        label="地址"
+                        prop="name"
+                        label="关联景点"
+                        width="120"
+                        >
+                </el-table-column>
+                <el-table-column
+                        prop="date"
+                        label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -48,7 +54,7 @@
                         label="操作"
                         width="120">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
                 </el-table-column/>
@@ -118,9 +124,12 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        addmap () {
+        addgroup () {
             this.$router.push({
-                path: "/mapManagement/mapManagementLayer/addmap",
+                path: "/alllandscape/alllandscapeManagement/addalllandscape",
+                query:{
+                    type:1
+                }
             })
         },
         //批量删除
@@ -131,9 +140,11 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        //查看
+        //编辑
         handleClick () {
-
+            this.$router.push({
+                path: "/alllandscape/alllandscapeManagement/addalllandscape",
+            })
         },
         //删除
         handleClickdeleta () {

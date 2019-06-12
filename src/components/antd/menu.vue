@@ -166,6 +166,60 @@ export default {
                 {
                     //一级
                     entity: {
+                        id: 26,
+                        name: "/alllandscape",
+                        icon: "el-icon-message",
+                        alias: "全景管理"
+                    },
+                    //二级
+                    childs: [
+                        {
+                            entity: {
+                                id: 27,
+                                name: "/alllandscape/alllandscapeManagement",
+                                icon: "el-icon-loading",
+                                alias: "全景",
+                                value: { path: "/alllandscape/alllandscapeManagement" }
+                            },
+                        },
+
+
+                    ]
+                },
+                {
+                    //一级
+                    entity: {
+                        id: 28,
+                        name: "/locationManagement",
+                        icon: "el-icon-message",
+                        alias: "定位管理"
+                    },
+                    //二级
+                    childs: [
+                        {
+                            entity: {
+                                id: 29,
+                                name: "/locationManagement/personnelManagement",
+                                icon: "el-icon-loading",
+                                alias: "人员管理",
+                                value: { path: "/locationManagement/personnelManagement" }
+                            },
+                        },
+                        {
+                            entity: {
+                                id: 30,
+                                name: "/locationManagement/carManagement",
+                                icon: "el-icon-loading",
+                                alias: "车辆管理",
+                                value: { path: "/locationManagement/carManagement" }
+                            },
+                        },
+
+                    ]
+                },
+                {
+                    //一级
+                    entity: {
                         id: 6,
                         name: "userManage",
                         icon: "el-icon-news",

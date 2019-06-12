@@ -35,6 +35,13 @@ export default {
             options:[],
         }
     },
+    created() {
+        if(this.$route.query.type == 1) {
+            this.$route.meta.title = '添加区域分组'
+        }else {
+            this.$route.meta.title = '编辑区域分组'
+        }
+    },
     methods: {
         goback () {
             this.$router.push({

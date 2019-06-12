@@ -25,13 +25,12 @@
       <div class="viewContent">
         <breadcrumb />
         <router-view />
-        <!--<div class="viewBottomText">-->
-          <!--Copyright ©2018 中国电信股份有限公司浙江分公司云计算分公司 & 浙江公众信息产业有限公司-->
-        <!--</div>-->
+
       </div>
 
       <div class="viewBottomText">
-        Copyright ©2018 中国电信股份有限公司浙江分公司云计算分公司 & 浙江公众信息产业有限公司
+        <!--Copyright ©2018 中国电信股份有限公司浙江分公司云计算分公司 & 浙江公众信息产业有限公司-->
+        Copyright ©2019 中国电信股份有限公司浙江分公司 & 浙江省公众信息产业有限公司
       </div>
     </div>
   </newLayout>

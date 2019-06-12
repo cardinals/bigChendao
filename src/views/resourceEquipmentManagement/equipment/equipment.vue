@@ -1,4 +1,5 @@
 <template>
+
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
@@ -63,7 +64,7 @@
                         label="操作"
                         width="120">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
                 </el-table-column/>
@@ -138,7 +139,8 @@ export default {
             this.$router.push({
                 path: "/resourceEquipmentManagement/equipmentManagement/addequipment",
                 query:{
-                    name:this.activeName
+                    name:this.activeName,
+                    type:1
                 },
 
             })
@@ -152,14 +154,20 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        //查看
+        //编辑
         handleClick () {
+            this.$router.push({
+                path: "/resourceEquipmentManagement/equipmentManagement/addequipment",
+                query:{
+                    name:this.activeName
+                },
 
+            })
         },
         //
         handleClicktab(tab, event) {
                 // console.log(tab, event);
-                console.log(this.activeName)
+                // console.log(this.activeName)
 
         },
         //删除

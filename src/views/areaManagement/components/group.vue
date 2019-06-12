@@ -2,7 +2,7 @@
     <div class="layer">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">分组名称：
             <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" type="primary">查询</el-button>
+            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
             <el-button size="medium" @click="addgroup" style="float: right" type="warning">添加分组</el-button>
         </div>
 
@@ -48,7 +48,7 @@
                         label="操作"
                         width="120">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
                 </el-table-column/>
@@ -121,6 +121,9 @@ export default {
         addgroup () {
             this.$router.push({
                 path: "/areaManagement/areagroupManagement/addgroup",
+                query:{
+                    type:1
+                }
             })
         },
         //批量删除
@@ -131,9 +134,11 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        //查看
+        //编辑
         handleClick () {
-
+            this.$router.push({
+                path: "/areaManagement/areagroupManagement/addgroup",
+            })
         },
         //删除
         handleClickdeleta () {

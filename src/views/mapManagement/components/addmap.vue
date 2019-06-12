@@ -37,7 +37,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="图层Icon :">
+                    <el-form-item label="图层Icon :" >
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
@@ -57,8 +57,12 @@
                                 :on-exceed="handleExceed"
                                 >
                             <el-button style="margin-left: 10px" size="small" type="primary">选择文件</el-button>
-                            <el-button size="small" type="primary">上传文件</el-button>
-                            <span style="padding-left: 10px" slot="tip" class="el-upload__tip">(必填项，上传PNG格式图标)</span>
+                            <div slot="tip" class="el-upload__tip" style="display: inline-block;margin-left: 10px">
+                                <el-button size="small" type="primary">上传文件</el-button>
+                                <span style="padding-left: 10px" slot="tip" class="el-upload__tip">(必填项，上传PNG格式图标)</span>
+                            </div>
+
+
                         </el-upload>
 
                     </el-form-item>

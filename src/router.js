@@ -29,6 +29,23 @@ const equipmentManagementindex = ()=>import('@/views/resourceEquipmentManagement
 const equipmentManagementgroup = ()=>import('@/views/resourceEquipmentManagement/equipment/equipment.vue') //资源设备管理 -- 资源管理
 const addequipment = ()=>import('@/views/resourceEquipmentManagement/equipment/addequipment.vue') //资源设备管理 -- 资源管理 -- 添加
 
+const alllandscape = ()=>import('@/views/alllandscape/index.vue') //全景管理
+const alllandscapeindex = ()=>import('@/views/alllandscape/components/index.vue') //全景管理 -- 全景
+const alllandscapegroup = ()=>import('@/views/alllandscape/components/alllandscape.vue') //全景管理 -- 全景
+const addalllandscape = ()=>import('@/views/alllandscape/components/addalllandscape.vue') //全景管理 -- 全景 -- 添加全景
+
+
+const locationManagement = ()=>import('@/views/locationManagement/index.vue') //定位管理
+const locationpersonnelindex = ()=>import('@/views/locationManagement/personnel/index.vue') //定位管理 -- 人员
+const locationpersonnelgroup = ()=>import('@/views/locationManagement/personnel/personnelgroup.vue') //定位管理 -- 人员
+const addpersonnel = ()=>import('@/views/locationManagement/personnel/addpersonnel.vue') //定位管理 -- 人员 -- 添加人员
+const locationcarindex = ()=>import('@/views/locationManagement/car/index.vue') //定位管理 -- 车辆
+const locationcargroup = ()=>import('@/views/locationManagement/car/cargroup.vue') //定位管理 -- 车辆
+const addcar = ()=>import('@/views/locationManagement/car/addcar.vue') //定位管理 -- 车辆 -- 添加车辆
+
+
+
+
 Vue.use(Router)
 
 const router =  new Router({
@@ -146,6 +163,72 @@ const router =  new Router({
                           component:addequipment,
                       }]
                   },
+              ]
+          },
+          {
+              path: "/alllandscape",
+              name: "alllandscape",
+              meta: { title: "全景管理" },
+              component: alllandscape,
+              children: [
+                  {
+                      path: "/alllandscape/alllandscapeManagement",
+                      name: "alllandscapeManagement",
+                      meta: { title: "全景" },
+                      redirect: '/alllandscape/alllandscapeManagement',
+                      component: alllandscapeindex,
+                      children: [{
+                          path: '',
+                          component: alllandscapegroup,
+                      },{
+                          path: "addalllandscape",
+                          name: "addalllandscape",
+                          meta: { title: "添加全景" },
+                          component:addalllandscape,
+                      }]
+                  },
+
+              ]
+          },
+          {
+              path: "/locationManagement",
+              name: "locationManagement",
+              meta: { title: "定位管理" },
+              component: locationManagement,
+              children: [
+                  {
+                      path: "/locationManagement/personnelManagement",
+                      name: "locationpersonnelindex",
+                      meta: { title: "人员管理" },
+                      redirect: '/locationManagement/personnelManagement',
+                      component: locationpersonnelindex,
+                      children: [{
+                          path: '',
+                          component: locationpersonnelgroup,
+                      },{
+                          path: "addpersonnel",
+                          name: "addpersonnel",
+                          meta: { title: "添加人员" },
+                          component:addpersonnel,
+                      }]
+                  },
+                  {
+                      path: "/locationManagement/carManagement",
+                      name: "locationcarindex",
+                      meta: { title: "车辆管理" },
+                      redirect: '/locationManagement/carManagement',
+                      component: locationcarindex,
+                      children: [{
+                          path: '',
+                          component: locationcargroup,
+                      },{
+                          path: "addcar",
+                          name: "addcar",
+                          meta: { title: "添加车辆" },
+                          component:addcar,
+                      }]
+                  },
+
               ]
           },
       ]

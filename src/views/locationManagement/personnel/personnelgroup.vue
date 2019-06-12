@@ -1,9 +1,27 @@
 <template>
-    <div class="layer">
-        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">关键词：
+    <div class="resource">
+
+        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
+            <!--<el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">-->
+                <!--<el-tab-pane label="人员管理" name="人员管理">人员管理</el-tab-pane>-->
+                <!--<el-tab-pane label="车辆管理" name="车辆管理">车辆管理</el-tab-pane>-->
+            <!--</el-tabs>-->
+
+            姓名：
+            <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            联系方式：
             <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
-            <el-button size="medium" @click="addmap" style="float: right" type="warning">添加图层</el-button>
+
+            <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加人员</el-button>
+            <el-select v-model="input" placeholder="所有区域分组" size="medium" style="width: 200px;float: right">
+                <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -27,7 +45,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        label="日期"
+                        label="联系方式"
                         width="120"
                         prop="date"
                 >
@@ -35,12 +53,22 @@
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="姓名"
+                        label="角色"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="address"
-                        label="地址"
+                        label="区域分组"
+                        show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        label="设备状态"
+                        show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                        prop="date"
+                        label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -48,7 +76,7 @@
                         label="操作"
                         width="120">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
                 </el-table-column/>
@@ -107,7 +135,8 @@ export default {
                 address: '上海市普陀区金沙江路 1518 弄'
             }],
             multipleSelection: [],
-            currentPage4: 1
+            currentPage4: 1,
+            activeName:'监控'
 
         }
     },
@@ -118,10 +147,15 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        addmap () {
+        addactiveName () {
             this.$router.push({
-                path: "/mapManagement/mapManagementLayer/addmap",
+                path: "/locationManagement/personnelManagement/addpersonnel",
+                query:{
+                    type:1
+                },
+
             })
+
         },
         //批量删除
         toggleSelection() {
@@ -131,8 +165,16 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        //查看
+        //编辑
         handleClick () {
+            this.$router.push({
+                path: "/locationManagement/personnelManagement/addpersonnel",
+            })
+        },
+        //
+        handleClicktab(tab, event) {
+                // console.log(tab, event);
+                console.log(this.activeName)
 
         },
         //删除
@@ -161,11 +203,11 @@ export default {
 </script>
 
 <style scoped>
-.layer {
+.resource {
     box-sizing: border-box;
     padding:0 23px 0 0;
 }
-    .massagebox {
-        background: red;
-    }
+.resource .el-tab-pane{
+    display: none;
+}
 </style>
