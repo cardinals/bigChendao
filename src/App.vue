@@ -34,6 +34,7 @@ export default {
 </script>
 
 <style>
+  @import "./assets/style/style.css";
 #app {
   width: 100%;
   height: 100%;

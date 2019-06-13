@@ -1,0 +1,21 @@
+.gobacking {
+    width: 110px;
+    height: 40px;
+    background: #999999;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+}
+.successing {
+    width: 110px;
+    height: 40px;
+    background: #fab560;
+    color: #ffffff;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-left: 20px;
+}
+/*element的input和select    定义*/
+.customized_input {
+    width: 180px!important;
+}

@@ -31,7 +31,6 @@
                     </el-form-item>
                 </el-col>
 
-
                 <el-col :span="20">
                     <el-form-item label="地图控件选择（第二步）:">
                         <el-checkbox-group v-model="form.type">

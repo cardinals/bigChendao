@@ -8,8 +8,7 @@
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.name">
                             </el-input>
                             （必选,不超过10个字符）
@@ -20,8 +19,7 @@
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                             （必选,不超过30个字符）
@@ -31,7 +29,7 @@
                 <el-row type="flex" class="row-bg">
                     <el-col :span="12">
                         <el-form-item label="所属区域分组 :" prop="labelnamechange">
-                            <el-select v-model="ruleForm.labelnamechange" clearable placeholder="请选择" size="medium">
+                            <el-select v-model="ruleForm.labelnamechange" clearable placeholder="请选择" size="medium"  class="customized_input">
                                 <el-option
                                         size="medium"
                                         v-for="item in options"
@@ -47,8 +45,8 @@
                         <el-form-item label="联系电话 :">
                             <el-input
                                     size="medium"
+                                    class="customized_input"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
                                     v-model="ruleForm.input2">
                             </el-input>
                             （必选）
@@ -81,7 +79,8 @@
                                     <el-input
                                             size="medium"
                                             placeholder="未选择任何文件"
-                                            style="width: 180px;margin: 0 10px 0 10px"
+                                            class="customized_input"
+                                            style="margin: 0 10px 0 10px"
                                             v-model="ruleForm.input2">
                                     </el-input>
                                     <el-button size="small" type="primary">上传</el-button>
@@ -96,7 +95,7 @@
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                             个
@@ -108,7 +107,7 @@
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                             个
@@ -153,14 +152,14 @@
                             经度： <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                                 </el-input>
                             纬度：
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                         </el-form-item>
@@ -193,7 +192,8 @@
                                 <el-input
                                         size="medium"
                                         placeholder="未选择任何文件"
-                                        style="width: 180px;margin: 0 10px 0 10px"
+                                        class="customized_input"
+                                        style="margin: 0 10px 0 10px"
                                         v-model="ruleForm.input2">
                                 </el-input>
                                 <el-button size="small" type="primary">上传</el-button>
@@ -226,7 +226,8 @@
                                 <el-input
                                         size="medium"
                                         placeholder="未选择任何文件"
-                                        style="width: 180px;margin: 0 10px 0 10px"
+                                        class="customized_input"
+                                        style="margin: 0 10px 0 10px"
                                         v-model="ruleForm.input2">
                                 </el-input>
                                 <el-button size="small" type="primary">上传</el-button>
@@ -258,7 +259,8 @@
                                 <el-input
                                         size="medium"
                                         placeholder="未选择任何文件"
-                                        style="width: 180px;margin: 0 10px 0 10px"
+                                        class="customized_input"
+                                        style="margin: 0 10px 0 10px"
                                         v-model="ruleForm.input2">
                                 </el-input>
                                 <el-button size="small" type="primary">上传</el-button>
@@ -373,8 +375,8 @@
             </el-form>
 
             <el-row type="flex" class="row-bg" style="margin-top: 10px">
-                <el-button type="info" @click="goback" size="small"> 返回 </el-button>
-                <el-button type="warning" @click="submitForm('ruleForm')" size="small"> 完成 </el-button>
+                <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+                <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
             </el-row>
         </div>
 

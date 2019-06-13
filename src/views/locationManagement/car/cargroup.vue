@@ -83,8 +83,9 @@
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="120">
+                        width="160">
                     <template slot-scope="scope">
+                        <el-button @click="handleClicktrajectory(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>轨迹</el-button>
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
@@ -181,11 +182,16 @@ export default {
                 path: "/locationManagement/carManagement/addcar",
             })
         },
+        //轨迹
+        handleClicktrajectory () {
+            this.$router.push({
+                path: "/locationManagement/carManagement/cartrajectory",
+            })
+        },
         //
         handleClicktab(tab, event) {
                 // console.log(tab, event);
                 console.log(this.activeName)
-
         },
         //删除
         handleClickdeleta () {

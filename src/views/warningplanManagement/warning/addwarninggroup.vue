@@ -4,51 +4,30 @@
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="120px">
 
                 <el-col :span="24">
-                    <el-form-item label="姓名 :" prop="name">
-                        <el-input
-                                size="medium"
-                                placeholder="请输入内容"
-                                class="customized_input"
-                                v-model="ruleForm.input2">
-                        </el-input>
-                        （必填，不超过10个字符）
+                    <el-form-item label="选择景点 :" prop="name">
+                        <el-select v-model="ruleForm.mailList"  class="customized_input" placeholder="所有区域分组" size="medium" >
+                            <el-option
+                                    v-for="item in options"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="联系方式 :"  prop="phone">
+                    <el-form-item label="设置预警值 :"  prop="phone">
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
                                 class="customized_input"
                                 v-model="ruleForm.phone">
                         </el-input>
-                        （必填，不超过10个字符）
+                        （必填，不超过10个字符，数字，整数）
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="角色 :" prop="role">
-                        <el-input
-                                size="medium"
-                                placeholder="请输入内容"
-                                class="customized_input"
-                                v-model="ruleForm.role">
-                        </el-input>
-                        （必填，不超过10个字符）
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="区域分组 :"  prop="grouping">
-                        <el-input
-                                size="medium"
-                                placeholder="请输入内容"
-                                class="customized_input"
-                                v-model="ruleForm.grouping">
-                        </el-input>
-                        （必填，不超过10个字符）
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="通讯录部门 :" prop="mailList">
+                    <el-form-item label="设置推荐方案 :" prop="mailList">
                         <el-select v-model="ruleForm.mailList"  class="customized_input" placeholder="所有区域分组" size="medium" >
                             <el-option
                                     v-for="item in options"
@@ -60,6 +39,7 @@
                     </el-form-item>
                 </el-col>
                 <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+                <el-button type="primary">继续添加</el-button>
                 <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
             </el-form>
 
@@ -79,25 +59,17 @@ export default {
             ruleForm:{
                 name:'',
                 phone:'',
-                role:'',
-                grouping:'',
                 mailList:''
             },
             rules: {
                 name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' },
+                    { required: true, message: '请选择区域分组', trigger: 'blur' },
                 ],
                 phone:[
-                    { required: true, message: '请输入联系方式', trigger: 'blur' }
-                ],
-                role: [
-                    { required: true, message: '请输入角色', trigger: 'change' }
-                ],
-                grouping: [
-                    { required: true, message: '请输入区域分组', trigger: 'change' }
+                    { required: true, message: '请输入设置预警值', trigger: 'blur' }
                 ],
                 mailList: [
-                    { required: true, message: '请选择通讯录部门', trigger: 'change' }
+                    { required: true, message: '请选择设置推荐方案', trigger: 'change' }
                 ],
 
             },

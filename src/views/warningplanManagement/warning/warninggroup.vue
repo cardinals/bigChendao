@@ -2,26 +2,13 @@
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <!--<el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">-->
-                <!--<el-tab-pane label="人员管理" name="人员管理">人员管理</el-tab-pane>-->
-                <!--<el-tab-pane label="车辆管理" name="车辆管理">车辆管理</el-tab-pane>-->
-            <!--</el-tabs>-->
 
             姓名：
             <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            联系方式：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
 
-            <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加人员</el-button>
-            <el-select v-model="input" placeholder="所有区域分组" size="medium" style="width: 200px;float: right">
-                <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+            <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加预警</el-button>
+
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -45,7 +32,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        label="联系方式"
+                        label="景点名称"
                         width="120"
                         prop="date"
                 >
@@ -53,17 +40,12 @@
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="角色"
+                        label="预警值"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="address"
-                        label="区域分组"
-                        show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="设备状态"
+                        label="推荐预案"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -76,7 +58,6 @@
                         label="操作"
                         width="160">
                     <template slot-scope="scope">
-                        <el-button @click="handleClicktrajectory(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>轨迹</el-button>
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
@@ -151,7 +132,7 @@ export default {
         },
         addactiveName () {
             this.$router.push({
-                path: "/locationManagement/personnelManagement/addpersonnel",
+                path: "/warningplanManagement/warningManagement/addwarning",
                 query:{
                     type:1
                 },
@@ -170,20 +151,12 @@ export default {
         //编辑
         handleClick () {
             this.$router.push({
-                path: "/locationManagement/personnelManagement/addpersonnel",
-            })
-        },
-        //轨迹
-        handleClicktrajectory () {
-            this.$router.push({
-                path: "/locationManagement/personnelManagement/personneltrajectory",
+                path: "/warningplanManagement/warningManagement/addwarning",
             })
         },
         //
         handleClicktab(tab, event) {
-                // console.log(tab, event);
                 console.log(this.activeName)
-
         },
         //删除
         handleClickdeleta () {

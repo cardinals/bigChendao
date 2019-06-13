@@ -220,99 +220,184 @@ export default {
                 {
                     //一级
                     entity: {
-                        id: 6,
-                        name: "userManage",
-                        icon: "el-icon-news",
-                        alias: "三级菜单"
+                        id: 50,
+                        name: "/warningplanManagement",
+                        icon: "el-icon-message",
+                        alias: "预警预案管理"
                     },
                     //二级
                     childs: [
                         {
                             entity: {
-                                id: 7,
-                                name: "accountManage",
-                                icon: "el-icon-phone-outline\r\n",
-                                alias: "帐号管理",
-                                value: ""
+                                id: 51,
+                                name: "/warningplanManagement/planManagement",
+                                icon: "el-icon-loading",
+                                alias: "预案管理",
+                                value: { path: "/warningplanManagement/planManagement" }
                             },
-                            //三级
-                            childs: [
-                                {
-                                    entity: {
-                                        id: 14,
-                                        name: "emailManage",
-                                        icon: "el-icon-sold-out\r\n",
-                                        alias: "邮箱管理",
-                                        value: "/content/email"
-                                    }
-                                },
-                                {
-                                    entity: {
-                                        id: 13,
-                                        name: "passManage",
-                                        icon: "el-icon-service\r\n",
-                                        alias: "密码管理",
-                                        value: "/content/pass"
-                                    }
-                                }
-                            ]
                         },
                         {
                             entity: {
-                                id: 8,
-                                name: "integralManage",
-                                icon: "el-icon-picture",
-                                alias: "积分管理",
+                                id: 52,
+                                name: "/warningplanManagement/warningManagement",
+                                icon: "el-icon-loading",
+                                alias: "预警管理",
+                                value: { path: "/warningplanManagement/warningManagement" }
+                            },
+                        },
 
-                                value: "/user/integral"
-                            }
-                        }
                     ]
                 },
                 {
                     //一级
                     entity: {
-                        id: 40,
-
-                        name: "contentManage",
-                        icon: "el-icon-rank",
-                        alias: "四级菜单"
+                        id: 53,
+                        name: "/maillistManagement",
+                        icon: "el-icon-message",
+                        alias: "通讯录管理"
                     },
-                    //er级
+                    //二级
                     childs: [
                         {
                             entity: {
-                                id: 41,
-                                name: "classifyManage2",
-                                icon: "el-icon-printer",
-                                alias: "分类管理"
+                                id: 54,
+                                name: "/maillistManagement/maillist",
+                                icon: "el-icon-loading",
+                                alias: "通讯录分组",
+                                value: { path: "/maillistManagement/maillist" }
                             },
-                            //三级
-                            childs: [
-                                {
-                                    entity: {
-                                        id: 42,
-                                        name: "classifyManage3",
-                                        icon: "el-icon-printer",
-                                        alias: "分类管理"
-                                    },
-                                    //四级
-                                    childs: [
-                                        {
-                                            entity: {
-                                                id: 43,
-                                                name: "classifyManage4",
-                                                icon: "el-icon-printer",
-                                                alias: "分类管理",
-                                                value: "/content/classify"
-                                            }
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
+                        },
+
+
                     ]
-                }
+                },
+                {
+                    //一级
+                    entity: {
+                        id: 55,
+                        name: "/3",
+                        icon: "el-icon-message",
+                        alias: "事件管理"
+                    },
+                    //二级
+                    childs: [
+                        {
+                            entity: {
+                                id: 56,
+                                name: " ",
+                                icon: "el-icon-loading",
+                                alias: "事件列表管理",
+                                value: { path: " " }
+                            },
+                        },
+                        {
+                            entity: {
+                                id: 57,
+                                name: " ",
+                                icon: "el-icon-loading",
+                                alias: "事件统计分析",
+                                value: { path: " " }
+                            },
+                        },
+
+                    ]
+                },
+                // {
+                //     //一级
+                //     entity: {
+                //         id: 6,
+                //         name: "userManage",
+                //         icon: "el-icon-news",
+                //         alias: "三级菜单"
+                //     },
+                //     //二级
+                //     childs: [
+                //         {
+                //             entity: {
+                //                 id: 7,
+                //                 name: "accountManage",
+                //                 icon: "el-icon-phone-outline\r\n",
+                //                 alias: "帐号管理",
+                //                 value: ""
+                //             },
+                //             //三级
+                //             childs: [
+                //                 {
+                //                     entity: {
+                //                         id: 14,
+                //                         name: "emailManage",
+                //                         icon: "el-icon-sold-out\r\n",
+                //                         alias: "邮箱管理",
+                //                         value: "/content/email"
+                //                     }
+                //                 },
+                //                 {
+                //                     entity: {
+                //                         id: 13,
+                //                         name: "passManage",
+                //                         icon: "el-icon-service\r\n",
+                //                         alias: "密码管理",
+                //                         value: "/content/pass"
+                //                     }
+                //                 }
+                //             ]
+                //         },
+                //         {
+                //             entity: {
+                //                 id: 8,
+                //                 name: "integralManage",
+                //                 icon: "el-icon-picture",
+                //                 alias: "积分管理",
+                //
+                //                 value: "/user/integral"
+                //             }
+                //         }
+                //     ]
+                // },
+                // {
+                //     //一级
+                //     entity: {
+                //         id: 40,
+                //
+                //         name: "contentManage",
+                //         icon: "el-icon-rank",
+                //         alias: "四级菜单"
+                //     },
+                //     //er级
+                //     childs: [
+                //         {
+                //             entity: {
+                //                 id: 41,
+                //                 name: "classifyManage2",
+                //                 icon: "el-icon-printer",
+                //                 alias: "分类管理"
+                //             },
+                //             //三级
+                //             childs: [
+                //                 {
+                //                     entity: {
+                //                         id: 42,
+                //                         name: "classifyManage3",
+                //                         icon: "el-icon-printer",
+                //                         alias: "分类管理"
+                //                     },
+                //                     //四级
+                //                     childs: [
+                //                         {
+                //                             entity: {
+                //                                 id: 43,
+                //                                 name: "classifyManage4",
+                //                                 icon: "el-icon-printer",
+                //                                 alias: "分类管理",
+                //                                 value: "/content/classify"
+                //                             }
+                //                         }
+                //                     ]
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // }
             ],
 
 

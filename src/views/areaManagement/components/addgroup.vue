@@ -16,8 +16,8 @@
                 </el-col>
 
             </el-form>
-            <el-button type="info" @click="goback" size="small"> 返回 </el-button>
-            <el-button type="warning" size="small"> 完成 </el-button>
+            <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+            <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
         </div>
     </div>
 

@@ -1,14 +1,14 @@
 <template>
     <div class="addmap">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="120px">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="130px">
 
                 <el-col :span="24">
                     <el-form-item label="全景名称 :" prop="name">
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.name">
                         </el-input>
                         （必填，不超过10个字符）
@@ -19,7 +19,7 @@
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.labelnamechange">
                         </el-input>
                         （必填，填写全景链接路径）
@@ -45,7 +45,8 @@
                                 <el-input
                                 size="medium"
                                 placeholder="未选择任何文件"
-                                style="width: 180px;margin: 0 10px 0 10px"
+                                class="customized_input"
+                                style="margin: 0 10px 0 10px"
                                 v-model="ruleForm.imgsupload">
                                 </el-input>
                                 <el-button size="small" type="primary">上传</el-button>
@@ -60,7 +61,7 @@
 
                 <el-col :span="24">
                     <el-form-item label="关联景点 :">
-                        <el-select v-model="ruleForm.name" clearable placeholder="请选择" size="medium" prop="name">
+                        <el-select v-model="ruleForm.name" clearable placeholder="请选择" size="medium" prop="name"  class="customized_input">
                             <el-option
                                     v-for="item in options"
                                     :key="item.value"
@@ -70,8 +71,8 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-button type="info" @click="goback" size="small"> 返回 </el-button>
-                <el-button type="warning" @click="submitForm('ruleForm')"  size="small"> 提交 </el-button>
+                <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+                <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
             </el-form>
 
         </div>

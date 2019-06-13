@@ -10,7 +10,6 @@ const console = ()=>import('@/views/console/index.vue') //控制台
 const mapManagement = ()=>import('@/views/mapManagement/index') //地图管理
 const mapManagementLower = ()=>import('@/views/mapManagement/lower.vue') //地图管理 -- 底图管理
 
-
 const mapManagementindex = ()=>import('@/views/mapManagement/components/index.vue') //地图管理
 const mapManagementLayer = ()=>import('@/views/mapManagement/components/layer.vue') //地图管理 -- 底图管理
 const addmap = ()=>import('@/views/mapManagement/components/addmap.vue') //地图管理 -- 图层管理 -- 添加图层
@@ -29,19 +28,37 @@ const equipmentManagementindex = ()=>import('@/views/resourceEquipmentManagement
 const equipmentManagementgroup = ()=>import('@/views/resourceEquipmentManagement/equipment/equipment.vue') //资源设备管理 -- 资源管理
 const addequipment = ()=>import('@/views/resourceEquipmentManagement/equipment/addequipment.vue') //资源设备管理 -- 资源管理 -- 添加
 
-const alllandscape = ()=>import('@/views/alllandscape/index.vue') //全景管理
-const alllandscapeindex = ()=>import('@/views/alllandscape/components/index.vue') //全景管理 -- 全景
-const alllandscapegroup = ()=>import('@/views/alllandscape/components/alllandscape.vue') //全景管理 -- 全景
-const addalllandscape = ()=>import('@/views/alllandscape/components/addalllandscape.vue') //全景管理 -- 全景 -- 添加全景
-
+const alllandscape = ()=>import('@/views/alllandscapeManagement/index.vue') //全景管理
+const alllandscapeindex = ()=>import('@/views/alllandscapeManagement/components/index.vue') //全景管理 -- 全景
+const alllandscapegroup = ()=>import('@/views/alllandscapeManagement/components/alllandscape.vue') //全景管理 -- 全景
+const addalllandscape = ()=>import('@/views/alllandscapeManagement/components/addalllandscape.vue') //全景管理 -- 全景 -- 添加全景
 
 const locationManagement = ()=>import('@/views/locationManagement/index.vue') //定位管理
 const locationpersonnelindex = ()=>import('@/views/locationManagement/personnel/index.vue') //定位管理 -- 人员
 const locationpersonnelgroup = ()=>import('@/views/locationManagement/personnel/personnelgroup.vue') //定位管理 -- 人员
 const addpersonnel = ()=>import('@/views/locationManagement/personnel/addpersonnel.vue') //定位管理 -- 人员 -- 添加人员
+const personneltrajectory = ()=>import('@/views/locationManagement/personnel/trajectory.vue') //定位管理 -- 人员 -- 人员轨迹
+
 const locationcarindex = ()=>import('@/views/locationManagement/car/index.vue') //定位管理 -- 车辆
 const locationcargroup = ()=>import('@/views/locationManagement/car/cargroup.vue') //定位管理 -- 车辆
 const addcar = ()=>import('@/views/locationManagement/car/addcar.vue') //定位管理 -- 车辆 -- 添加车辆
+const cartrajectory = ()=>import('@/views/locationManagement/car/trajectory.vue') //定位管理 -- 车辆 -- 车辆轨迹
+
+const warningplanManagement = ()=>import('@/views/warningplanManagement/index.vue') //预警预案管理
+const planindex = ()=>import('@/views/warningplanManagement/plan/index.vue') //预警预案管理 -- 预案管理
+const plangroup = ()=>import('@/views/warningplanManagement/plan/plangroup.vue') //预警预案管理 -- 预案管理
+const addplan = ()=>import('@/views/warningplanManagement/plan/addplan.vue') //预警预案管理 -- 预案管理 -- 添加预案
+const addeventlist = ()=>import('@/views/warningplanManagement/plan/addeventlist.vue') //预警预案管理 -- 预案管理 -- 添加事件类型
+
+const warninglindex = ()=>import('@/views/warningplanManagement/warning/index.vue') //预警预案管理 -- 预警管理
+const warninggroup = ()=>import('@/views/warningplanManagement/warning/warninggroup.vue') //预警预案管理 -- 预警管理
+const addwarning = ()=>import('@/views/warningplanManagement/warning/addwarninggroup.vue') //预警预案管理 -- 预警管理 -- 添加预警
+
+const maillistManagement = ()=>import('@/views/maillistManagement/index.vue') //通讯录管理
+const maillistindex = ()=>import('@/views/maillistManagement/components/index.vue') //通讯录管理 -- 通讯录分组
+const maillistgroup = ()=>import('@/views/maillistManagement/components/maillistgroup.vue') //通讯录管理 -- 通讯录分组
+const addmaillist = ()=>import('@/views/maillistManagement/components/addmaillist.vue') //通讯录管理 -- 通讯录分组 -- 添加组
+const addmaillistpop = ()=>import('@/views/maillistManagement/components/addmaillistpop.vue') //通讯录管理 -- 通讯录分组 -- 添加人
 
 
 
@@ -187,7 +204,6 @@ const router =  new Router({
                           component:addalllandscape,
                       }]
                   },
-
               ]
           },
           {
@@ -210,6 +226,11 @@ const router =  new Router({
                           name: "addpersonnel",
                           meta: { title: "添加人员" },
                           component:addpersonnel,
+                      },{
+                          path: "personneltrajectory",
+                          name: "personneltrajectory",
+                          meta: { title: "人员轨迹" },
+                          component:personneltrajectory,
                       }]
                   },
                   {
@@ -226,11 +247,91 @@ const router =  new Router({
                           name: "addcar",
                           meta: { title: "添加车辆" },
                           component:addcar,
+                      },{
+                          path: "cartrajectory",
+                          name: "cartrajectory",
+                          meta: { title: "车辆轨迹" },
+                          component:cartrajectory,
                       }]
                   },
-
               ]
           },
+          {
+              path: "/warningplanManagement",
+              name: "warningplanManagement",
+              meta: { title: "预警预案管理" },
+              component: warningplanManagement,
+              children: [
+                  {
+                      path: "/warningplanManagement/planManagement",
+                      name: "planindex",
+                      meta: { title: "预案管理" },
+                      redirect: '/warningplanManagement/planManagement',
+                      component: planindex,
+                      children: [{
+                          path: '',
+                          component: plangroup,
+                      },{
+                          path: "addeventlist",
+                          name: "addeventlist",
+                          meta: { title: "添加事件分组" },
+                          component:addeventlist,
+                      },{
+                          path: "addplan",
+                          name: "addplan",
+                          meta: { title: "添加预案" },
+                          component:addplan,
+                      }]
+                  },
+                  {
+                      path: "/warningplanManagement/warningManagement",
+                      name: "warninglindex",
+                      meta: { title: "预警管理" },
+                      redirect: '/warningplanManagement/warningManagement',
+                      component: warninglindex,
+                      children: [{
+                          path: '',
+                          component: warninggroup,
+                      },{
+                          path: "addwarning",
+                          name: "addwarning",
+                          meta: { title: "添加预警" },
+                          component:addwarning,
+                      }]
+                  },
+              ]
+          },
+          {
+              path: "/maillistManagement",
+              name: "maillistManagement",
+              meta: { title: "通讯录管理" },
+              component: maillistManagement,
+              children: [
+                  {
+                      path: "/maillistManagement/maillist",
+                      name: "maillist",
+                      meta: { title: "通讯录分组" },
+                      redirect: '/maillistManagement/maillist',
+                      component: maillistindex,
+                      children: [{
+                          path: '',
+                          component: maillistgroup,
+                      },{
+                          path: "addmaillist",
+                          name: "addmaillist",
+                          meta: { title: "添加人员" },
+                          component:addmaillist,
+                      },{
+                          path: "addmaillistpop",
+                          name: "addmaillistpop",
+                          meta: { title: "添加人员" },
+                          component:addmaillistpop,
+                      }]
+                  },
+              ]
+          },
+
+
       ]
     }
   ]

@@ -5,7 +5,7 @@
 
                 <el-col :span="24">
                     <el-form-item label="区域分组名称 :" prop="name">
-                        <el-select v-model="ruleForm.name" clearable placeholder="请选择" size="medium" prop="name">
+                        <el-select v-model="ruleForm.name" clearable placeholder="请选择" size="medium" prop="name"  class="customized_input">
                             <el-option
                                     size="medium"
                                     v-for="item in options"
@@ -22,7 +22,7 @@
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.labelnamechange">
                         </el-input>
                         （必选）
@@ -46,14 +46,15 @@
                         经度： <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
+                                style="margin-right: 19px"
                                 v-model="ruleForm.input2">
                             </el-input>
                         纬度：
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.input2">
                         </el-input>
                     </el-form-item>
@@ -63,13 +64,13 @@
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.input2">
                         </el-input>
                     </el-form-item>
                 </el-col>
-                <el-button type="info" @click="goback" size="small"> 返回 </el-button>
-                <el-button type="warning" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
+                <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+                <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
             </el-form>
 
         </div>

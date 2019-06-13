@@ -7,8 +7,7 @@
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                suffix-icon="el-icon-date"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="form.input2">
                         </el-input>
                         （必填，不超过10个字符）
@@ -16,16 +15,15 @@
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="关联 :">
-                        <el-select v-model="form.value" clearable placeholder="请选择" size="medium">
+                        <el-select v-model="form.value" clearable placeholder="请选择" size="medium"  class="customized_input" >
                             <el-option
-
                                     v-for="item in options"
                                     :key="item.value"
                                     :label="item.label"
                                     :value="item.value">
                             </el-option>
                         </el-select>
-                        <el-select v-model="form.value" clearable placeholder="请选择" size="medium" style="margin-left: 10px">
+                        <el-select v-model="form.value" clearable placeholder="请选择" size="medium" style="margin-left: 10px"  class="customized_input">
                             <el-option
                                     size="medium"
                                     v-for="item in options"
@@ -41,8 +39,7 @@
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                suffix-icon="el-icon-date"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="form.input2">
                         </el-input>
                         <el-upload
@@ -53,7 +50,7 @@
                                 :before-remove="beforeRemove"
                                 multiple
                                 style="display: inline-block;"
-                                :limit="3"
+                                :limit="1"
                                 :on-exceed="handleExceed"
                                 >
                             <el-button style="margin-left: 10px" size="small" type="primary">选择文件</el-button>
@@ -68,8 +65,8 @@
                     </el-form-item>
                 </el-col>
             </el-form>
-            <el-button type="info" @click="goback" size="small"> 返回 </el-button>
-            <el-button type="warning" size="small"> 完成 </el-button>
+            <el-button type="info" class="gobacking" @click="goback" size="small"> 返回 </el-button>
+            <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 完成 </el-button>
         </div>
 
 
@@ -88,6 +85,13 @@ export default {
             },
             // fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
             options:[],
+        }
+    },
+    created() {
+        if(this.$route.query.type === 1) {
+            this.$route.meta.title = '添加图层'
+        }else {
+            this.$route.meta.title = '编辑图层'
         }
     },
     methods: {

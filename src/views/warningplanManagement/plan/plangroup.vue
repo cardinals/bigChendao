@@ -1,9 +1,17 @@
 <template>
-    <div class="layer">
-        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">关键词：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" type="primary">主要按钮</el-button>
-            <el-button size="medium" @click="addmap" style="float: right" type="warning">添加图层</el-button>
+    <div class="resource">
+
+        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
+            <el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">
+                <el-tab-pane label="预案" name="预案">预案</el-tab-pane>
+                <el-tab-pane label="事件分组" name="事件分组">事件分组</el-tab-pane>
+            </el-tabs>
+
+            {{activeName}}名称：
+            <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加{{activeName}}</el-button>
+
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -27,7 +35,7 @@
                 >
                 </el-table-column>
                 <el-table-column
-                        label="日期"
+                        label="预案名称"
                         width="120"
                         prop="date"
                 >
@@ -35,20 +43,25 @@
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="姓名"
+                        label="事件分组"
                         width="120">
                 </el-table-column>
                 <el-table-column
                         prop="address"
-                        label="地址"
+                        label="内容"
+                        show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                        prop="date"
+                        label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="120">
+                        width="160">
                     <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
+                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
                 </el-table-column/>
@@ -76,7 +89,8 @@
 export default {
     data() {
         return {
-            input:"",
+            input:'',
+            options:'',
             tableData: [{
                 date: '2016-05-03',
                 name: '王小虎',
@@ -107,7 +121,8 @@ export default {
                 address: '上海市普陀区金沙江路 1518 弄'
             }],
             multipleSelection: [],
-            currentPage4: 1
+            currentPage4: 1,
+            activeName:'预案'
 
         }
     },
@@ -118,10 +133,27 @@ export default {
         handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
         },
-        addmap () {
-            this.$router.push({
-                path: "/mapManagement/mapManagementLayer/addmap",
-            })
+        routerJump () {
+            if (this.activeName == '事件分组') {
+                this.$router.push({
+                    path: "/warningplanManagement/planManagement/addeventlist",
+                    query:{
+                        name:this.activeName,
+                        type:1
+                    },
+                })
+            }else {
+                this.$router.push({
+                    path: "/warningplanManagement/planManagement/addplan",
+                    query:{
+                        name:this.activeName,
+                        type:1
+                    },
+                })
+            }
+        },
+        addactiveName () {
+            this.routerJump()
         },
         //批量删除
         toggleSelection() {
@@ -131,8 +163,14 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        //查看
+        //编辑
         handleClick () {
+            this.routerJump()
+        },
+        //
+        handleClicktab(tab, event) {
+                // console.log(tab, event);
+                console.log(this.activeName)
 
         },
         //删除
@@ -161,11 +199,11 @@ export default {
 </script>
 
 <style scoped>
-.layer {
+.resource {
     box-sizing: border-box;
     padding:0 23px 0 0;
 }
-    .massagebox {
-        background: red;
-    }
+.resource .el-tab-pane{
+    display: none;
+}
 </style>
