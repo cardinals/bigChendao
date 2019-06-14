@@ -3,12 +3,15 @@ import Router from "vue-router"
 
 //首页
 const show = ()=>import('@/views/show') //
-const layout = ()=>import('@/views/layout') //
+// const layout = ()=>import('@/views/layout/index.vue') //
+const layouts = ()=>import('@/views/layout/layout.vue') //
 
 const console = ()=>import('@/views/console/index.vue') //控制台
 
 const mapManagement = ()=>import('@/views/mapManagement/index') //地图管理
-const mapManagementLower = ()=>import('@/views/mapManagement/lower.vue') //地图管理 -- 底图管理
+const mapManagementLowerindex = ()=>import('@/views/mapManagement/lower/index.vue') //地图管理 -- 底图管理
+const mapManagementLower = ()=>import('@/views/mapManagement/lower/lower.vue') //地图管理 -- 底图管理
+const addLower = ()=>import('@/views/mapManagement/lower/addlower.vue') //地图管理 -- 底层管理 -- 添加底图
 
 const mapManagementindex = ()=>import('@/views/mapManagement/components/index.vue') //地图管理
 const mapManagementLayer = ()=>import('@/views/mapManagement/components/layer.vue') //地图管理 -- 底图管理
@@ -60,7 +63,14 @@ const maillistgroup = ()=>import('@/views/maillistManagement/components/maillist
 const addmaillist = ()=>import('@/views/maillistManagement/components/addmaillist.vue') //通讯录管理 -- 通讯录分组 -- 添加组
 const addmaillistpop = ()=>import('@/views/maillistManagement/components/addmaillistpop.vue') //通讯录管理 -- 通讯录分组 -- 添加人
 
+const eventManagement = ()=>import('@/views/eventManagement/index.vue') //事件管理
+const eventindex = ()=>import('@/views/eventManagement/components/index.vue') //事件管理 -- 事件分组
+const eventgroup = ()=>import('@/views/eventManagement/components/eventgroup.vue') //事件管理 -- 事件分组
+const addevent = ()=>import('@/views/eventManagement/components/addevent.vue') //事件管理 -- 事件分组 -- 添加事件
+const seeevent = ()=>import('@/views/eventManagement/components/seeevent.vue') //事件管理 -- 事件分组 -- 查看事件
 
+// const statisticalAnalysisindex = ()=>import('@/views/eventManagement/statisticalAnalysis/index.vue') //事件管理 -- 事件统计分析
+const statisticalAnalysis = ()=>import('@/views/eventManagement/statisticalAnalysis/statisticalAnalysis.vue') //事件管理 -- 事件统计分析
 
 
 Vue.use(Router)
@@ -77,9 +87,9 @@ const router =  new Router({
       component: show
     },
     {
-      path: "/layout",
-      name: "layout",
-      component: layout,
+      path: "/layouts",
+      name: "layouts",
+      component: layouts,
       children: [
         {
           path: "/console",
@@ -91,13 +101,24 @@ const router =  new Router({
           path: "/mapManagement",
           name: "mapManagement",
           meta: { title: "地图管理" },
+          redirect:'noredirect',
           component: mapManagement,
           children: [
             {
               path: "/mapManagement/mapManagementLower",
-              name: "mapManagementLower",
+              name: "mapManagementLowerindex",
               meta: { title: "底图管理" },
-              component:mapManagementLower,
+              component:mapManagementLowerindex,
+              redirect: '/mapManagement/mapManagementLower',
+                children: [{
+                    path: '',
+                    component: mapManagementLower,
+                },{
+                    path: "addLower",
+                    name: "addLower",
+                    meta: { title: "添加底图" },
+                    component:addLower,
+                }]
             },
             {
               path: "/mapManagement/mapManagementLayer",
@@ -121,6 +142,7 @@ const router =  new Router({
             path: "/areaManagement",
             name: "areaManagement",
             meta: { title: "区域管理" },
+            redirect:'noredirect',
             component: areaManagement,
             children: [
                 {
@@ -146,6 +168,7 @@ const router =  new Router({
               path: "/resourceEquipmentManagement",
               name: "resourceEquipmentManagement",
               meta: { title: "资源设备管理" },
+              redirect:'noredirect',
               component: resourceEquipmentManagement,
               children: [
                   {
@@ -186,6 +209,7 @@ const router =  new Router({
               path: "/alllandscape",
               name: "alllandscape",
               meta: { title: "全景管理" },
+              redirect:'noredirect',
               component: alllandscape,
               children: [
                   {
@@ -210,6 +234,7 @@ const router =  new Router({
               path: "/locationManagement",
               name: "locationManagement",
               meta: { title: "定位管理" },
+              redirect:'noredirect',
               component: locationManagement,
               children: [
                   {
@@ -260,6 +285,7 @@ const router =  new Router({
               path: "/warningplanManagement",
               name: "warningplanManagement",
               meta: { title: "预警预案管理" },
+              redirect:'noredirect',
               component: warningplanManagement,
               children: [
                   {
@@ -305,6 +331,7 @@ const router =  new Router({
               path: "/maillistManagement",
               name: "maillistManagement",
               meta: { title: "通讯录管理" },
+              redirect:'noredirect',
               component: maillistManagement,
               children: [
                   {
@@ -327,6 +354,42 @@ const router =  new Router({
                           meta: { title: "添加人员" },
                           component:addmaillistpop,
                       }]
+                  },
+              ]
+          },
+          {
+              path: "/eventManagement",
+              name: "eventManagement",
+              meta: { title: "事件管理" },
+              redirect:'noredirect',
+              component: eventManagement,
+              children: [
+                  {
+                      path: "/eventManagement/event",
+                      name: "event",
+                      meta: { title: "事件列表管理" },
+                      redirect: '/eventManagement/event',
+                      component: eventindex,
+                      children: [{
+                          path: '',
+                          component: eventgroup,
+                      },{
+                          path: "addevent",
+                          name: "addevent",
+                          meta: { title: "添加事件" },
+                          component:addevent,
+                      },{
+                          path: "seeevent",
+                          name: "seeevent",
+                          meta: { title: "查看事件" },
+                          component:seeevent,
+                      }]
+                  },
+                  {
+                      path: "/eventManagement/statisticalAnalysis",
+                      name: "event",
+                      meta: { title: "事件统计分析" },
+                      component: statisticalAnalysis,
                   },
               ]
           },

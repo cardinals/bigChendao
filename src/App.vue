@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <new-locale-provider>
-      <router-view />
-    </new-locale-provider>
+    <!--<new-locale-provider>-->
+    <router-view></router-view>
+    <!--</new-locale-provider>-->
   </div>
 </template>
 
 <script>
 
-import { newLocaleProvider } from "./components/antd"
+// import { newLocaleProvider } from "./components/antd"
 export default {
   name: 'app',
-  components: { newLocaleProvider },
+  // components: { newLocaleProvider },
   data() {
     return {};
   },

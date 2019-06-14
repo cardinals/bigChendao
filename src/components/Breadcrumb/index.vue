@@ -50,7 +50,7 @@ export default {
       border-bottom:  1px solid #cdd1dc;
 
     .no-redirect {
-      color: #97a8be;
+      color: #606266;
       cursor: text;
     }
   }

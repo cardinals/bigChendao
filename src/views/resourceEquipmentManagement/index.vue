@@ -1,5 +1,8 @@
 <template>
     <div class="Index">
-        <router-view/>
+        <transition name="breadcrumb">
+            <router-view></router-view>
+        </transition>
+        <!--<router-view/>-->
     </div>
 </template>

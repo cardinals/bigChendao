@@ -1,5 +1,5 @@
 <template>
-  <div class="navBar">我是展示页头部</div>
+  <!--<div class="navBar">我是展示页头部</div>-->
 </template>
 
 <script>

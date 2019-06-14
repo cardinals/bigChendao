@@ -8,7 +8,7 @@
                                 size="medium"
                                 placeholder="请输入内容"
                                 suffix-icon="el-icon-date"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="form.input2">
                         </el-input>
                         （必填，不超过10个字符）
