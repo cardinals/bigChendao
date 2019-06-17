@@ -1,15 +1,14 @@
 <template>
     <div class="addmap">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <el-form ref="form" :model="form" label-width="120px">
-                <el-col :span="24">
-                    <el-form-item label="区域分组名称 :">
+            <el-form ref="ruleForm" :rules="rules" :model="ruleForm" label-width="120px" >
+                <el-col :span="24" style="height: 70px">
+                    <el-form-item label="区域分组名称 :" prop="name">
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                suffix-icon="el-icon-date"
                                 class="customized_input"
-                                v-model="form.input2">
+                                v-model="ruleForm.name">
                         </el-input>
                         （必填，不超过10个字符）
                     </el-form-item>
@@ -24,14 +23,19 @@
 </template>
 
 <script>
-export default {
+    import { areagroupInsert, areagroupUpdate } from "@/api/areaManagement/area.js";
+
+    export default {
     data() {
         return {
-            form:{
-                input2:'',
-                value:''
+            ruleForm:{
+                name:''
             },
-            // fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+            rules:{
+                name: [
+                    { required: true, message: '请输入区域分组名称', trigger: 'blur' },
+                ],
+            },
             options:[],
         }
     },
@@ -48,18 +52,42 @@ export default {
                 path:'/areaManagement/areagroupManagement'
             })
         },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
+        areagroupInsert () {
+            let data = {
+                groupName:this.ruleForm.name,
+                organizationId:1
+            }
+            areagroupInsert(data).then(res => {
+                if(res.data.code == 200) {
+                    this.goback()
+                }
+            })
         },
-        handlePreview(file) {
-            console.log(file);
+        areagroupUpdate () {
+            let data = {
+                groupName:this.ruleForm.name,
+                // id:this.$route.query.groupId
+            }
+            areagroupUpdate(this.$route.query.groupId,data).then(res => {
+                if(res.data.code == 200) {
+                    this.goback()
+                }
+            })
         },
-        handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if(this.$route.query.groupId) {
+                        this.areagroupUpdate()
+                    }else {
+                        this.areagroupInsert()
+                    }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         },
-        beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${ file.name }？`);
-        }
     }
 }
 </script>

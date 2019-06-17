@@ -82,7 +82,10 @@
 </template>
 
 <script>
-export default {
+
+    import { baseinfoInsert } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+
+    export default {
     data() {
         return {
             ruleForm:{
@@ -126,7 +129,30 @@ export default {
                 path:'/resourceEquipmentManagement/resourceManagement'
             })
         },
+        baseinfoInsert () {
+            let data = {
+                organizationId:1,
+                Name:'sdasda',
+                moduleType:1,
+                layerTypeId:6,
+                Lng:'33.33',
+                Lat:'64.25',
+                address:'',
+                phoneNumber:'',
+                resNumber:'',
+                introduction:'',
+                streamUrl:'',
+                groupId:'',
+            }
+            baseinfoInsert(data).then(res => {
+                if(res.data.code == 200) {
+                    this.$message('添加成功！');
+                    this.goback()
+                }
+            })
+        },
         submitForm(formName) {
+            this.baseinfoInsert()
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的

@@ -204,7 +204,7 @@ export default {
         padding: 60px 60px;
         /*background: white;*/
 
-        overflow: hidden;
+        /*overflow: hidden;*/
     }
     .consoles .left {
         width: 710px;

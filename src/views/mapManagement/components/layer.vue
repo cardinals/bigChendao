@@ -18,55 +18,52 @@
             <el-table
                     ref="multipleTable"
                     border
+                    stripe
                     :data="tableData"
                     tooltip-effect="dark"
                     style="width: 100%"
                     @selection-change="handleSelectionChange">
-                <el-table-column
-                        type="selection"
-                        width="55">
-                </el-table-column>
+                <template>
+                    <el-table-column type="selection" width="55"> </el-table-column>
+                    <el-table-column type="index" label="序号" width="55"></el-table-column>
+                    <!--<el-table-column :label="item.label" :prop="item.label" show-overflow-tooltip v-for="item of tableColumn">-->
+                        <!--<template slot-scope="scope">{{ scope.row.moduleName }}</template>-->
+                    <!--</el-table-column>-->
 
-                <el-table-column
-                        type="index"
-                        label="序号"
-                        width="55"
-                >
-                </el-table-column>
-                <el-table-column
-                        label="日期"
-                        width="120"
-                        prop="date"
-                >
-                    <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
-                </el-table-column>
-                <el-table-column
-                        prop="name"
-                        label="姓名"
-                        width="120">
-                </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="地址"
-                        show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                        fixed="right"
-                        label="操作"
-                        width="120">
-                    <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
-                        <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
-                    </template>
-                </el-table-column/>
+                    <el-table-column label="图层名称" prop="name" show-overflow-tooltip >
+
+                    </el-table-column>
+                    <el-table-column label="关联名称" prop="moduleName" show-overflow-tooltip>
+
+                    </el-table-column>
+                    <el-table-column label="图层元素数量" prop="resCount" show-overflow-tooltip>
+
+                    </el-table-column>
+                    <el-table-column label="图层ICON" prop="iconPath" show-overflow-tooltip>
+
+                    </el-table-column>
+                    <el-table-column label="添加时间" prop="gmtCreate" show-overflow-tooltip>
+
+                    </el-table-column>
+
+                    <el-table-column fixed="right" label="操作"width="130">
+                        <template slot-scope="scope">
+                            <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
+                            <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
+                        </template>
+                    </el-table-column/>
+
+                </template>
+
+
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
+                            :page-sizes="[10, 20, 30, 40]"
                             :page-size="100"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
@@ -80,44 +77,29 @@
 </template>
 
 <script>
+    import { layerList, layerDelete,layerDeletebatch } from "@/api/mapManagement/map.js";
 export default {
     data() {
         return {
             input:'',
             activeName:'管控',
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
-            currentPage4: 1
+            currentPage4: 1,
+            disabledDelete:true,
+            tableColumn:[
+                {label: '图层名称',id:'图层名称',prop:'1'},
+                {label: '关联名称',id:'关联名称',prop:2},
+                {label: '图层元素数量',id:'图层元素数量'},
+                {label: '图层ICON',id:'图层ICON'},
+                {label: '添加事件',id:'添加事件'},
+            ],
+
 
         }
+    },
+    created() {
+      this.layerList()
     },
     methods: {
         handleSizeChange(val) {
@@ -140,20 +122,59 @@ export default {
         },
         //批量删除
         toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.layerTypeId)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
 
+                layerDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.layerList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row) {
             this.$router.push({
                 path: "/mapManagement/mapManagementLayer/addmap",
+                query:{
+                    layerTypeId:row.layerTypeId
+                }
             })
         },
         //删除
-        handleClickdeleta () {
+        handleClickdeleta (row) {
 
                 this.$confirm(' ', '确认要删除吗?', {
                     confirmButtonText: '确定',
@@ -161,10 +182,22 @@ export default {
                     center: true,
                     customClass:"massagebox"
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
+
+                    layerDelete(row.layerTypeId).then(res => {
+                        if(res.data.code == 200) {
+                            this.layerList()
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        }else {
+
+                        }
+
+                    }).catch(error => {
+
                     });
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -172,6 +205,30 @@ export default {
                     });
                 });
 
+        },
+        layerList () {
+            let data = {
+                organizationId:1,
+                keyword:'',
+                page:1,
+                limit:10
+            }
+            layerList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+                    // let itemKey = data.records
+                    // let arr = []
+                    // let titleArr = []
+                    // itemKey.map( (item,key) => {
+                    //         titleArr.push({
+                    //             name:item.name,
+                    //         })
+                    // })
+                    // console.log(titleArr)
+                }
+
+            });
         }
     }
 }
