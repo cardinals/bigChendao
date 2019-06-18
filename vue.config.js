@@ -24,7 +24,7 @@ module.exports = {
     loaderOptions: {
       postcss: {
         plugins: [
-          require("postcss-px2rem")({ remUnit: 16 }) // 换算的基数
+          require("postcss-px2rem")({ remUnit: 10 }) // 换算的基数
         ]
       },
       less: {
