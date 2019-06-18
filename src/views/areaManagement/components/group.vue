@@ -11,6 +11,7 @@
             <el-table
                     ref="multipleTable"
                     border
+                    stripe
                     :data="tableData"
                     tooltip-effect="dark"
                     style="width: 100%"
@@ -26,22 +27,12 @@
                         width="55"
                 >
                 </el-table-column>
-                <el-table-column
-                        label="日期"
-                        width="120"
-                        prop="date"
-                >
-                    <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
+                <el-table-column label="区域分组" prop="groupName" show-overflow-tooltip >
+
                 </el-table-column>
-                <el-table-column
-                        prop="name"
-                        label="姓名"
-                        width="120">
-                </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="地址"
-                        show-overflow-tooltip>
+
+                <el-table-column label="添加时间" prop="gmtCreate" show-overflow-tooltip>
+
                 </el-table-column>
                 <el-table-column
                         fixed="right"
@@ -54,7 +45,7 @@
                 </el-table-column/>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -73,43 +64,21 @@
 </template>
 
 <script>
-export default {
+    import { areagroupList,areagroupDelete,addressbookDeletebatch } from "@/api/areaManagement/area.js";
+
+    export default {
     data() {
         return {
             input:"",
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
-            currentPage4: 1
+            currentPage4: 1,
+            disabledDelete:true,
 
         }
+    },
+    created() {
+        this.areagroupList()
     },
     methods: {
         handleSizeChange(val) {
@@ -128,20 +97,60 @@ export default {
         },
         //批量删除
         toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.groupId)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
 
+                addressbookDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.areagroupList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+
+
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         //选中的
         handleSelectionChange(val) {
+
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row) {
             this.$router.push({
                 path: "/areaManagement/areagroupManagement/addgroup",
+                query:{
+                    groupId:row.groupId
+                }
             })
         },
         //删除
-        handleClickdeleta () {
+        handleClickdeleta (row) {
 
                 this.$confirm(' ', '确认要删除吗?', {
                     confirmButtonText: '确定',
@@ -149,10 +158,17 @@ export default {
                     center: true,
                     customClass:"massagebox"
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    areagroupDelete(row.groupId).then(res => {
+                        if(res.data.code == 200) {
+                            this.areagroupList()
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        }
+                    })
+
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -160,6 +176,23 @@ export default {
                     });
                 });
 
+        },
+
+        areagroupList() {
+            let data = {
+                organizationId:1,
+                keyword:'',
+                page:1,
+                limit:10
+            }
+            areagroupList(data).then(res => {
+
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+
+                }
+            })
         }
     }
 }

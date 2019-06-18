@@ -37,17 +37,12 @@
                         width="55"
                 >
                 </el-table-column>
-                <el-table-column
-                        label="日期"
-                        width="120"
-                        prop="date"
-                >
-                    <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
-                </el-table-column>
+
                 <el-table-column
                         prop="name"
                         label="设备名称"
-                        width="120">
+                        width="120"
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                         prop="address"
@@ -60,7 +55,7 @@
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
@@ -94,44 +89,21 @@
 </template>
 
 <script>
-export default {
+    import { baseinfoList } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+
+    export default {
     data() {
         return {
             input:"",
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
             currentPage4: 1,
             activeName:'监控'
 
         }
+    },
+    created () {
+        this.baseinfoList()
     },
     methods: {
         handleSizeChange(val) {
@@ -173,7 +145,6 @@ export default {
         handleClicktab(tab, event) {
                 // console.log(tab, event);
                 console.log(this.activeName)
-
         },
         //删除
         handleClickdeleta () {
@@ -194,6 +165,25 @@ export default {
                         message: '已取消删除'
                     });
                 });
+
+        },
+        baseinfoList () {
+            let data = {
+                organizationId:1,
+                moduleType:1,
+                layerTypeId:6,
+                groupId:'',
+                keyword:'',
+                page:1,
+                limit:10,
+            }
+            baseinfoList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+
+                }
+            })
 
         }
     }

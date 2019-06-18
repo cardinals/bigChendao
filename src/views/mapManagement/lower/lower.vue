@@ -5,36 +5,32 @@
         </div>
         <div class="texttop">
             <el-row type="flex" >
-                <el-col :span="12">地图源:百度</el-col>
-                <el-col :span="12">底图图层：2D地图</el-col>
+                <el-col :span="12">地图源: {{from.gmtModified || "/"}}</el-col>
+                <el-col :span="12">底图图层：{{from.backgroundLayer || "/"}}地图</el-col>
             </el-row>
             <el-row type="flex" class="row-bg">
                 <el-col :span="12">底图控件：缩放控件 平移控件 比例尺控件 测量控件</el-col>
-                <el-col :span="12">显示级别：级别9</el-col>
+                <el-col :span="12">显示级别：{{from.mapLevel || "/"}}</el-col>
             </el-row>
         </div>
-        <el-button size="medium" @click="layouts" type="warning">跳轉吧</el-button>
     </div>
 
 
 </template>
 
 <script>
-export default {
+    import {basemapInfo} from '@/api/mapManagement/map.js'
+
+    export default {
     data() {
         return {
             input:'',
-            form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
-            }
+            mapLevel:'',
+            from:{},
         }
+    },
+    created() {
+        this.basemapInfo()
     },
     methods:{
         handleaddmap () {
@@ -42,12 +38,18 @@ export default {
                 path: "/mapManagement/mapManagementLower/addlower",
             })
         },
-        layouts() {
-            this.$router.push({
-                path: "/layouts",
-            })
-        }
-    }
+        basemapInfo () {
+            let data = {
+                organizationId : 1
+            }
+            basemapInfo(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.from = data
+                }
+            });
+        },
+    },
 }
 </script>
 

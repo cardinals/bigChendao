@@ -46,8 +46,6 @@
         </div>
         <div class="right buttomleft">
             <div class="titles">资源统计</div>
-
-            </div>
         </div>
 
     </div>
@@ -204,7 +202,7 @@ export default {
         padding: 60px 60px;
         /*background: white;*/
 
-        overflow: hidden;
+        /*overflow: hidden;*/
     }
     .consoles .left {
         width: 710px;

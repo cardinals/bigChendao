@@ -12,8 +12,7 @@
                     unique-opened
                     mode="vertical"
                     class="el-menu-vertical-demo"
-                    @open="handleOpen"
-                    @close="handleClose"
+
                     router
             >
                 <NavMenu :navMenus="menuData"></NavMenu>
