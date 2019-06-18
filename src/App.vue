@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <!--<new-locale-provider>-->
+    <navBar v-if="$route.path == '/show'"/>
     <router-view></router-view>
-    <!--</new-locale-provider>-->
   </div>
 </template>
 
 <script>
 
-// import { newLocaleProvider } from "./components/antd"
+import navBar from "./views/show/navBar"
 export default {
-  name: 'app',
-  // components: { newLocaleProvider },
+  name: "app",
+  components: { navBar },
   data() {
     return {};
   },
@@ -25,18 +24,20 @@ export default {
       const html = document.getElementsByTagName("html")[0];
       const width = html.clientWidth || 1920;
       const height = html.clientHeight || 1080;
-      const fontSize = (16 / 1920) * width;
+      const fontSize = 10 / 1920 * width;
       html.style.setProperty("--font-size", `${fontSize}px`);
       self.$store.dispatch("getClientSize", { width, height });
     }
   }
-}
+};
 </script>
 
 <style>
-  @import "./assets/style/style.css";
+@import "./assets/style/style.css";
 #app {
   width: 100%;
   height: 100%;
+  position: relative;
+  background: #03739f;
 }
 </style>

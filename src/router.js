@@ -79,7 +79,7 @@ const router =  new Router({
   mode: "",
   base: "/dcd",
   routes: [
-    { path: "/", redirect: "/console" },
+    { path: "/", redirect: "/show" },
     {
       path: "/show",
       name: "show",

@@ -46,8 +46,6 @@
         </div>
         <div class="right buttomleft">
             <div class="titles">资源统计</div>
-
-            </div>
         </div>
 
     </div>
