@@ -22,9 +22,8 @@ export function layerList(params) {
 //根据ID获取图层信息
 export function layerInfo(params) {
     return request({
-        url: '/layer/info',
+        url: '/layer/info/'+ params,
         method: 'get',
-        params:params,
     })
 }
 //新增图层
@@ -42,7 +41,7 @@ export function layerDelete(data) {
         method: 'delete',
     })
 }
-//.批量删除图层信息
+//批量删除图层信息
 export function layerDeletebatch(data) {
     return request({
         url: '/layer/deletebatch',

@@ -8,8 +8,8 @@
             </el-tabs>
 
             关键词：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="keyword" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" @click="querylist" type="primary">查询</el-button>
             <el-button size="medium" @click="addmap" style="float: right" type="warning">添加图层</el-button>
         </div>
 
@@ -81,11 +81,12 @@
 export default {
     data() {
         return {
-            input:'',
+            keyword:'',
             activeName:'管控',
             tableData: [],
             multipleSelection: [],
             currentPage4: 1,
+            moduleType:1,
             disabledDelete:true,
             tableColumn:[
                 {label: '图层名称',id:'图层名称',prop:'1'},
@@ -118,13 +119,22 @@ export default {
         },
         //tab切换
         handleClicktab () {
-
+            if(this.activeName == '管控') {
+                this.moduleType = 1
+            }else {
+                this.moduleType = 2
+            }
+            this.layerList()
+        },
+        //查询
+        querylist () {
+            this.layerList()
         },
         //批量删除
         toggleSelection() {
             let ids = []
             this.multipleSelection.map(item => {
-                ids.push(item.layerTypeId)
+                ids.push(item.id)
             })
             let dataids = ids.join(',')
             let data = {
@@ -169,7 +179,7 @@ export default {
             this.$router.push({
                 path: "/mapManagement/mapManagementLayer/addmap",
                 query:{
-                    layerTypeId:row.layerTypeId
+                    id:row.id
                 }
             })
         },
@@ -183,7 +193,7 @@ export default {
                     customClass:"massagebox"
                 }).then(() => {
 
-                    layerDelete(row.layerTypeId).then(res => {
+                    layerDelete(row.id).then(res => {
                         if(res.data.code == 200) {
                             this.layerList()
                             this.$message({
@@ -204,12 +214,12 @@ export default {
                         message: '已取消删除'
                     });
                 });
-
         },
         layerList () {
             let data = {
                 organizationId:1,
-                keyword:'',
+                moduleType:this.moduleType,
+                keyword:this.keyword?this.keyword:'',
                 page:1,
                 limit:10
             }
