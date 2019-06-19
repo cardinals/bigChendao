@@ -20,20 +20,20 @@
     </div>
     <div class="option4" :style="{ backgroundImage: holdUp.back }">
       <div class="hiddenTime">
-        <div class="hidden" 
+        <div class="hidden cc" 
           :style="{ backgroundImage: holdUp.hidden.back, color: holdUp.hidden.color }" 
           @click="showOption('hidden')">
           {{ holdUp.hidden.name }}
         </div>
-        <div class="time" :style="{ backgroundImage: holdUp.time.back }">
+        <div class="time cc" :style="{ backgroundImage: holdUp.time.back }">
           {{ holdUp.time.name }}
         </div>
       </div>
       <div class="mapSearch">
-        <div class="map" :style="{ backgroundImage: holdUp.map.back, color: holdUp.map.color }" @click="showOption('map')">
+        <div class="map cc" :style="{ backgroundImage: holdUp.map.back, color: holdUp.map.color }" @click="showOption('map')">
           {{ holdUp.map.name }}
         </div>
-        <div class="movie" :style="{ backgroundImage: holdUp.movie.back, color: holdUp.movie.color }" @click="showOption('movie')">
+        <div class="movie cc" :style="{ backgroundImage: holdUp.movie.back, color: holdUp.movie.color }" @click="showOption('movie')">
           {{ holdUp.movie.name }}
         </div>
         <div class="search" :style="{ backgroundImage: holdUp.search.back }">
@@ -183,9 +183,10 @@ export default {
 </script>
 
 <style scoped lang="less">
+  // 140 1080 13% 87%
 .navBar {
   text-align: center;
-  .size(100%; 140px);
+  .size(100%; 14.2%);
   .font(30px; #fff);
   border-bottom: 1px solid red;
   position: absolute;
@@ -195,9 +196,12 @@ export default {
   bottom: 0;
   margin: 0 auto auto auto;
   .nameAndout {
+    width: 100%;
+    height: 79%;
     .titleBox {
       width: 42%;
-      height: 110px;
+      height: 100%;
+      // height: 110px;
       background-repeat: no-repeat;
       background-size: 100% 100%;
       margin: 0 auto;
@@ -207,12 +211,12 @@ export default {
       .title {
         font-weight: bolder;
         position: relative;
-        top: 23px;
+        top: 21%;
       }
       .options {
         display: flex;
         width: 84%;
-        height: 40px;
+        height: 36%;
         margin: 0 auto;
         position: absolute;
         bottom: 0px;
@@ -226,7 +230,6 @@ export default {
           cursor: pointer;
           font-size: 24px;
           text-align: center;
-          line-height: 40px;
         }
       }
     }
@@ -239,11 +242,12 @@ export default {
   }
   .option4 {
     width: 100%;
-    height: 76px;
+    height: 54.3%; // 76px
     background-repeat: no-repeat;
     background-size: 100% 100%;
     position: relative;
-    top: -44px;
+    // 48px / 140px
+    top: -33%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -254,24 +258,25 @@ export default {
       justify-content: flex-start;
       align-items: center;
       width: 30%;
+      height: 100%;
       .hidden {
         width: 31%;
-        height: 50px;
+        // height: 50px;
+        height: 66%;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         margin-right: 38px;
         font-size: 24px;
-        line-height: 50px;
         text-align: center;
         cursor: pointer;
       }
       .time {
         width: 36%;
-        height: 50px;
+        // height: 50px;
+        height: 66%;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         font-size: 27px;
-        line-height: 50px;
         text-align: center;
         cursor: pointer;
       }
@@ -281,31 +286,33 @@ export default {
       justify-content: flex-end;
       align-items: center;
       width: 30%;
+      height: 100%;
       .map {
         width: 19%;
-        height: 50px;
+        // height: 50px;
+        height: 66%;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         font-size: 24px;
-        line-height: 50px;
         text-align: center;
         cursor: pointer;
       }
       .movie {
         width: 19%;
-        height: 50px;
+        // height: 50px;
+        height: 66%;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         position: relative;
         right: 8px;
         font-size: 24px;
-        line-height: 50px;
         text-align: center;
         cursor: pointer;
       }
       .search {
         width: 49%;
-        height: 50px;
+        // height: 50px;
+        height: 66%;
         background-repeat: no-repeat;
         background-size: 100% 100%;
         margin-left: 30px;
@@ -315,11 +322,12 @@ export default {
         align-items: center;
         .ipt {
           width: 80%;
+          height: 100%;
           background: none;
           border: none;
           outline: none;
           font-size: 18px;
-          line-height: 50px;
+          line-height: 100%;
           position: relative;
           left: -5px;
           cursor: pointer;
@@ -329,8 +337,8 @@ export default {
           border-bottom: 1px solid #dfe3e0;
         }
         .sousuo {
-          width: 17px;
-          height: 16px;
+          width: 6%;
+          height: 32%;
           background-repeat: no-repeat;
           background-size: 100% 100%;
         }

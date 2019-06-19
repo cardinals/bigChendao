@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :style="{ backgroundImage: back }">
     <navBar v-if="$route.path == '/show'"/>
     <router-view></router-view>
   </div>
@@ -12,7 +12,9 @@ export default {
   name: "app",
   components: { navBar },
   data() {
-    return {};
+    return {
+      back: "url(" + require("../static/img/control/d.png") + ")"
+    };
   },
   mounted() {
     this.cale();
@@ -38,7 +40,8 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  background: #03739f;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   position: absolute;
   top: 0;
   left: 0;
