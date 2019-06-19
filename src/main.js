@@ -6,6 +6,7 @@ import "./styles/common.css"
 import "./styles/global.less"
 import "./styles/antd.scss"
 import "./styles/antd-vue.css"
+import "./styles/reset.css"
 
 // element
 import ElementUI from 'element-ui'

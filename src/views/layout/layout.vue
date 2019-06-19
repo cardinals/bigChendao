@@ -7,7 +7,7 @@
             <el-aside width="auto">
                 <Menume></Menume>
             </el-aside>
-            <el-container>
+            <el-container style="background: white">
                 <el-main>
                     <breadcrumb />
                     <transition name="breadcrumb">
