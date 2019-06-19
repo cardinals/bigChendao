@@ -46,6 +46,7 @@
 </template>
 
 <script>
+const moment = require("moment");
 export default {
   data() {
     return {
@@ -84,7 +85,7 @@ export default {
           color: "#fff"
         },
         time: {
-          name: "11:34:56",
+          name: moment().format("HH:mm:ss"),
           back: "url(" + require("../../assets/control/time.png") + ")"
         },
         map: {
@@ -104,6 +105,17 @@ export default {
         }
       },
     };
+  },
+  mounted() {
+    let self = this;
+    this.timer = setInterval(() => {
+      self.holdUp.time.name = moment().format("HH:mm:ss");
+    }, 1000);
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
   methods: {
     navigator(e) {
@@ -147,6 +159,7 @@ export default {
       let movieColor = self.holdUp.movie.color;
       if (name == 'hidden') {
         if (hiddenColor == '#fff') {
+          // 这里我曾遇到过坑
           self.holdUp.hidden.color = '#fcff03'
         } else if (hiddenColor == "#fcff03") {
           self.holdUp.hidden.color = "#fff"
