@@ -20,7 +20,9 @@
     </div>
     <div class="option4" :style="{ backgroundImage: holdUp.back }">
       <div class="hiddenTime">
-        <div class="hidden" :style="{ backgroundImage: holdUp.hidden.back }">
+        <div class="hidden" 
+          :style="{ backgroundImage: holdUp.hidden.back, color: holdUp.hidden.color }" 
+          @click="showOption('hidden')">
           {{ holdUp.hidden.name }}
         </div>
         <div class="time" :style="{ backgroundImage: holdUp.time.back }">
@@ -28,10 +30,10 @@
         </div>
       </div>
       <div class="mapSearch">
-        <div class="map" :style="{ backgroundImage: holdUp.map.back }">
+        <div class="map" :style="{ backgroundImage: holdUp.map.back, color: holdUp.map.color }" @click="showOption('map')">
           {{ holdUp.map.name }}
         </div>
-        <div class="movie" :style="{ backgroundImage: holdUp.movie.back }">
+        <div class="movie" :style="{ backgroundImage: holdUp.movie.back, color: holdUp.movie.color }" @click="showOption('movie')">
           {{ holdUp.movie.name }}
         </div>
         <div class="search" :style="{ backgroundImage: holdUp.search.back }">
@@ -78,7 +80,8 @@ export default {
         back: "url(" + require("../../assets/control/hold.png") + ")",
         hidden: {
           name: "隐藏浮窗",
-          back: "url(" + require("../../assets/control/hidden.png") + ")"
+          back: "url(" + require("../../assets/control/hidden.png") + ")",
+          color: "#fff"
         },
         time: {
           name: "11:34:56",
@@ -86,18 +89,20 @@ export default {
         },
         map: {
           name: "地图",
-          back: "url(" + require("../../assets/control/map.png") + ")"
+          back: "url(" + require("../../assets/control/map.png") + ")",
+          color: "#fff"
         },
         movie: {
           name: "影像",
-          back: "url(" + require("../../assets/control/movie.png") + ")"
+          back: "url(" + require("../../assets/control/movie.png") + ")",
+          color: "#fff"
         },
         search: {
           placeholder: "查询景点、设备、资源等",
           back: "url(" + require("../../assets/control/search.png") + ")",
           back2: "url(" + require("../../assets/control/sousuo.png") + ")"
         }
-      }
+      },
     };
   },
   methods: {
@@ -133,6 +138,31 @@ export default {
         options[0].color = "#fff";
         options[1].color = "#fff";
         options[2].color = "#00e2ff";
+      }
+    },
+    showOption(name) {
+      let self = this;
+      let hiddenColor = self.holdUp.hidden.color;
+      let mapColor = self.holdUp.map.color;
+      let movieColor = self.holdUp.movie.color;
+      if (name == 'hidden') {
+        if (hiddenColor == '#fff') {
+          self.holdUp.hidden.color = '#fcff03'
+        } else if (hiddenColor == "#fcff03") {
+          self.holdUp.hidden.color = "#fff"
+        }
+      } else if (name == 'map') {
+        if (mapColor == "#fff") {
+          self.holdUp.map.color = "#fcff03"
+        } else if (mapColor == "#fcff03") {
+          self.holdUp.map.color = "#fff"
+        }
+      } else if (name == 'movie') {
+        if (movieColor == "#fff") {
+          self.holdUp.movie.color = "#fcff03"
+        } else if (movieColor == "#fcff03") {
+          self.holdUp.movie.color = "#fff"
+        }
       }
     }
   }
@@ -181,6 +211,9 @@ export default {
           background-repeat: no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
+          font-size: 24px;
+          text-align: center;
+          line-height: 40px;
         }
       }
     }
@@ -217,6 +250,7 @@ export default {
         font-size: 24px;
         line-height: 50px;
         text-align: center;
+        cursor: pointer;
       }
       .time {
         width: 36%;
@@ -226,6 +260,7 @@ export default {
         font-size: 27px;
         line-height: 50px;
         text-align: center;
+        cursor: pointer;
       }
     }
     .mapSearch {
@@ -241,6 +276,7 @@ export default {
         font-size: 24px;
         line-height: 50px;
         text-align: center;
+        cursor: pointer;
       }
       .movie {
         width: 19%;
@@ -252,6 +288,7 @@ export default {
         font-size: 24px;
         line-height: 50px;
         text-align: center;
+        cursor: pointer;
       }
       .search {
         width: 49%;
@@ -272,6 +309,7 @@ export default {
           line-height: 50px;
           position: relative;
           left: -5px;
+          cursor: pointer;
         }
         .ipt::-webkit-input-placeholder {
           color: #dfe3e0;
