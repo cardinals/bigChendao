@@ -1,8 +1,8 @@
 <template>
     <div class="layer">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">分组名称：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="findkeyword" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" @click="keyword" type="primary">查询</el-button>
             <el-button size="medium" @click="addgroup" style="float: right" type="warning">添加分组</el-button>
         </div>
 
@@ -50,11 +50,12 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+
+                            :total="totals">
                     </el-pagination>
             </div>
         </div>
@@ -70,6 +71,10 @@
     data() {
         return {
             input:"",
+            findkeyword:'',
+            totals:0,//总的
+            page:1,
+            limit:10,
             tableData: [],
             multipleSelection: [],
             currentPage4: 1,
@@ -82,10 +87,12 @@
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.areagroupList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.areagroupList()
         },
         addgroup () {
             this.$router.push({
@@ -94,6 +101,9 @@
                     type:1
                 }
             })
+        },
+        keyword () {
+            this.areagroupList()
         },
         //批量删除
         toggleSelection() {
@@ -181,16 +191,16 @@
         areagroupList() {
             let data = {
                 organizationId:1,
-                keyword:'',
-                page:1,
-                limit:10
+                keyword:this.findkeyword,
+                page:this.page,
+                limit:this.limit
             }
             areagroupList(data).then(res => {
 
                 if(res.data.code == 200) {
                     let data = res.data.data
                     this.tableData = data.records
-
+                    this.totals = data.total
                 }
             })
         }

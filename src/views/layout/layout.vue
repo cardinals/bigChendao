@@ -57,7 +57,9 @@ export default {
         background-color: rgb(241, 246, 252);
     }
 
-    .el-main {}
+    .el-main {
+
+    }
 
     body > .el-container {
         margin-bottom: 40px;

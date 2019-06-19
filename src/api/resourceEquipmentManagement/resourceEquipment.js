@@ -9,6 +9,14 @@ export function baseinfoList(params) {
         params:params,
     })
 }
+//tab的切换菜单
+export function baseinfolayertypelist(params) {
+    return request({
+        url: '/baseinfo/layertypelist',
+        method: 'get',
+        params:params,
+    })
+}
 //新增
 export function baseinfoInsert(data) {
     return request({
@@ -17,6 +25,21 @@ export function baseinfoInsert(data) {
         data:data,
     })
 }
+//获取通讯录区域分组
+export function areagroupGroupalllist(params) {
+    return request({
+        url: '/areagroup/all/list',
+        method: 'get',
+        params:params,
+    })
+}
+
+
+
+
+
+
+
 
 //删除区域分组信息
 export function areagroupDelete(id) {

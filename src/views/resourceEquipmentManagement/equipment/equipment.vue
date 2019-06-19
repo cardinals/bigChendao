@@ -3,18 +3,10 @@
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">
-                <el-tab-pane label="景点" name="景点">景点</el-tab-pane>
-                <el-tab-pane label="游客中心" name="游客中心">游客中心</el-tab-pane>
-                <el-tab-pane label="停车场" name="停车场">停车场</el-tab-pane>
-                <el-tab-pane label="卫生间" name="卫生间">卫生间</el-tab-pane>
-                <el-tab-pane label="商店" name="商店">商店</el-tab-pane>
-                <el-tab-pane label="售票点" name="售票点">售票点</el-tab-pane>
-                <el-tab-pane label="应急物资" name="应急物资">应急物资</el-tab-pane>
-                <el-tab-pane label="住宿" name="住宿">住宿</el-tab-pane>
-                <el-tab-pane label="治安点" name="治安点">治安点</el-tab-pane>
-            </el-tabs>
 
+            <el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px" >
+                <el-tab-pane v-for="item of activeNamelist" :key="item.id" :label="item.name" :name="item.name">{{item.name}}</el-tab-pane>
+            </el-tabs>
             景点名称：
             <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
@@ -89,7 +81,9 @@
 </template>
 
 <script>
-export default {
+    import { baseinfoList, baseinfolayertypelist,  } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+
+    export default {
     data() {
         return {
             input:"",
@@ -124,9 +118,13 @@ export default {
             }],
             multipleSelection: [],
             currentPage4: 1,
-            activeName:'景点'
-
+            activeName:'景点',
+            activeNamelist:[]
         }
+    },
+    created() {
+        this.baseinfoList()
+        this.baseinfolayertypelist()
     },
     methods: {
         handleSizeChange(val) {
@@ -189,6 +187,37 @@ export default {
                         message: '已取消删除'
                     });
                 });
+
+        },
+        //tab的切换菜单
+        baseinfolayertypelist () {
+            let data = {
+                moduleType:2
+            }
+            baseinfolayertypelist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.activeNamelist = res.data.data
+                }
+            })
+        },
+        //table
+        baseinfoList () {
+            let data = {
+                organizationId:1,
+                moduleType:1,
+                layerTypeId:6,
+                groupId:'',
+                keyword:'',
+                page:1,
+                limit:10,
+            }
+            baseinfoList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+
+                }
+            })
 
         }
     }
