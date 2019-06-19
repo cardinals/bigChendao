@@ -98,10 +98,11 @@ export default {
     },
     created() {
 
-        if(this.$route.query.type === 1) {
+        if(this.$route.query.type == 1) {
             this.$route.meta.title = '添加图层'
         }else {
             this.$route.meta.title = '编辑图层'
+            this.layerInfo()
         }
     },
     methods: {
@@ -124,10 +125,10 @@ export default {
         },
         layerInsert () {
             let data = {
-                name:'ssadasdas',
+                name:this.ruleForm.name,
                 moduleType:1,
                 layerTypeId:5,
-                iconPath:'www.xihuquceshi.com',
+                iconPath:this.ruleForm.iconPath,
                 organizationId:1,
             }
             layerInsert(data).then(res => {
@@ -147,17 +148,14 @@ export default {
         //查看的
         layerInfo () {
 
-            layerInfo({layerTypeId:this.$route.query.layerTypeId}).then(res => {
+            layerInfo(this.$route.query.id).then(res => {
                 if (res.data.code == 200) {
                     let data = res.data.data
                     this.ruleForm = data
-
                 }
             })
         },
         submitForm(formName) {
-            this.layerInsert()
-            return
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的

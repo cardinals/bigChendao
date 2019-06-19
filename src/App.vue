@@ -39,7 +39,6 @@ export default {
   height: 100%;
   position: relative;
   background: #03739f;
-  padding: 0 20px 20px 20px;
   position: absolute;
   top: 0;
   left: 0;

@@ -15,10 +15,31 @@
         </div>
       </div>
       <div class="outBox">
-        456
+        用户 登出
       </div>
     </div>
-    <div class="option">789</div>
+    <div class="option4" :style="{ backgroundImage: holdUp.back }">
+      <div class="hiddenTime">
+        <div class="hidden" :style="{ backgroundImage: holdUp.hidden.back }">
+          {{ holdUp.hidden.name }}
+        </div>
+        <div class="time" :style="{ backgroundImage: holdUp.time.back }">
+          {{ holdUp.time.name }}
+        </div>
+      </div>
+      <div class="mapSearch">
+        <div class="map" :style="{ backgroundImage: holdUp.map.back }">
+          {{ holdUp.map.name }}
+        </div>
+        <div class="movie" :style="{ backgroundImage: holdUp.movie.back }">
+          {{ holdUp.movie.name }}
+        </div>
+        <div class="search" :style="{ backgroundImage: holdUp.search.back }">
+          <input class="ipt" type="text" :placeholder="holdUp.search.placeholder">
+          <div class="sousuo" :style="{ backgroundImage: holdUp.search.back2 }"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -52,30 +73,63 @@ export default {
           color: "#fff",
           back: "url(" + require("../../assets/control/option3.png") + ")"
         }
-      ]
+      ],
+      holdUp: {
+        back: "url(" + require("../../assets/control/hold.png") + ")",
+        hidden: {
+          name: "隐藏浮窗",
+          back: "url(" + require("../../assets/control/hidden.png") + ")"
+        },
+        time: {
+          name: "11:34:56",
+          back: "url(" + require("../../assets/control/time.png") + ")"
+        },
+        map: {
+          name: "地图",
+          back: "url(" + require("../../assets/control/map.png") + ")"
+        },
+        movie: {
+          name: "影像",
+          back: "url(" + require("../../assets/control/movie.png") + ")"
+        },
+        search: {
+          placeholder: "查询景点、设备、资源等",
+          back: "url(" + require("../../assets/control/search.png") + ")",
+          back2: "url(" + require("../../assets/control/sousuo.png") + ")"
+        }
+      }
     };
   },
   methods: {
     navigator(e) {
       const options = this.options;
       if (e == 0) {
-        options[0].back = "url(" + require("../../assets/control/option1x.png") + ")";
-        options[1].back = "url(" + require("../../assets/control/option2.png") + ")";
-        options[2].back = "url(" + require("../../assets/control/option3.png") + ")";
+        options[0].back =
+          "url(" + require("../../assets/control/option1x.png") + ")";
+        options[1].back =
+          "url(" + require("../../assets/control/option2.png") + ")";
+        options[2].back =
+          "url(" + require("../../assets/control/option3.png") + ")";
         options[0].color = "#00e2ff";
         options[1].color = "#fff";
         options[2].color = "#fff";
       } else if (e == 1) {
-        options[0].back = "url(" + require("../../assets/control/option1.png") + ")";
-        options[1].back = "url(" + require("../../assets/control/option2x.png") + ")";
-        options[2].back = "url(" + require("../../assets/control/option3.png") + ")";
+        options[0].back =
+          "url(" + require("../../assets/control/option1.png") + ")";
+        options[1].back =
+          "url(" + require("../../assets/control/option2x.png") + ")";
+        options[2].back =
+          "url(" + require("../../assets/control/option3.png") + ")";
         options[0].color = "#fff";
         options[1].color = "#00e2ff";
         options[2].color = "#fff";
       } else if (e == 2) {
-        options[0].back = "url(" + require("../../assets/control/option1.png") + ")";
-        options[1].back = "url(" + require("../../assets/control/option2.png") + ")";
-        options[2].back = "url(" + require("../../assets/control/option3x.png") + ")";
+        options[0].back =
+          "url(" + require("../../assets/control/option1.png") + ")";
+        options[1].back =
+          "url(" + require("../../assets/control/option2.png") + ")";
+        options[2].back =
+          "url(" + require("../../assets/control/option3x.png") + ")";
         options[0].color = "#fff";
         options[1].color = "#fff";
         options[2].color = "#00e2ff";
@@ -118,14 +172,116 @@ export default {
         height: 40px;
         margin: 0 auto;
         position: absolute;
-        bottom: 0;
+        bottom: 0px;
         display: flex;
         justify-content: space-between;
+        z-index: 999;
         .option {
           height: 100%;
           background-repeat: no-repeat;
           background-size: 100% 100%;
           cursor: pointer;
+        }
+      }
+    }
+    .outBox {
+      position: absolute;
+      top: 17px;
+      right: 20px;
+      font-size: 18px;
+    }
+  }
+  .option4 {
+    width: 100%;
+    height: 76px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    top: -44px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    .hiddenTime {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 30%;
+      .hidden {
+        width: 31%;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin-right: 38px;
+        font-size: 24px;
+        line-height: 50px;
+        text-align: center;
+      }
+      .time {
+        width: 36%;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        font-size: 27px;
+        line-height: 50px;
+        text-align: center;
+      }
+    }
+    .mapSearch {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 30%;
+      .map {
+        width: 19%;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        font-size: 24px;
+        line-height: 50px;
+        text-align: center;
+      }
+      .movie {
+        width: 19%;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        right: 8px;
+        font-size: 24px;
+        line-height: 50px;
+        text-align: center;
+      }
+      .search {
+        width: 49%;
+        height: 50px;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        margin-left: 30px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .ipt {
+          width: 80%;
+          background: none;
+          border: none;
+          outline: none;
+          font-size: 18px;
+          line-height: 50px;
+          position: relative;
+          left: -5px;
+        }
+        .ipt::-webkit-input-placeholder {
+          color: #dfe3e0;
+          border-bottom: 1px solid #dfe3e0;
+        }
+        .sousuo {
+          width: 17px;
+          height: 16px;
+          background-repeat: no-repeat;
+          background-size: 100% 100%;
         }
       }
     }
