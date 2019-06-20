@@ -37,14 +37,11 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-<<<<<<< HEAD
-  /*background: #03739f;*/
   position: absolute;
+
   top: 0;
   left: 0;
-=======
   background-repeat: no-repeat;
   background-size: 100% 100%;
->>>>>>> 34896a15696d1ba1a5e9297110600db32f5b1de1
 }
 </style>
