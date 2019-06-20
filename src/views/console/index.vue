@@ -205,14 +205,15 @@ export default {
         /*overflow: hidden;*/
     }
     .consoles .left {
-        width: 710px;
+
+        width: 47%;
         height: 420px;
         background-color: #f1f6fc;
         border-radius: 4px;
         float: left;
     }
     .consoles .right {
-        width: 710px;
+        width: 47%;
         height: 420px;
         float: left;
         background-color: #f1f6fc;
@@ -253,7 +254,7 @@ export default {
         height:320px;
     }
     .a {
-        width: 180px;
+        width: 150px;
         height: 45px;
         border: 1px solid #303c58;
         float: left;

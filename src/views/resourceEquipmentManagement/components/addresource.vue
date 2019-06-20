@@ -8,10 +8,10 @@
                         <el-select v-model="ruleForm.name" clearable placeholder="请选择" size="medium" prop="name"  class="customized_input">
                             <el-option
                                     size="medium"
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in areaNameoptions"
+                                    :key="item.groupName"
+                                    :label="item.groupName"
+                                    :value="item.groupName">
                             </el-option>
                         </el-select>
                         （必填，不超过10个字符）
@@ -83,7 +83,7 @@
 
 <script>
 
-    import { baseinfoInsert } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+    import { baseinfoInsert, areagroupGroupalllist } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
 
     export default {
     data() {
@@ -110,11 +110,14 @@
             },
             options:[],
             labelname:'',
+            areaNameoptions:[],//区域分组
             labelPosition:"right"
         }
     },
     created() {
-        if(this.$route.query.type === 1) {
+        this.areagroupGroupalllist()
+
+        if(this.$route.query.type == 1) {
             this.$route.meta.title = '添加' + this.$route.query.name
             this.labelname = this.$route.query.name
         }else {
@@ -135,14 +138,16 @@
                 Name:'sdasda',
                 moduleType:1,
                 layerTypeId:6,
-                Lng:'33.33',
-                Lat:'64.25',
+                Lng:'30.1094463771',
+                Lat:'120.4496101425',
                 address:'',
                 phoneNumber:'',
                 resNumber:'',
                 introduction:'',
                 streamUrl:'',
-                groupId:'',
+                groupId:1,
+                picturesList:'',
+                audio:'',
             }
             baseinfoInsert(data).then(res => {
                 if(res.data.code == 200) {
@@ -151,8 +156,20 @@
                 }
             })
         },
+        //获取区域分组
+        areagroupGroupalllist () {
+            let data = {
+                organizationId : 1,
+            }
+            areagroupGroupalllist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.areaNameoptions = res.data.data
+                }
+            })
+        },
         submitForm(formName) {
             this.baseinfoInsert()
+            return
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的

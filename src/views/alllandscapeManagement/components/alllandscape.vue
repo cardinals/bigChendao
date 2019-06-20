@@ -41,7 +41,7 @@
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="baseinfoId"
+                        prop="scenicName"
                         label="关联景点"
                         show-overflow-tooltip
                 >
@@ -62,16 +62,16 @@
                 </el-table-column/>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
                             :page-sizes="[10, 20, 30, 40]"
-                            :page-size="100"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="40">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -90,8 +90,11 @@ export default {
             keyword:'', //关键字查找
             tableData: [],
             multipleSelection: [],
-            currentPage4: 1
-
+            currentPage4: 1,
+            disabledDelete:true,
+            page:1,
+            limit:10,
+            total:0,
         }
     },
     created () {
@@ -99,10 +102,12 @@ export default {
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.panoramicList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.panoramicList()
         },
         addgroup () {
             this.$router.push({
@@ -147,6 +152,11 @@ export default {
         },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
@@ -177,14 +187,8 @@ export default {
                                 type: 'success',
                                 message: '删除成功!'
                             });
-                        }else {
-
                         }
-
-                    }).catch(error => {
-
-                    });
-
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -197,13 +201,14 @@ export default {
             let data = {
                 organizationId:1,
                 keyword:this.keyword?this.keyword:'',
-                page:1,
-                limit:10
+                page:this.page,
+                limit:this.limit,
             }
             panoramicList(data).then(res => {
                 if(res.data.code == 200) {
                     let data = res.data.data
                     this.tableData = data.records
+                    this.total = data.total
                 }
 
             });

@@ -208,7 +208,7 @@
                 panoramicUpdate(id,data).then(res => {
                     if(res.data.code == 200) {
                         this.$message({
-                            message: this.$route.query.type == 1?'添加成功！':'编辑成功！',
+                            message: '编辑成功！',
                             type: 'success'
                         });
                         this.goback()
@@ -231,7 +231,7 @@
                 panoramicSave(data).then(res => {
                     if(res.data.code == 200) {
                         this.$message({
-                            message: this.$route.query.type == 1?'添加成功！':'编辑成功！',
+                            message: '添加成功！',
                             type: 'success'
                         });
                         this.goback()

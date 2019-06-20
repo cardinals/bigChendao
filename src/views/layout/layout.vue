@@ -7,7 +7,7 @@
             <el-aside width="auto">
                 <Menume></Menume>
             </el-aside>
-            <el-container>
+            <el-container style="background: white">
                 <el-main>
                     <breadcrumb />
                     <transition name="breadcrumb">
@@ -57,7 +57,9 @@ export default {
         background-color: rgb(241, 246, 252);
     }
 
-    .el-main {}
+    .el-main {
+
+    }
 
     body > .el-container {
         margin-bottom: 40px;

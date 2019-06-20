@@ -26,9 +26,6 @@
                 <template>
                     <el-table-column type="selection" width="55"> </el-table-column>
                     <el-table-column type="index" label="序号" width="55"></el-table-column>
-                    <!--<el-table-column :label="item.label" :prop="item.label" show-overflow-tooltip v-for="item of tableColumn">-->
-                        <!--<template slot-scope="scope">{{ scope.row.moduleName }}</template>-->
-                    <!--</el-table-column>-->
 
                     <el-table-column label="图层名称" prop="name" show-overflow-tooltip >
 
@@ -64,10 +61,10 @@
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
                             :page-sizes="[10, 20, 30, 40]"
-                            :page-size="100"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -88,13 +85,10 @@ export default {
             currentPage4: 1,
             moduleType:1,
             disabledDelete:true,
-            tableColumn:[
-                {label: '图层名称',id:'图层名称',prop:'1'},
-                {label: '关联名称',id:'关联名称',prop:2},
-                {label: '图层元素数量',id:'图层元素数量'},
-                {label: '图层ICON',id:'图层ICON'},
-                {label: '添加事件',id:'添加事件'},
-            ],
+            page:1,
+            limit:10,
+            total:0,
+
 
 
         }
@@ -104,10 +98,12 @@ export default {
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.layerList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.layerList()
         },
         addmap () {
             this.$router.push({
@@ -220,22 +216,14 @@ export default {
                 organizationId:1,
                 moduleType:this.moduleType,
                 keyword:this.keyword?this.keyword:'',
-                page:1,
-                limit:10
+                page:this.page,
+                limit:this.limit
             }
             layerList(data).then(res => {
                 if(res.data.code == 200) {
                     let data = res.data.data
                     this.tableData = data.records
-                    // let itemKey = data.records
-                    // let arr = []
-                    // let titleArr = []
-                    // itemKey.map( (item,key) => {
-                    //         titleArr.push({
-                    //             name:item.name,
-                    //         })
-                    // })
-                    // console.log(titleArr)
+                    this.total = data.total
                 }
 
             });

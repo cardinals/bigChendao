@@ -2,18 +2,13 @@
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">
-                <el-tab-pane label="监控" name="监控">监控</el-tab-pane>
-                <el-tab-pane label="传感器" name="传感器">传感器</el-tab-pane>
-                <el-tab-pane label="报警柱" name="报警柱">报警柱</el-tab-pane>
-                <el-tab-pane label="路灯" name="路灯">路灯</el-tab-pane>
-                <el-tab-pane label="wifi" name="wifi">wifi</el-tab-pane>
-                <el-tab-pane label="广播" name="广播">广播</el-tab-pane>
+            <el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px" >
+                <el-tab-pane v-for="item of activeNamelist" :key="item.id" :label="item.name" :name="item.name">{{item.name}}</el-tab-pane>
             </el-tabs>
 
             分组名称：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="keyword" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" type="primary" @click="findkeyword">查询</el-button>
             <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加{{activeName}}</el-button>
         </div>
 
@@ -75,11 +70,11 @@
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -89,28 +84,38 @@
 </template>
 
 <script>
-    import { baseinfoList } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+    import { baseinfoList, baseinfolayertypelist,  } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
 
     export default {
     data() {
         return {
-            input:"",
+            keyword:"",
             tableData: [],
             multipleSelection: [],
             currentPage4: 1,
-            activeName:'监控'
-
+            activeName:'监控',
+            activeNamelist:[],
+            page:1,
+            limit:10,
+            total:0,
+            layerTypeId:6,
         }
     },
     created () {
         this.baseinfoList()
+        this.baseinfolayertypelist()
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.baseinfoList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.baseinfoList()
+        },
+        findkeyword () {
+            this.baseinfoList()
         },
         addactiveName () {
             this.$router.push({
@@ -121,7 +126,6 @@
                 },
 
             })
-
         },
         //批量删除
         toggleSelection() {
@@ -143,8 +147,13 @@
         },
         //
         handleClicktab(tab, event) {
-                // console.log(tab, event);
                 console.log(this.activeName)
+                this.activeNamelist.forEach(item => {
+                    if (item.name == this.activeName) {
+                        this.layerTypeId = item.id
+                        this.baseinfoList()
+                    }
+                })
         },
         //删除
         handleClickdeleta () {
@@ -167,20 +176,34 @@
                 });
 
         },
+        //tab的切换菜单
+        baseinfolayertypelist () {
+            let data = {
+                moduleType:1
+            }
+            baseinfolayertypelist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.activeNamelist = res.data.data
+                    this.layerTypeId = res.data.data[0].id
+                }
+            })
+        },
+        //table
         baseinfoList () {
             let data = {
                 organizationId:1,
                 moduleType:1,
-                layerTypeId:6,
+                layerTypeId:this.layerTypeId,
                 groupId:'',
-                keyword:'',
-                page:1,
-                limit:10,
+                keyword:this.keyword,
+                page:this.page,
+                limit:this.limit,
             }
             baseinfoList(data).then(res => {
                 if(res.data.code == 200) {
                     let data = res.data.data
                     this.tableData = data.records
+                    this.total = data.total
 
                 }
             })
