@@ -22,7 +22,7 @@ export default {
     },
     width: {
       type: String,
-      default: "20%"
+      default: "22%"
     },
     height: {
       type: String,
@@ -52,9 +52,9 @@ export default {
     checkBox(index) {
       index == 0
         ? (this.btnStyle[0].background = "#00e2ff") &&
-          (this.btnStyle[1].background = "transparent")
+          (this.btnStyle[1].background = "transparent") && (this.btnBack = "#cacaca")
         : (this.btnStyle[0].background = "transparent") &&
-          (this.btnStyle[1].background = "#00e2ff");
+          (this.btnStyle[1].background = "#00e2ff") && (this.btnBack = "#101e47");
     }
   }
 };
