@@ -1,7 +1,7 @@
 <template>
     <div class="addmap">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
 
                 <el-col :span="24">
                     <el-form-item label="图层名称 :" prop="name">

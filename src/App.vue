@@ -37,6 +37,10 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+  position: absolute;
+
+  top: 0;
+  left: 0;
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }

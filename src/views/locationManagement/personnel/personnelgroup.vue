@@ -2,24 +2,19 @@
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <!--<el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">-->
-                <!--<el-tab-pane label="人员管理" name="人员管理">人员管理</el-tab-pane>-->
-                <!--<el-tab-pane label="车辆管理" name="车辆管理">车辆管理</el-tab-pane>-->
-            <!--</el-tabs>-->
-
             姓名：
-            <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-input v-model="name" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             联系方式：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="phone" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" type="primary" @click="findkeyword">查询</el-button>
 
             <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加人员</el-button>
             <el-select v-model="input" placeholder="所有区域分组" size="medium" style="width: 200px;float: right">
                 <el-option
-                        v-for="item in options"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
+                        v-for="item in areaNameoptions"
+                        :key="item.groupId"
+                        :label="item.groupName"
+                        :value="item.groupId">
                 </el-option>
             </el-select>
         </div>
@@ -45,54 +40,63 @@
                 >
                 </el-table-column>
                 <el-table-column
+                        label="姓名"
+                        prop="name"
+                        width="85">
+                </el-table-column>
+                <el-table-column
                         label="联系方式"
-                        width="120"
-                        prop="date"
+                        show-overflow-tooltip
+                        prop="phone"
                 >
                     <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="role"
                         label="角色"
-                        width="120">
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="groupName"
                         label="区域分组"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
                         label="设备状态"
                         show-overflow-tooltip>
+                    <template slot-scope="scope" >
+                        <spna v-if="scope.row.state == 0" style="color: #04f3a3">在线</spna>
+                        <spna v-if="scope.row.state == 1" style="color: #9ca5a2">离线</spna>
+                        <spna v-if="scope.row.state == 2" style="color: red">报警</spna>
+                    </template>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="160">
+                        width="180">
                     <template slot-scope="scope">
                         <el-button @click="handleClicktrajectory(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>轨迹</el-button>
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
-                </el-table-column/>
+                </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -102,75 +106,57 @@
 </template>
 
 <script>
-export default {
+    import { personnelList, personnelDelete, personnelDeletebatch, areagroupGroupalllist } from "@/api/locationManagement/location.js";
+
+    export default {
     data() {
         return {
+            name:'',
+            phone:'',
             input:'',
             options:'',
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
             currentPage4: 1,
-            activeName:'监控'
-
+            page:1,
+            limit:10,
+            total:0,
+            areaNameoptions:[],
+            disabledDelete:true
         }
+    },
+    created () {
+        this.personnelList()
+        this.areagroupGroupalllist()
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.personnelList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.personnelList()
         },
+        findkeyword () {
+            this.personnelList()
+        },
+        //添加
         addactiveName () {
             this.$router.push({
                 path: "/locationManagement/personnelManagement/addpersonnel",
                 query:{
                     type:1
                 },
-
             })
-
-        },
-        //批量删除
-        toggleSelection() {
-
-        },
-        //选中的
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row) {
             this.$router.push({
                 path: "/locationManagement/personnelManagement/addpersonnel",
+                query:{
+                    id:row.id
+                }
             })
         },
         //轨迹
@@ -179,33 +165,100 @@ export default {
                 path: "/locationManagement/personnelManagement/personneltrajectory",
             })
         },
-        //
-        handleClicktab(tab, event) {
-                // console.log(tab, event);
-                console.log(this.activeName)
-
+        //获取区域分组
+        areagroupGroupalllist () {
+            let data = {
+                organizationId : 1,
+            }
+            areagroupGroupalllist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.areaNameoptions = res.data.data
+                }
+            })
+        },
+        //批量删除
+        toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.id)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                personnelDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.personnelList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        //选中的
+        handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
+            this.multipleSelection = val;
         },
         //删除
-        handleClickdeleta () {
-
-                this.$confirm(' ', '确认要删除吗?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    center: true,
-                    customClass:"massagebox"
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+        handleClickdeleta (row) {
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                personnelDelete(row.id).then(res => {
+                    if(res.data.code == 200) {
+                        this.personnelList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
+            });
+        },
+        personnelList () {
+            let data = {
+                organizationId:1,
+                name:this.name,
+                phone:this.phone,
+                keyword:this.keyword,
+                page:this.page,
+                limit:this.limit,
+            }
+            personnelList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+                    this.total = data.total
 
-        }
+                }
+            })
+        },
     }
 }
 </script>

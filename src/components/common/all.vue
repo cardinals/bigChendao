@@ -31,18 +31,18 @@ export default {
   },
   data() {
     return {
-      btnBack: "#101e47",
+      btnBack: "#cacaca",
       btnStyle: [
         {
           width: "50%",
           height: "100%",
-          background: "transparent",
+          background: "#00e2ff",
           borderRadius: "50%"
         },
         {
           width: "50%",
           height: "100%",
-          background: "#00e2ff",
+          background: "transparent",
           borderRadius: "50%"
         }
       ]
@@ -55,6 +55,9 @@ export default {
           (this.btnStyle[1].background = "transparent") && (this.btnBack = "#cacaca")
         : (this.btnStyle[0].background = "transparent") &&
           (this.btnStyle[1].background = "#00e2ff") && (this.btnBack = "#101e47");
+
+      // 状态值寸公共仓库 0 or 1
+      this.$store.dispatch("layerChecked", index);
     }
   }
 };
@@ -86,12 +89,6 @@ export default {
       background: #00e2ff;
       border-radius: 50%;
     }
-    // .btn2 {
-    //   width: 50%;
-    //   height: 100%;
-    //   background: #00e2ff;
-    //   border-radius: 50%;
-    // }
   }
 }
 </style>

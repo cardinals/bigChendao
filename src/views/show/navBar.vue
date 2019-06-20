@@ -188,7 +188,7 @@ export default {
   text-align: center;
   .size(100%; 14.2%);
   .font(30px; #fff);
-  border-bottom: 1px solid red;
+  // border-bottom: 1px solid red;
   position: absolute;
   top: 0;
   left: 0;

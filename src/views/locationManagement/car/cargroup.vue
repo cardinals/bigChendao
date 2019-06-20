@@ -2,23 +2,19 @@
     <div class="resource">
 
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-            <!--<el-tabs v-model="activeName" @tab-click="handleClicktab" style="margin-bottom: 10px">-->
-                <!--<el-tab-pane label="人员管理" name="人员管理">人员管理</el-tab-pane>-->
-                <!--<el-tab-pane label="车辆管理" name="车辆管理">车辆管理</el-tab-pane>-->
-            <!--</el-tabs>-->
 
             车辆型号：
-            <el-input v-model="input" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-input v-model="carType" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             车牌号：
-            <el-input v-model="input" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-input v-model="licenseNumber" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             驾驶人：
-            <el-input v-model="input" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="driver" style="width: 200px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" type="primary" @click="findkeyword">查询</el-button>
 
             <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加车辆</el-button>
             <el-select v-model="input" placeholder="所有区域分组" size="medium" style="width: 200px;float: right">
                 <el-option
-                        v-for="item in options"
+                        v-for="item in areaNameoptions"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value">
@@ -50,58 +46,57 @@
                 </el-table-column>
                 <el-table-column
                         label="车辆类型"
-                        width="120"
-                        prop="date"
-                >
+                        prop="carType"
+                        show-overflow-tooltip>
                     <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="licenseNumber"
                         label="车牌号"
-                        width="120">
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="driver"
                         label="驾驶人"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="driverPhone"
                         label="联系方式"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="groupName"
                         label="区域分组"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                         fixed="right"
                         label="操作"
-                        width="160">
+                        width="180">
                     <template slot-scope="scope">
                         <el-button @click="handleClicktrajectory(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>轨迹</el-button>
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
-                </el-table-column/>
+                </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -111,52 +106,43 @@
 </template>
 
 <script>
-export default {
+    import { carList, carDelete, carDeletebatch, areagroupGroupalllist } from "@/api/locationManagement/location.js";
+
+    export default {
     data() {
         return {
             input:'',
+            carType:'',
+            licenseNumber:'',
+            driver:null,
+            keyword:'',
             options:'',
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
             currentPage4: 1,
-            activeName:'监控'
+            page:1,
+            limit:10,
+            total:0,
+            areaNameoptions:[],
+            disabledDelete:true
 
         }
     },
+    created () {
+        this.carList()
+        this.areagroupGroupalllist()
+    },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.carList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.carList()
+        },
+        findkeyword () {
+            this.carList()
         },
         addactiveName () {
             this.$router.push({
@@ -164,22 +150,24 @@ export default {
                 query:{
                     type:1
                 },
-
             })
-
-        },
-        //批量删除
-        toggleSelection() {
-
         },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row) {
             this.$router.push({
                 path: "/locationManagement/carManagement/addcar",
+                query:{
+                    id:row.carId
+                }
             })
         },
         //轨迹
@@ -188,32 +176,92 @@ export default {
                 path: "/locationManagement/carManagement/cartrajectory",
             })
         },
-        //
-        handleClicktab(tab, event) {
-                // console.log(tab, event);
-                console.log(this.activeName)
+        //获取区域分组
+        areagroupGroupalllist () {
+            let data = {
+                organizationId : 1,
+            }
+            areagroupGroupalllist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.areaNameoptions = res.data.data
+                }
+            })
+        },
+        //批量删除
+        toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.carId)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                carDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.carList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         //删除
-        handleClickdeleta () {
-
-                this.$confirm(' ', '确认要删除吗?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    center: true,
-                    customClass:"massagebox"
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+        handleClickdeleta (row) {
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                carDelete(row.carId).then(res => {
+                    if(res.data.code == 200) {
+                        this.carList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
+            });
+        },
+        carList () {
+            let data = {
+                organizationId:1,
+                carType:this.carType, //车辆型号
+                licenseNumber:this.licenseNumber, //车牌号
+                driver:this.driver, //驾驶人
+                keyword:this.keyword,
+                page:this.page,
+                limit:this.limit,
+            }
+            carList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+                    this.total = data.total
 
-        }
+                }
+            })
+        },
     }
 }
 </script>
