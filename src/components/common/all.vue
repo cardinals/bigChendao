@@ -34,13 +34,13 @@ export default {
       btnBack1: "#cacaca",
       isActive: false,
       btnStyle: [
-        {    
+        {
           background: "transparent",
           background1: "#00e2ff"
         },
-        {  
+        {
           background: "#00e2ff",
-          background1: "transparent"     
+          background1: "transparent"
         }
       ]
     };
