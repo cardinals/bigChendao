@@ -1,18 +1,17 @@
 <template>
-  <div id="app">
-    <navBar v-if="$route.path == '/show'"/>
+  <div id="app" :style="{ backgroundImage: back }">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 
-import navBar from "./views/show/navBar"
 export default {
   name: "app",
-  components: { navBar },
   data() {
-    return {};
+    return {
+      back: "url(" + require("../static/img/control/d.png") + ")"
+    };
   },
   mounted() {
     this.cale();
@@ -38,9 +37,14 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
+<<<<<<< HEAD
   /*background: #03739f;*/
   position: absolute;
   top: 0;
   left: 0;
+=======
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+>>>>>>> 34896a15696d1ba1a5e9297110600db32f5b1de1
 }
 </style>
