@@ -3,6 +3,8 @@ import Router from "vue-router"
 
 //首页
 const show = ()=>import('@/views/show') //
+const control = () => import("@/views/control")
+const command = () => import("@/views/command")
 // const layout = ()=>import('@/views/layout/index.vue') //
 const layouts = ()=>import('@/views/layout/layout.vue') //
 
@@ -82,9 +84,22 @@ const router =  new Router({
     { path: "/", redirect: "/show" },
     {
       path: "/show",
+      redirect: "/show/control",
       name: "show",
       meta: { title: "大陈岛应急管控平台" },
-      component: show
+      component: show,
+      children: [
+        {
+          path: "/show/control",
+          name: "control",
+          component: control
+        },
+        {
+          name: "command",
+          path: "/show/command",
+          component: command
+        }
+      ]
     },
     {
       path: "/layouts",

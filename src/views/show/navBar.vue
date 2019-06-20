@@ -5,7 +5,7 @@
         <p class="title">{{ titleBox.title.name }}</p>
         <div class="options">
           <div 
-            class="option" 
+            class="option cc"
             v-for="(option, index) in options"
             :key="index"
             @click="navigator(index)"
@@ -211,7 +211,7 @@ export default {
       .title {
         font-weight: bolder;
         position: relative;
-        top: 21%;
+        top: 18%;
       }
       .options {
         display: flex;
@@ -247,7 +247,7 @@ export default {
     background-size: 100% 100%;
     position: relative;
     // 48px / 140px
-    top: -33%;
+    top: -32%;
     display: flex;
     justify-content: space-between;
     align-items: center;
