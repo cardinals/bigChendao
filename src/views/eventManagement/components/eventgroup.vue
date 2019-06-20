@@ -75,7 +75,7 @@
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>查看</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
-                </el-table-column/>
+                </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
                 <el-button type="warning" @click="toggleSelection()">批量删除</el-button>

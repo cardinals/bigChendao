@@ -129,7 +129,7 @@
             this.baseinfoallList ()
         },
         methods: {
-            handleRemove(file, fileList) {
+            handleRemove() {
                 // console.log(file, fileList);
             },
             handlePreview () {
@@ -142,7 +142,7 @@
 
             },
             //上传后
-            handleAvatarSuccess (res, file) {
+            handleAvatarSuccess (res) {
                 // this.imageUrl = res.browser
                 this.ruleForm.thumb = res.url
             },

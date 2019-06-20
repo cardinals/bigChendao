@@ -40,14 +40,18 @@
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="groupName"
                         label="所属分组"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
                         label="状态"
                         show-overflow-tooltip>
+                    <template slot-scope="scope" >
+                        <spna v-if="scope.row.status == 0" style="color: #04f3a3">在线</spna>
+                        <spna v-if="scope.row.status == 1" style="color: #9ca5a2">离线</spna>
+                        <spna v-if="scope.row.status == 2" style="color: red">报警</spna>
+                    </template>
                 </el-table-column>
                 <el-table-column
                         prop="gmtCreate"
@@ -62,10 +66,10 @@
                         <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                         <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
                     </template>
-                </el-table-column/>
+                </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -84,7 +88,7 @@
 </template>
 
 <script>
-    import { baseinfoList, baseinfolayertypelist,  } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
+    import { baseinfoList, baseinfolayertypelist, baseinfoDelete, baseinfoDeletebatch } from "@/api/resourceEquipmentManagement/resourceEquipment.js";
 
     export default {
     data() {
@@ -99,11 +103,12 @@
             limit:10,
             total:0,
             layerTypeId:6,
+            disabledDelete:true,
         }
     },
     created () {
-        this.baseinfoList()
         this.baseinfolayertypelist()
+        this.baseinfoList()
     },
     methods: {
         handleSizeChange(val) {
@@ -124,30 +129,61 @@
                     name:this.activeName,
                     type:1
                 },
-
             })
         },
         //批量删除
         toggleSelection() {
-
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.id)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                baseinfoDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.baseinfoList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row) {
             this.$router.push({
                 path: "/resourceEquipmentManagement/resourceManagement/addresource",
                 query:{
                     name:this.activeName,
+                    id:row.id
                 },
-
             })
         },
         //
-        handleClicktab(tab, event) {
-                console.log(this.activeName)
+        handleClicktab() {
                 this.activeNamelist.forEach(item => {
                     if (item.name == this.activeName) {
                         this.layerTypeId = item.id
@@ -156,24 +192,28 @@
                 })
         },
         //删除
-        handleClickdeleta () {
-
-                this.$confirm(' ', '确认要删除吗?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    center: true,
-                    customClass:"massagebox"
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+        handleClickdeleta (row) {
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                baseinfoDelete(row.id).then(res => {
+                    if(res.data.code == 200) {
+                        this.baseinfoList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
+            });
 
         },
         //tab的切换菜单
