@@ -1,5 +1,7 @@
 <template>
-  <!--此组件外部可配置 背景图 尺寸 title tabName titleHeight-->
+  <!--此组件外部可配置 
+    背景图 尺寸 title tabName titleHeight tabs的居中方式
+  -->
   <div class="commonModule" 
     :style="{ backgroundImage: back, width: width, height: height }"
   >
@@ -7,21 +9,24 @@
       :style="{ backgroundImage: titleBack, height: titleHeight }">
       {{ title }}
     </div>
-    <div class="blueLine">
-      <P
+    <div class="blueLine" v-if="blue != 'none'">
+      <P    
         class="tabName"
         v-for="(tab, index) in tabs"
         :key="index"
-        :class="defaultNum == index ? 'addClass' : ''"
-        @click="tabEvent(index)"
+        :class="border == 'none'? '' : defaultNum == index ? 'addClass' : ''"
+        @click="border == 'none' ? '' : tabEvent(index)"
       >
           {{ tab }}
       </P>
+      <!--全选切换-->
+      <all v-if="all == 'yes'" text="全选" />
     </div>
   </div>
 </template>
 
 <script>
+import all from "@/components/common/all";
 export default {
   props: {
     width: {
@@ -49,8 +54,21 @@ export default {
     titleHeight: {
       type: String,
       default: '11%'
+    },
+    border: {
+      type: String,
+      default: ''
+    },
+    all: {
+      type: String,
+      default: 'no'
+    },
+    blue: {
+      type: String,
+      default: ''
     }
   },
+  components: { all },
   data() {
     return {
       titleBack: "url(" + require("../../assets/control/titleBack.png") +")",
@@ -76,6 +94,7 @@ export default {
       margin-bottom: 3%;
     }
     .blueLine {
+      width: 100%;
       height: 13%;
       widows: 100%;
       background-color: rgba(0, 226, 255, 0.1);
@@ -84,10 +103,12 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
       .tabName {
         font-size: 18px;
         cursor: pointer;
         border-bottom: 2px solid transparent;
+        margin: 0 auto;
       }
       .addClass {
         color: #00e2ff;
