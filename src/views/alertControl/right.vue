@@ -13,12 +13,12 @@ export default {
     return {
       topData: {
         title: "附近人员",
-        back: "url(" + require('../../assets/event/topk.png') + ")",
+        back: "url(" + require('../../assets/event/rtk.png') + ")",
         titleBack: "url(" + require('../../assets/event/titleBack.png') + ")"
       },
       bottomData: {
         title: "附近资源",
-        back: "url(" + require('../../assets/event/bottomk.png') + ")",
+        back: "url(" + require('../../assets/event/rbk.png') + ")",
         titleBack: "url(" + require('../../assets/event/titleBack.png') + ")"
       }
     }
