@@ -7,6 +7,9 @@
         :style="{ backgroundImage: option.titleBack, top: titleTop, left: titleLeft }">
         {{ option.title }}
       </div>
+      <div class="slotBox cc" :style="{ height: slotHeight, bottom: positionBottom }">
+        <slot />
+      </div>
   </div>
 </template>
 
@@ -30,6 +33,14 @@ export default {
     titleLeft: {
       type: String,
       default: '3%'
+    },
+    slotHeight: {
+      type: String,
+      default: '87%'
+    },
+    positionBottom: {
+      type: String,
+      default: '0'
     }
   }
 };
@@ -54,7 +65,7 @@ export default {
 }
 .title {
   width: 40%;
-  height: 10%;
+  height: 11%;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: absolute;
@@ -62,5 +73,10 @@ export default {
   justify-content: flex-start;
   align-items: center;
   padding-left: 4%;
+}
+.slotBox {
+  width: 100%;
+  // background: red;
+  position: absolute;
 }
 </style>
