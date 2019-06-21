@@ -54,7 +54,7 @@ export default {
 }
 .title {
   width: 40%;
-  height: 11%;
+  height: 10%;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: absolute;

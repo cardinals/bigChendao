@@ -29,7 +29,7 @@ export default {
 <style lang="less" scoped>
   .alertLeftModule {
     color: #ffffff;
-    width: 22%;
+    width: 24%;
     height: 95%;
     display: flex;
     flex-direction: column;

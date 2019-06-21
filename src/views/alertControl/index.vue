@@ -7,7 +7,7 @@
       :style="horn" />
       <div class="content cc">
         <div class="light" :style="{ backgroundImage: alert.light }" />
-        <div class="off" :style="{ backgroundImage: alert.off }" />
+        <div class="off" :style="{ backgroundImage: alert.off }" @click="offAlert" />
         <Left />
         <Center />
         <Right />
@@ -58,6 +58,12 @@ export default {
         off: "url(" + require('../../assets/event/off.png') + ")"
       }
     };
+  },
+  methods: {
+    offAlert() {
+      const passAlert = { showAlert: false };
+      this.$store.dispatch("showAlert", passAlert);
+    }
   }
 };
 </script>
@@ -65,10 +71,10 @@ export default {
 <style lang="less" scoped>
 .alertControl {
   width: 71%;
-  height: 81%;
+  height: 95%;
   // background: #ffffff;
   position: absolute;
-  top: 0;
+  top: -4%;
   left: 0;
   right: 0;
   bottom: 0;
@@ -101,7 +107,7 @@ export default {
       margin: 0 auto;
     }
     .off {
-      width: 1.5%;
+      width: 2%;
       height: 3%;
       background-repeat: no-repeat;
       background-size: 100% 100%;
@@ -110,6 +116,7 @@ export default {
       right: 0;
       margin: 1%;
       cursor: pointer;
+      z-index: 999;
     }
   }
 }

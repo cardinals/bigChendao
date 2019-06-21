@@ -3,11 +3,14 @@
     <Left />
     <Center />
     <Right />
-    <alertControl />
+    <transition name="el-zoom-in-top">
+      <alertControl v-if="isAlertBoolean" />
+    </transition>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Left from "./left";
 import Center from "./center";
 import Right from "./right"
@@ -16,7 +19,19 @@ export default {
   components: { Left, Center, Right, alertControl },
   data() {
     return {
-
+      isAlertBoolean: false
+    }
+  },
+  computed: {
+    ...mapState({
+      alertBoolean: state => state.eventAlert.alertBoolean
+    })
+  },
+  watch: {
+    alertBoolean(newVal, oldValue) {
+      if (newVal != oldValue) {
+        this.isAlertBoolean = newVal
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="alertRightModule">
-    <listModule :option="topData" position="top" titleTop="0" titleLeft="3%" />
+    <listModule :option="topData" position="top" titleTop="0" titleLeft="0%" />
     <listModule :option="bottomData" position="bottom" titleTop="8%" titleLeft="0" />
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 <style lang="less" scoped>
   .alertRightModule {
     color: #ffffff;
-    width: 22%;
+    width: 24%;
     height: 95%;
     display: flex;
     flex-direction: column;

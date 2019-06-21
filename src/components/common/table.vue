@@ -1,7 +1,11 @@
 <template>
   <div class="tableModule">
     <div class="titleBox">
-      <div class="title" v-for="(title, index) in tableTitle" :key="index">{{ title }}</div>
+      <div class="title"
+        v-for="(title, index) in tableTitle"
+        :key="index" @click="tabsEvent(index)">
+          {{ title }}
+      </div>
     </div>
     <div class="tableContent">
       <div class="content" 
@@ -37,12 +41,21 @@ export default {
   },
   data() {
     return {
-      
+      passAlert: {
+        tabNumber: 0,
+        pointId: null,
+        showAlert: true
+      }
     }
   },
   methods: {
+    tabsEvent(index) {
+      this.passAlert.tabNumber = index;
+    },
     pointEvent(index) {
-      console.log(index)
+      this.passAlert.pointId = index;
+      const passAlert = this.passAlert;
+      this.$store.dispatch("showAlert", passAlert);
     }
   }
 }
@@ -83,6 +96,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        cursor: pointer;
         .num {
           font-size: 16px;
           color: white;
@@ -94,9 +108,14 @@ export default {
           justify-content: flex-start;
           align-items: center;
           .desc {
+            width: 60%;
             font-size: 16px;
             color: white;
             margin-right: 5%;
+            // 超出宽度文字...
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
           .handle {
             font-size: 16px;
