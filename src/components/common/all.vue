@@ -1,13 +1,12 @@
 <template>
   <!-- 这个组件  暴露宽高 82px 20px-->
-  <div class="allModule" :style="{ width: width, height: height }">
+  <div class="allModule" :style="{ width: width, height: height }" @click="checkBox()">
     <p class="text">{{ text }}</p>
-    <div class="btn" :style="{ background: btnBack }">
+    <div class="btn" :style="{ background: isActive ? btnBack : btnBack1 }">
       <p 
         class="btns"
-        :style="item"
+        :style="{ background: isActive ? item.background : item.background1 }"
         v-for="(item, index) in btnStyle" :key="index"
-        @click="checkBox(index)"
       />
     </div>
   </div>
@@ -22,7 +21,7 @@ export default {
     },
     width: {
       type: String,
-      default: "20%"
+      default: "22%"
     },
     height: {
       type: String,
@@ -32,29 +31,26 @@ export default {
   data() {
     return {
       btnBack: "#101e47",
+      btnBack1: "#cacaca",
+      isActive: false,
       btnStyle: [
         {
-          width: "50%",
-          height: "100%",
           background: "transparent",
-          borderRadius: "50%"
+          background1: "#00e2ff"
         },
         {
-          width: "50%",
-          height: "100%",
           background: "#00e2ff",
-          borderRadius: "50%"
+          background1: "transparent"
         }
       ]
     };
   },
   methods: {
-    checkBox(index) {
-      index == 0
-        ? (this.btnStyle[0].background = "#00e2ff") &&
-          (this.btnStyle[1].background = "transparent")
-        : (this.btnStyle[0].background = "transparent") &&
-          (this.btnStyle[1].background = "#00e2ff");
+    checkBox() {
+      const self = this;
+      this.isActive = !this.isActive;
+      // 状态值寸公共仓库 0 or 1
+      this.$store.dispatch("layerChecked", Number(self.isActive));
     }
   }
 };
@@ -86,12 +82,6 @@ export default {
       background: #00e2ff;
       border-radius: 50%;
     }
-    // .btn2 {
-    //   width: 50%;
-    //   height: 100%;
-    //   background: #00e2ff;
-    //   border-radius: 50%;
-    // }
   }
 }
 </style>

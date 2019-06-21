@@ -1,6 +1,6 @@
 <template>
   <!--此组件外部可配置 
-    背景图 尺寸 title tabName titleHeight tabs的居中方式
+    背景图 尺寸 title tabName titleHeight tabs的居中方式 .slot的高度
   -->
   <div class="commonModule" 
     :style="{ backgroundImage: back, width: width, height: height }"
@@ -9,7 +9,7 @@
       :style="{ backgroundImage: titleBack, height: titleHeight }">
       {{ title }}
     </div>
-    <div class="blueLine" v-if="blue != 'none'">
+    <div class="blueLine" :style="{ height: blueLineHeight }" v-if="blue != 'none'">
       <P    
         class="tabName"
         v-for="(tab, index) in tabs"
@@ -21,6 +21,10 @@
       </P>
       <!--全选切换-->
       <all v-if="all == 'yes'" text="全选" />
+    </div>
+    <!--插槽-->
+    <div class="slot" :style="{ height: slotHeight }">
+      <slot />
     </div>
   </div>
 </template>
@@ -66,6 +70,14 @@ export default {
     blue: {
       type: String,
       default: ''
+    },
+    slotHeight: {
+      type: String,
+      default: '73%'
+    },
+    blueLineHeight: {
+      type: String,
+      default: "13%"
     }
   },
   components: { all },
@@ -76,7 +88,10 @@ export default {
     }
   },
   methods: {
-    tabEvent(index) { this.defaultNum = index }
+    tabEvent(index) { 
+      this.defaultNum = index;
+      this.$emit('propEvent', index);
+    }
   }
 }
 </script>
@@ -95,7 +110,7 @@ export default {
     }
     .blueLine {
       width: 100%;
-      height: 13%;
+      // height: 13%;
       widows: 100%;
       background-color: rgba(0, 226, 255, 0.1);
       padding-left: 6%;
@@ -114,6 +129,13 @@ export default {
         color: #00e2ff;
         border-bottom: 2px solid #00e2ff;
       }
+    }
+    .slot {
+      width: 100%;
+      // height: 73%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 </style>
