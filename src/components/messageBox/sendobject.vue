@@ -10,19 +10,19 @@
                 <el-table-column
                         type="index"
                         label="序号"
-                        width="55"
+                        width="65"
                 >
                 </el-table-column>
                 <el-table-column
                         prop="name"
                         label="姓名"
-                        width="120"
+                        show-overflow-tooltip
                 >
                 </el-table-column>
                 <el-table-column
                         prop="phone"
                         label="联系方式"
-
+                        show-overflow-tooltip
                        >
                 </el-table-column>
 
@@ -33,53 +33,29 @@
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
                         :current-page="currentPage4"
-                        :page-sizes="[100, 200, 300, 400]"
-                        :page-size="100"
+                        :page-sizes="[10, 20, 40, 80]"
+                        :page-size="10"
                         style="float: right"
                         layout="total, sizes, prev, pager, next, jumper"
-                        :total="400">
+                        :total="total">
                 </el-pagination>
             </div>
         </el-dialog>
 </template>
 
 <script>
-export default {
+    import { addressbookList, } from "@/api/eventManagement/event.js";
 
+export default {
     data() {
         return {
             dialogTableVisible:false,
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                phone: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
-            currentPage4: 1
+            currentPage4: 1,
+            page:1,
+            limit:10,
+            total:0,
         }
     },
     created() {
@@ -87,21 +63,37 @@ export default {
     },
     methods: {
         show (data) {
-            console.log(data)
             this.dialogTableVisible = true
+            this.addressbookList(data)
         },
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.addressbookList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.addressbookList()
         },
         handleSelectionChange() {
 
         },
         toggleSelection() {
             this.dialogTableVisible = false
-        }
+        },
+        addressbookList (sendPeopleId) {
+            let data = {
+                organizationId : 1,
+                sendPeopleId:sendPeopleId,
+                page:this.page,
+                limit:this.limit,
+            }
+            addressbookList(data).then(res => {
+                if(res.data.code == 200) {
+                    this.tableData = res.data.data.records
+                    this.total = res.data.data.total
+                }
+            })
+        },
     }
 }
 </script>

@@ -4,23 +4,23 @@
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="140px">
 
                 <el-col :span="24">
-                    <el-form-item label="事件名称 :">
+                    <el-form-item label="事件名称 :" prop="eventName">
                         <el-input
                                 size="medium"
                                 placeholder="请填写事件名称"
                                 class="customized_input"
-                                v-model="ruleForm.input2">
+                                v-model="ruleForm.eventName">
                         </el-input>
                         （必填，不超过10个字符）
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="事件描述 :">
+                    <el-form-item label="事件描述 :" >
                         <el-input
                                 class="textareaheight"
                                 type="textarea"
                                 placeholder="请填写事件描述"
-                                v-model="ruleForm.textarea"
+                                v-model="ruleForm.eventDescription"
                                 maxlength="200"
                                 :rows="4"
                                 style="width: 50%;"
@@ -31,42 +31,45 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="所属事件分组 :" prop="mailList">
-                        <el-select v-model="ruleForm.mailList"  class="customized_input" placeholder="分组" size="medium" >
+                    <el-form-item label="所属事件分组 :" prop="groupName">
+                        <el-select v-model="ruleForm.groupName"  class="customized_input" placeholder="请选择事件分组" size="medium" >
                             <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in eventgroupAllLists"
+                                    :key="item.groupId"
+                                    :label="item.groupName"
+                                    :value="item.groupId">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
                     <el-form-item label="事件发生时间 :">
-                        <el-input
+                        <el-date-picker
+                                v-model="ruleForm.datas"
                                 size="medium"
-                                placeholder="请输入内容"
                                 class="customized_input"
-                                v-model="ruleForm.input2">
-                        </el-input>
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期">
+                        </el-date-picker>
                         <el-time-picker
                                 style="margin-left: 10px"
                                 class="customized_input"
-                                v-model="value"
+                                v-model="ruleForm.times"
                                 size="medium"
+                                value-format="HH:mm:ss"
                                 placeholder="选择时间">
                         </el-time-picker>
-                        （必填，不超过10个字符）
+
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="事件发生地 :">
+                    <el-form-item label="事件发生地 :" prop="eventAddr">
                         <el-input
                                 size="medium"
                                 placeholder="请输入事件发生地"
                                 class="customized_input"
-                                v-model="ruleForm.input2">
+                                v-model="ruleForm.eventAddr">
                         </el-input>
                         （必填，不超过10个字符）
                     </el-form-item>
@@ -77,24 +80,24 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="事件状态 :" prop="mailList">
-                        <el-select v-model="ruleForm.mailList"  class="customized_input" placeholder="待处理" size="medium" >
+                    <el-form-item label="事件状态 :" prop="eventState">
+                        <el-select v-model="ruleForm.eventState"  class="customized_input" placeholder="请选择事件状态" size="medium" >
                             <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in eventStateoptions"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="事件描述 :">
+                    <el-form-item label="完结描述 :">
                         <el-input
                                 class="textareaheight"
                                 type="textarea"
                                 placeholder="请填写事件描述"
-                                v-model="ruleForm.textarea"
+                                v-model="ruleForm.endDescription"
                                 maxlength="300"
                                 :rows="4"
                                 style="width: 50%;"
@@ -113,48 +116,108 @@
 </template>
 
 <script>
-export default {
+
+    import { eventmanagementInsert ,eventgroupAllList} from "@/api/eventManagement/event.js";
+
+    export default {
     data() {
         return {
             value: '',
             ruleForm:{
-                input2:'',
-                value:'',
-                textarea:''
+                eventName:'',
+                eventDescription:'',
+                groupName:'',
+                datas:'',
+                times:'',
+                eventAddr:'',
+                eventState:'',
+                endeventDescription:''
             },
+            eventStateoptions:[{id:0,name:'待处理'},{id:1,name:'处置中'},{id:2,name:'已完结'}],
+            eventgroupAllLists:[],//事件分组
             rules: {
-                name: [
-                    { required: true, message: '请选择事件分组', trigger: 'change' },
+                eventName: [
+                    { required: true, message: '请输入事件名称', trigger: 'blur' },
                 ],
-                mailList: [
-                    { required: true, message: '请输入事件名称', trigger: 'blur' }
+                groupName: [
+                    { required: true, message: '请选择所属事件分组', trigger: 'change' }
                 ],
-                textarea: [
-                    { required: true, message: '请输入预案内容', trigger: 'change' }
+                eventAddr: [
+                    { required: true, message: '请输入事件发生地', trigger: 'blur' }
+                ],
+                eventState: [
+                    { required: true, message: '请选择事件状态', trigger: 'change' }
                 ],
             },
             options:[],
         }
     },
     created() {
-
+        this.eventgroupAllList()
     },
     methods: {
         goback () {
             this.$router.go(-1)
         },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
+        //获取事件分组
+        eventgroupAllList () {
+            let data = {
+                organizationId : 1,
+            }
+            eventgroupAllList(data).then(res => {
+                if(res.data.code == 200) {
+                    this.eventgroupAllLists = res.data.data
+                }
+            })
         },
-        handlePreview(file) {
-            console.log(file);
+        //新增
+        eventmanagementInsert () {
+
+            let dataTIme = this.ruleForm.datas + ' ' + this.ruleForm.times
+            let groupNames = ''
+            this.eventgroupAllLists.forEach(item => {
+                if(item.groupId == this.ruleForm.groupName) {
+                    groupNames = item.groupName
+                }
+            })
+            let data = {
+                eventName:this.ruleForm.eventName,	                //	事件名称
+                eventAddr:this.ruleForm.eventAddr,	                //	事件地点
+                eventDescription:this.ruleForm.eventDescription,	//	事件描述/事件名称
+                eventState:this.ruleForm.eventState,	            //	事件状态，0：待处理；1：处置中；2：已完结
+                endDescription:	this.ruleForm.endDescription,       //	完结描述，如是假事件，取消警报的，则是取消警报描述
+                happenedTime:dataTIme,                              //  事件发生时间
+                lng: null ,                                         //  经度 暂时木有
+                lat	: null,                                         //  维度
+                eventType:0,                                        //	事件类型，0：人工录入；1：设备录入
+                sendPeopleId:null,	                                //	短信接收人ID(t_address_book.addr_book_id)
+                message:null,                                       //	短信内容
+                groupId:this.ruleForm.groupName,                    //	所属分组ID
+                groupName:groupNames,                               //	所属分组名称
+                organizationId:1,	                                //	组织ID
+
+            }
+            eventmanagementInsert(data).then(res => {
+                if(res.data.code == 200) {
+                    this.$message({
+                        message: '添加成功！',
+                        type: 'success'
+                    });
+                    this.goback()
+                }else {
+                    this.$message.error(res.data.data.message);
+                }
+            })
         },
-        handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.eventmanagementInsert()
+                } else {
+                    return false;
+                }
+            });
         },
-        beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${ file.name }？`);
-        }
     }
 }
 </script>

@@ -48,9 +48,9 @@
                         label="状态"
                         show-overflow-tooltip>
                     <template slot-scope="scope" >
-                        <spna v-if="scope.row.status == 0" style="color: #04f3a3">在线</spna>
-                        <spna v-if="scope.row.status == 1" style="color: #9ca5a2">离线</spna>
-                        <spna v-if="scope.row.status == 2" style="color: red">报警</spna>
+                        <span v-if="scope.row.status == 0" style="color: #04f3a3">在线</span>
+                        <span v-if="scope.row.status == 1" style="color: #9ca5a2">离线</span>
+                        <span v-if="scope.row.status == 2" style="color: red">报警</span>
                     </template>
                 </el-table-column>
                 <el-table-column

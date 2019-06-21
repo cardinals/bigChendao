@@ -191,7 +191,6 @@
                 baseinfoallList(data).then(res => {
                     if (res.data.code == 200) {
                         let data = res.data.data
-                        console.log(data)
                         this.options = data
                     }
                 })

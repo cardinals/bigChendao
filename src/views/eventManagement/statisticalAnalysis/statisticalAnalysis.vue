@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    import { eventmanagementStatsanal, } from "@/api/eventManagement/event.js";
     import echarts from 'echarts/lib/echarts';
     // 引入柱状图
     import 'echarts/lib/chart/bar';
@@ -28,12 +29,26 @@
     export default {
         data() {
             return {
-                dataArr:["0点","2点","4点","6点","8点","10点","12点","14点","16点","18点","20点","22点","24点"],
-                screenWidth:document.body.clientWidth,
+                StatsanalList:{},
+                dataArr:[],
+                drawLinelist:{
+                    xAxislist:[],
+                    yAxislist:[]
+                },
+                drawpielist:{
+                    xAxislist:[],
+                    yAxislist:[]
+                },
+                drawbarlist:{
+                    xAxislist:[],
+                    yAxislist1:[],
+                    yAxislist2:[]
+                },
             }
         },
         created() {
             this.getdaynoworold()
+            this.eventmanagementStatsanal()
         },
         mounted() {
             this.drawLine()
@@ -53,8 +68,8 @@
 
         },
         watch: {
-            // pieData: function (){
-            //     this.initData()
+            // this.drawpielist.xAxislist (){
+            //     this.drawLine()
             // }
 
         },
@@ -71,8 +86,8 @@
                     },
                     xAxis: {
                         type: 'category',
-                        boundaryGap: false,
-                        data: this.dataArr
+                        // boundaryGap: false,
+                        data: this.drawpielist.xAxislist
                     },
                     yAxis: [{
                         name:'事件处理率%'
@@ -81,7 +96,7 @@
                         {
                             name:'处理率',
                             type:'line',
-                            data:[22, 33, 44, 55,66, 43, 80,34,43,55,67,89,23],
+                            data:this.drawpielist.yAxislist,
                             markLine : {
                                 data : [
                                     {type : 'average', name: '平均值'}
@@ -103,7 +118,7 @@
                     },
 
                     xAxis: {
-                        data: this.dataArr
+                        data: this.drawLinelist.xAxislist
                     },
                     yAxis: [{
                         name:'近一周发生事件数'
@@ -112,7 +127,7 @@
                         {
                             name:'进入量',
                             type:'line',
-                            data:[22, 33, 44, 55,66, 43, 80,34,43,55,67,89,23],
+                            data:this.drawLinelist.yAxislist,
 
                             markLine : {
                                 data : [
@@ -129,25 +144,83 @@
                 let myChart_b = echarts.init(document.getElementById('myChartbottom'))
                 // 绘制图表
                 myChart_b.setOption({
-                    legend: {},
-                    tooltip: {},
-                    dataset: {
-                        dimensions: ['product', '2015', '2016', '2017'],
-                        source: [
-                            {product: 'Matcha Latte', '2015': 43.3, '2016': 85.8, '2017': 93.7},
-                            {product: 'Milk Tea', '2015': 83.1, '2016': 73.4, '2017': 55.1},
-                            {product: 'Cheese Cocoa', '2015': 86.4, '2016': 65.2, '2017': 82.5},
-                            {product: 'Walnut Brownie', '2015': 72.4, '2016': 53.9, '2017': 39.1}
-                        ]
+
+                    tooltip: { //触发鼠标经过 弹窗
+                        show: true,
+                        trigger: 'axis'
                     },
-                    xAxis: {type: 'category'},
-                    yAxis: {},
-                    // Declare several bar series, each will be mapped
-                    // to a column of dataset.source by default.
+                    legend: {
+                        data:['待处理','已处理','处理中']
+                    },
+                    xAxis: {
+                        type: 'category',
+                        data: this.drawbarlist.xAxislist,
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
                     series: [
-                        {type: 'bar'},
-                        {type: 'bar'},
-                        {type: 'bar'}
+                        {
+                            name:'待处理',
+                            data: [120, 200, 150, 80, 70, 110, 130],
+                            type: 'bar',
+                            barWidth: '30', //柱形图宽度
+                            itemStyle: {
+                                normal: {
+                                    color: '#ff79bc', //背景色
+                                    label: { // 在柱形图上显示具体数据
+                                        show: true,
+                                        position: 'top', // 所在的位置
+                                        textStyle: { // 数据展示的样式
+                                            fontSize: '20',
+                                            fontWeight: 'bold',
+                                            color: 'skyblue'
+                                        }
+                                    },
+                                }
+                            }
+                        },
+                        {
+                            name:'已处理',
+                            data: [120, 200, 150, 80, 70, 110, 130],
+                            type: 'bar',
+                            barWidth: '30', //柱形图宽度
+                            itemStyle: {
+                                normal: {
+                                    color: 'pink', //背景色
+                                    label: { // 在柱形图上显示具体数据
+                                        show: true,
+                                        position: 'top', // 所在的位置
+                                        textStyle: { // 数据展示的样式
+                                            fontSize: '20',
+                                            fontWeight: 'bold',
+                                            color: 'skyblue'
+                                        }
+                                    },
+                                }
+                            }
+                        },
+                        {
+                            name:'处理中',
+                            data: [120, 200, 150, 80, 70, 110, 130],
+                            type: 'bar',
+                            barWidth: '30', //柱形图宽度
+                            itemStyle: {
+                                normal: {
+                                    color: '#00e3e3', //背景色
+                                    label: { // 在柱形图上显示具体数据
+                                        show: true,
+                                        position: 'top', // 所在的位置
+                                        textStyle: { // 数据展示的样式
+                                            fontSize: '20',
+                                            fontWeight: 'bold',
+                                            color: 'skyblue'
+                                        }
+                                    },
+                                }
+                            }
+                        }
+
                     ]
                 })
             },
@@ -156,12 +229,12 @@
                 for (var i=-1;i>=-7;i--) {
                     datalist.push( this.getDay(i) )
                 }
-                this.dataArr = datalist
+                this.dataArr = datalist.reverse()
             },
             getDay(day){
                 let today = new Date();
                 let targetday_milliseconds=today.getTime() + 1000*60*60*24*day;
-                today.setTime(targetday_milliseconds); //注意，这行是关键代码
+                today.setTime(targetday_milliseconds);
                 let tYear = today.getFullYear();
                 let tMonth = today.getMonth();
                 let tDate = today.getDate();
@@ -177,6 +250,36 @@
                 }
                 return m;
             },
+            eventmanagementStatsanal () {
+                let data = {
+                    organizationId : 1,
+                }
+                eventmanagementStatsanal(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.StatsanalList = res.data.data
+                        let datalist =  res.data.data
+                        //事件数
+                        datalist.eventCount.map(item => {
+                            this.drawLinelist.xAxislist.push(item.days.slice(5))
+                            this.drawLinelist.yAxislist.push(item.count)
+                        })
+                        //事件处理率
+                        datalist.treatmentRate.map(item => {
+                            this.drawpielist.xAxislist.push(item.days.slice(5))
+                            this.drawpielist.yAxislist.push(item.rate.substring(0,item.rate.length-1) )
+                        })
+                        //上报事件处理情况统计
+                        datalist.treatmentSituation.map(item => {
+                            this.drawbarlist.xAxislist.push(item.days.slice(5))
+                            this.drawbarlist.yAxislist1.push(item.count)
+                            this.drawbarlist.yAxislist2.push(item.state)
+                        })
+                        this.drawLine()
+                        this.drawpie()
+                        this.drawbar()
+                    }
+                })
+            },
         }
     }
 </script>
@@ -189,7 +292,7 @@
         overflow: hidden;
     }
     .consoles .left {
-        width: 770px;
+        width: 47%;
         height: 420px;
         background-color: #f1f6fc;
         border-radius: 4px;
@@ -197,16 +300,16 @@
         margin-bottom: 40px;
     }
     .consoles .right {
-        width: 770px;
+        width: 47%;
         height: 420px;
         float: right;
         background-color: #f1f6fc;
         border-radius: 4px;
-        margin-left: 60px;
+        margin-left: 40px;
         margin-bottom: 40px;
     }
     .consoles .bottom {
-        width: 1500px;
+        width: 100%;
         height: 500px;
         overflow: hidden;
         background-color: #f1f6fc;

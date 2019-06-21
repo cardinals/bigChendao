@@ -1,8 +1,8 @@
 <template>
     <div class="layer">
         <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">事件名称：
-            <el-input v-model="input" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
+            <el-input v-model="keyword" style="width: 300px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-button size="medium" style="margin-left: 10px" type="primary" @click="findkeyword">查询</el-button>
             <el-button size="medium" @click="addgroup" style="float: right" type="warning">添加事件</el-button>
         </div>
 
@@ -28,42 +28,41 @@
                 </el-table-column>
                 <el-table-column
                         label="事件编号"
-                        width="120"
-                        prop="date"
-                >
-                    <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
+                        prop="eventCode"
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="eventAddr"
                         label="事件发生地点"
-                        width="120">
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="eventName"
                         label="事件名称"
-                        width="180"
-                        >
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="groupName"
                         label="事件分组"
-                        width="120">
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="name"
                         label="事件状态"
-                        width="120">
+                        show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.eventState == 0" style="color: #04f3a3">待处理</span>
+                        <span v-if="scope.row.eventState == 1" style="color: #9ca5a2">处置中</span>
+                        <span v-if="scope.row.eventState == 2" style="color: red">已完结</span>
+                    </template>
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="endDescription"
                         label="完美描述"
-                        width="120"
-                        >
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="发生时间"
-
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -78,7 +77,7 @@
                 </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -97,91 +96,134 @@
 </template>
 
 <script>
-export default {
+    import { eventmanagementlList, eventmanagementDelete, eventmanagementDeletebatch } from "@/api/eventManagement/event.js";
+    export default {
     data() {
         return {
             input:"",
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
-            currentPage4: 1
-
+            currentPage4: 1,
+            dayNum:null, //天数
+            keyword:'',
+            page:1,
+            limit:10,
+            total:0,
+            disabledDelete:true
         }
+    },
+    created () {
+        this.eventmanagementlList()
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.eventmanagementlList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.eventmanagementlList()
+        },
+        findkeyword () {
+            this.eventmanagementlList()
         },
         addgroup () {
             this.$router.push({
                 path: "/eventManagement/event/addevent",
             })
         },
-        //批量删除
-        toggleSelection() {
-
-        },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
         //编辑
-        handleClick () {
+        handleClick (row){
             this.$router.push({
                 path: "/eventManagement/event/seeevent",
+                query:{
+                    id:row.eventId
+                }
             })
         },
-        //删除
-        handleClickdeleta () {
-
-                this.$confirm(' ', '确认要删除吗?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    center: true,
-                    customClass:"massagebox"
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+        //批量删除
+        toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.eventId)
+            })
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                eventmanagementDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.eventmanagementlList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
+            });
+        },
+        //删除
+        handleClickdeleta (row) {
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                eventmanagementDelete(row.eventId).then(res => {
+                    if(res.data.code == 200) {
+                        this.eventmanagementlList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        eventmanagementlList () {
+            let data = {
+                organizationId:1,
+                dayNum:this.dayNum, //驾驶人
+                keyword:this.keyword,
+                page:this.page,
+                limit:this.limit,
+            }
+            eventmanagementlList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+                    this.total = data.total
 
-        }
+                }
+            })
+        },
+
     }
 }
 </script>
