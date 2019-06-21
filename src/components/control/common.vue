@@ -9,7 +9,7 @@
       :style="{ backgroundImage: titleBack, height: titleHeight }">
       {{ title }}
     </div>
-    <div class="blueLine" v-if="blue != 'none'">
+    <div class="blueLine" :style="{ height: blueLineHeight }" v-if="blue != 'none'">
       <P    
         class="tabName"
         v-for="(tab, index) in tabs"
@@ -74,6 +74,10 @@ export default {
     slotHeight: {
       type: String,
       default: '73%'
+    },
+    blueLineHeight: {
+      type: String,
+      default: "13%"
     }
   },
   components: { all },
@@ -106,7 +110,7 @@ export default {
     }
     .blueLine {
       width: 100%;
-      height: 13%;
+      // height: 13%;
       widows: 100%;
       background-color: rgba(0, 226, 255, 0.1);
       padding-left: 6%;
