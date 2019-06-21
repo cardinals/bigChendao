@@ -4,7 +4,10 @@
       <div class="title" v-for="(title, index) in tableTitle" :key="index">{{ title }}</div>
     </div>
     <div class="tableContent">
-      <div class="content" v-for="(article, index) in record" :key="index">
+      <div class="content" 
+        v-for="(article, index) in record" 
+        :key="index" 
+        @click="pointEvent(index)">
         <p class="num">{{ article.number }}</p>
         <div class="descBox">
           <p class="desc">{{ article.desc }}</p>
@@ -35,6 +38,11 @@ export default {
   data() {
     return {
       
+    }
+  },
+  methods: {
+    pointEvent(index) {
+      console.log(index)
     }
   }
 }

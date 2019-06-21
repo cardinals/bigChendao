@@ -3,6 +3,7 @@
     <Left />
     <Center />
     <Right />
+    <alertControl />
   </div>
 </template>
 
@@ -10,13 +11,14 @@
 import Left from "./left";
 import Center from "./center";
 import Right from "./right"
+import alertControl from "@/views/alertControl/index"
 export default {
+  components: { Left, Center, Right, alertControl },
   data() {
     return {
 
     }
-  },
-  components: { Left, Center, Right}
+  }
 }
 </script>
 
