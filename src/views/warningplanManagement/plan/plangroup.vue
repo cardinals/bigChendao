@@ -8,7 +8,7 @@
             </el-tabs>
 
             {{activeName}}名称：
-            <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
+            <el-input v-model="keyword" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
             <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
             <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加{{activeName}}</el-button>
 
@@ -36,19 +36,18 @@
                 </el-table-column>
                 <el-table-column
                         label="预案名称"
-                        width="120"
-                        prop="date"
-                >
+                        prop="planName"
+                        show-overflow-tooltip>
                     <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="事件分组"
-                        width="120">
+                        label="事件分组名称"
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                         prop="address"
-                        label="内容"
+                        label="预案数量"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -67,16 +66,16 @@
                 </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -86,116 +85,146 @@
 </template>
 
 <script>
-export default {
-    data() {
-        return {
-            input:'',
-            options:'',
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
-            multipleSelection: [],
-            currentPage4: 1,
-            activeName:'预案'
+    import { emergencyplanList,emergencyplanDelete,emergencyplanDeletebatch } from "@/api/warningplanManagement/warningplan.js";
 
-        }
-    },
-    methods: {
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-        },
-        routerJump () {
-            if (this.activeName == '事件分组') {
-                this.$router.push({
-                    path: "/warningplanManagement/planManagement/addeventlist",
-                    query:{
-                        name:this.activeName,
-                        type:1
-                    },
-                })
-            }else {
-                this.$router.push({
-                    path: "/warningplanManagement/planManagement/addplan",
-                    query:{
-                        name:this.activeName,
-                        type:1
-                    },
-                })
+    export default {
+        data() {
+            return {
+                input:'',
+                options:'',
+                tableData: [],
+                activeName:'预案',
+                multipleSelection: [],
+                currentPage4: 1,
+                groupId:'',
+                keyword:'',
+                page:1,
+                limit:10,
+                total:0,
+                disabledDelete:true
             }
         },
-        addactiveName () {
-            this.routerJump()
+        created () {
+            this.emergencyplanList()
         },
-        //批量删除
-        toggleSelection() {
+        methods: {
+            handleSizeChange(val) {
+                this.limit = val
+                this.emergencyplanList()
+            },
+            handleCurrentChange(val) {
+                this.page = val
+                this.emergencyplanList()
+            },
+            findkeyword () {
+                this.emergencyplanList()
+            },
+            handleClicktab() {
 
-        },
-        //选中的
-        handleSelectionChange(val) {
-            this.multipleSelection = val;
-        },
-        //编辑
-        handleClick () {
-            this.routerJump()
-        },
-        //
-        handleClicktab(tab, event) {
-                // console.log(tab, event);
-                console.log(this.activeName)
-
-        },
-        //删除
-        handleClickdeleta () {
-
+            },
+            //添加
+            addactiveName () {
+                this.$router.push({
+                    path: "/warningplanManagement/warningManagement/addwarning",
+                    query:{
+                        type:1
+                    },
+                })
+            },
+            //编辑
+            handleClick (row) {
+                this.$router.push({
+                    path: "/warningplanManagement/warningManagement/addwarning",
+                    query:{
+                        id:row.id
+                    }
+                })
+            },
+            //选中的
+            handleSelectionChange(val) {
+                if(val.length>0) {
+                    this.disabledDelete = false
+                }else {
+                    this.disabledDelete = true
+                }
+                this.multipleSelection = val;
+            },
+            //批量删除
+            toggleSelection() {
+                let ids = []
+                this.multipleSelection.map(item => {
+                    ids.push(item.id)
+                })
+                let dataids = ids.join(',')
+                let data = {
+                    ids :dataids
+                }
                 this.$confirm(' ', '确认要删除吗?', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     center: true,
                     customClass:"massagebox"
                 }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
+                    emergencyplanDeletebatch(data).then(res => {
+                        if(res.data.code == 200) {
+                            this.emergencyplanList()
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        }
+                    })
                 }).catch(() => {
                     this.$message({
                         type: 'info',
                         message: '已取消删除'
                     });
                 });
+            },
+            //删除
+            handleClickdeleta (row) {
+                this.$confirm(' ', '确认要删除吗?', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    center: true,
+                    customClass:"massagebox"
+                }).then(() => {
+                    emergencyplanDelete(row.id).then(res => {
+                        if(res.data.code == 200) {
+                            this.emergencyplanList()
+                            this.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+            },
+            emergencyplanList () {
+                let data = {
+                    organizationId:1,
+                    groupId:this.groupId,
+                    keyword:this.keyword,
+                    page:this.page,
+                    limit:this.limit,
+                }
+                emergencyplanList(data).then(res => {
+                    if(res.data.code == 200) {
+                        let data = res.data.data
+                        this.tableData = data.records
+                        this.total = data.total
+                    }
+                })
+            },
 
         }
+
     }
-}
 </script>
 
 <style scoped>

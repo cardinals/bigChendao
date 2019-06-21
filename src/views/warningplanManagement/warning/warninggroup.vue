@@ -1,14 +1,8 @@
 <template>
     <div class="resource">
 
-        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;">
-
-            姓名：
-            <el-input v-model="input" style="width: 300px;margin-right: 10px" size="medium" placeholder="请输入关键词进行搜索"></el-input>
-            <el-button size="medium" style="margin-left: 10px" type="primary">查询</el-button>
-
+        <div style="font-size: 14px;margin-bottom: 20px;box-sizing: border-box;padding: 0 0 0 20px;overflow: hidden">
             <el-button size="medium" @click="addactiveName" style="float: right" type="warning">添加预警</el-button>
-
         </div>
 
         <div style="box-sizing: border-box;padding: 0 0 0 20px;">
@@ -33,23 +27,22 @@
                 </el-table-column>
                 <el-table-column
                         label="景点名称"
-                        width="120"
-                        prop="date"
-                >
+                        prop="scenicName"
+                        show-overflow-tooltip>
                     <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
                 </el-table-column>
                 <el-table-column
-                        prop="name"
+                        prop="warningValue"
                         label="预警值"
-                        width="120">
+                        show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="planName"
                         label="推荐预案"
                         show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
@@ -64,16 +57,16 @@
                 </el-table-column>
             </el-table>
             <div style="margin-top: 20px">
-                <el-button type="warning" @click="toggleSelection()">批量删除</el-button>
+                <el-button type="warning" :disabled="disabledDelete" @click="toggleSelection()">批量删除</el-button>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
                             :current-page="currentPage4"
-                            :page-sizes="[100, 200, 300, 400]"
-                            :page-size="100"
+                            :page-sizes="[10, 20, 40, 80]"
+                            :page-size="10"
                             style="float: right"
                             layout="total, sizes, prev, pager, next, jumper"
-                            :total="400">
+                            :total="total">
                     </el-pagination>
             </div>
         </div>
@@ -83,102 +76,135 @@
 </template>
 
 <script>
+    import { earlywarningList,earlywarningDelete,earlywarningDeletebatch } from "@/api/warningplanManagement/warningplan.js";
 export default {
     data() {
         return {
             input:'',
             options:'',
-            tableData: [{
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-08',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-06',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-07',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableData: [],
             multipleSelection: [],
             currentPage4: 1,
-            activeName:'监控'
-
+            page:1,
+            limit:10,
+            total:0,
+            disabledDelete:true
         }
+    },
+    created () {
+        this.earlywarningList()
     },
     methods: {
         handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
+            this.limit = val
+            this.earlywarningList()
         },
         handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            this.page = val
+            this.earlywarningList()
         },
+        findkeyword () {
+            this.earlywarningList()
+        },
+        //添加
         addactiveName () {
             this.$router.push({
                 path: "/warningplanManagement/warningManagement/addwarning",
                 query:{
                     type:1
                 },
-
             })
-
-        },
-        //批量删除
-        toggleSelection() {
-
         },
         //选中的
         handleSelectionChange(val) {
+            if(val.length>0) {
+                this.disabledDelete = false
+            }else {
+                this.disabledDelete = true
+            }
             this.multipleSelection = val;
         },
-        //编辑
-        handleClick () {
-            this.$router.push({
-                path: "/warningplanManagement/warningManagement/addwarning",
+        //批量删除
+        toggleSelection() {
+            let ids = []
+            this.multipleSelection.map(item => {
+                ids.push(item.id)
             })
-        },
-        //
-        handleClicktab(tab, event) {
-                console.log(this.activeName)
+            let dataids = ids.join(',')
+            let data = {
+                ids :dataids
+            }
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                earlywarningDeletebatch(data).then(res => {
+                    if(res.data.code == 200) {
+                        this.earlywarningList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         },
         //删除
-        handleClickdeleta () {
-
-                this.$confirm(' ', '确认要删除吗?', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    center: true,
-                    customClass:"massagebox"
-                }).then(() => {
-                    this.$message({
-                        type: 'success',
-                        message: '删除成功!'
-                    });
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
+        handleClickdeleta (row) {
+            this.$confirm(' ', '确认要删除吗?', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true,
+                customClass:"massagebox"
+            }).then(() => {
+                earlywarningDelete(row.id).then(res => {
+                    if(res.data.code == 200) {
+                        this.earlywarningList()
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                    }
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
                 });
+            });
+        },
+        //编辑
+        handleClick (row) {
+            this.$router.push({
+                path: "/warningplanManagement/warningManagement/addwarning",
+                query:{
+                    id:row.id
+                }
+            })
+        },
+        earlywarningList () {
+            let data = {
+                organizationId:1,
+                page:this.page,
+                limit:this.limit,
+            }
+            earlywarningList(data).then(res => {
+                if(res.data.code == 200) {
+                    let data = res.data.data
+                    this.tableData = data.records
+                    this.total = data.total
 
-        }
+                }
+            })
+        },
+
     }
 }
 </script>

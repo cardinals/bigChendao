@@ -101,8 +101,8 @@ export default {
       margin: 0 auto;
     }
     .off {
-      width: 2.5%;
-      height: 4.5%;
+      width: 1.5%;
+      height: 3%;
       background-repeat: no-repeat;
       background-size: 100% 100%;
       position: absolute;

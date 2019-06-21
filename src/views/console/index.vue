@@ -104,7 +104,6 @@ export default {
 
                 },
                 legend: {
-
                     data:['进入量','流入量']
                 },
                 xAxis: {

@@ -4,7 +4,7 @@
             <Header></Header>
         </el-header>
         <el-container>
-            <el-aside width="auto">
+            <el-aside width="auto;">
                 <Menume></Menume>
             </el-aside>
             <el-container style="background: white">
