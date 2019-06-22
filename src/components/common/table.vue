@@ -3,7 +3,7 @@
     <div class="titleBox">
       <div class="title"
         v-for="(title, index) in tableTitle"
-        :key="index" @click="tabsEvent(index)">
+        :key="index">
           {{ title }}
       </div>
     </div>
@@ -42,16 +42,12 @@ export default {
   data() {
     return {
       passAlert: {
-        tabNumber: 0,
         pointId: null,
         showAlert: true
       }
     }
   },
   methods: {
-    tabsEvent(index) {
-      this.passAlert.tabNumber = index;
-    },
     pointEvent(index) {
       this.passAlert.pointId = index;
       const passAlert = this.passAlert;

@@ -8,6 +8,7 @@
       blueLineHeight="7%"
       titleHeight="7%"
       slotHeight="76%"
+      :isAlert="true"
       @propEvent="receiveEvent"
       :style="{ backgroundImage: datas.back }">
       <tableModule :tableTitle="tableTitle1" :record="record1" v-if="dataNumber == 0" />

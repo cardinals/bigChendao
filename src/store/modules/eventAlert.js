@@ -1,5 +1,6 @@
 const state = {
-  alertBoolean: false
+  alertBoolean: false,
+  tabNumber: 0,
 }
 
 const mutations = {
@@ -10,13 +11,15 @@ const mutations = {
 
 const actions = {
   // passAlert: {
-  //   tabNumber: 0,
   //   pointId: null,
   //   showAlert: true
   // }
   showAlert(context, passAlert) {
     const isBoolean = passAlert.showAlert;
     context.commit("setState", { key: "alertBoolean", value: isBoolean });
+  },
+  saveTabNumber(context, tabNumber) {
+    context.commit("setState", { key: "tabNumber", value: tabNumber });
   }
 }
 

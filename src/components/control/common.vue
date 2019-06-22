@@ -15,7 +15,7 @@
         v-for="(tab, index) in tabs"
         :key="index"
         :class="border == 'none'? '' : defaultNum == index ? 'addClass' : ''"
-        @click="border == 'none' ? '' : tabEvent(index)"
+        @click="border == 'none' ? '' : border == '' && isAlert ? tabEvent2(index) : tabEvent1(index)"
       >
           {{ tab }}
       </P>
@@ -78,6 +78,10 @@ export default {
     blueLineHeight: {
       type: String,
       default: "13%"
+    },
+    isAlert: {
+      type: Boolean,
+      default: false
     }
   },
   components: { all },
@@ -88,9 +92,15 @@ export default {
     }
   },
   methods: {
-    tabEvent(index) { 
+    tabEvent1(index) {
       this.defaultNum = index;
       this.$emit('propEvent', index);
+    },
+    tabEvent2(index) {
+      const self = this;
+      this.defaultNum = index;
+      this.$emit('propEvent', index);
+      this.$store.dispatch("saveTabNumber", self.defaultNum)
     }
   }
 }
