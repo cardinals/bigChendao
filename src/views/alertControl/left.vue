@@ -7,7 +7,7 @@
       titleLeft="3%"
       positionBottom="9%"
       slotHeight="77%">
-        <listContent width="73%" height="88%" :data="data1" />
+        <listContent width="73%" height="85%" :data="data1" />
     </listModule>
     <listModule
       :option="bottomData"
@@ -17,7 +17,7 @@
       slotHeight="79%">
         <listContent
           width="86%"
-          height="69%"
+          height="66%"
           :data="data2"
           :isChecked="true"
           margin="5.5%" 

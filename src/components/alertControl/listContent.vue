@@ -1,12 +1,12 @@
 <template>
-  <div class="listContent" :style="{ width: width, height: height }">
+  <div class="listContent" :style="{ width: width, height: height, position: position, top: top }">
     <div class="checkAll" v-if="isChecked">
       <input type="checkbox" name="" id="all">
       <label class="all" for="all">全选</label>
     </div>
     <div 
       class="everyOne" 
-      v-for="(men, index) in data" 
+      v-for="(men, index) in data"
       :key="index" 
       :style="{ marginTop: margin, marginBottom: margin }">
       <input v-if="isChecked" type="checkbox" name="" :id="index">
@@ -59,12 +59,26 @@ export default {
     margin: {
       type: String,
       default: "8%"
+    },
+    position: {
+      type: String,
+      default: ''
+    },
+    top: {
+      type: String,
+      default: ''
     }
   },
   data() {
     return {
       
     };
+  },
+  methods: {
+    tabEvent(index) { 
+      this.defaultNum = index;
+      this.$emit('propEvent', index);
+    }
   }
 };
 </script>
@@ -75,7 +89,7 @@ export default {
   display: none;
 }
 .listContent {
-  background: green;
+  // background: green;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
