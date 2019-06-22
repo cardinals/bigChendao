@@ -36,7 +36,7 @@ export default {
 
 <style lang="less" scoped>
   .titleModule {
-    background: red;
+    // background: red;
     display: flex;
     justify-content: space-between;
     align-items: center;

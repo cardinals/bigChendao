@@ -58,7 +58,7 @@ export default {
 
 <style lang="less" scoped>
   .centerCommon {
-    background: green;
+    // background: green;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     .title {
@@ -68,7 +68,7 @@ export default {
       margin: 0 auto;
     }
     .slotBox {
-      background: yellow;
+      // background: yellow;
       margin:  auto;
     }
   }

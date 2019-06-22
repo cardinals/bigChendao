@@ -84,7 +84,7 @@ export default {
 <style lang="less" scoped>
   .alertCenterModule {
     color: #ffffff;
-    border: 1px solid #ffffff;
+    // border: 1px solid #ffffff;
     width: 50%;
     height: 95%;
     display: flex;
