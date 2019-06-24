@@ -81,7 +81,7 @@
                         }
 
                     } else {
-                        console.log('error submit!!');
+
                         return false;
                     }
                 });
@@ -105,7 +105,7 @@
 
                 }).catch( error => {
                     this.$message('添加失败！');
-                    console.log(error);
+
                 })
             },
             //添加
@@ -128,7 +128,7 @@
 
                 }).catch( error => {
                     this.$message('添加失败！');
-                    console.log(error);
+
                 })
             },
 

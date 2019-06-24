@@ -119,7 +119,6 @@
                     if (valid) {
                         //成功的
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
@@ -190,7 +189,7 @@
 
                 }).catch( error => {
                     this.$message('添加失败！');
-                    console.log(error);
+
                 })
             },
         }

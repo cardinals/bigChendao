@@ -190,7 +190,6 @@
                 if (valid) {
                     this.personnelSave()
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });

@@ -40,3 +40,10 @@
 .breadcrumb-leave-active {
     position: absolute;
 }
+.transferdata .el-transfer-panel .el-transfer-panel__footer {
+    top: 40px;
+    height: 40px;
+}
+.transferdata .el-transfer-panel__body.is-with-footer .el-transfer-panel__list{
+    padding-top: 64px;
+}

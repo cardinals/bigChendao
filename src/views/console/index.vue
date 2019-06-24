@@ -11,34 +11,31 @@
             </div>
         </div>
         <div class="left buttomleft" id="echartsWarp">
-            <div class="titles">设计统计</div>
+            <div class="titles">设备统计</div>
 
-            <div class="bigbox" style="margin: 30px 0 0 70px;">
-                <div class="box">
-                    <div class="a"></div>
-                    <div class="a"></div>
-                    <div class="a"></div>
-                </div>
-                <div class="box">
-                    <div class="a"></div>
-                    <div class="a"></div>
-                    <div class="a"></div>
-                </div>
-                <div class="box">
-                    <div class="a"></div>
-                    <div class="a"></div>
-                    <div class="a"></div>
-                </div>
-                <div class="box">
-                    <div class="a"></div>
-                    <div class="a"></div>
-                    <div class="a"></div>
-                </div>
-                <div class="box boxa">
-                    <div class="a"></div>
-                    <div class="a"></div>
-                    <div class="a"></div>
-                </div>
+            <div class="bigbox" style="margin: 30px 25px 0 25px;">
+                <el-table
+                        :data="tableDataleft"
+                        border
+                        style="width: 100%">
+                    <el-table-column
+                            prop="iconPath"
+                            label="设备icon"
+                            align="center"
+                            >
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="设备类型"
+                            align="center"
+                            >
+                    </el-table-column>
+                    <el-table-column
+                            prop="count"
+                            label="设备数量"
+                            align="center">
+                    </el-table-column>
+                </el-table>
             </div>
 
 
@@ -46,12 +43,38 @@
         </div>
         <div class="right buttomleft">
             <div class="titles">资源统计</div>
+            <div class="bigbox" style="margin: 30px 25px 0 25px;">
+                <el-table
+                        :data="tableDataright"
+                        border
+                        style="width: 100%">
+                    <el-table-column
+                            prop="iconPath"
+                            label="设备icon"
+                            align="center"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            prop="name"
+                            label="设备类型"
+                            align="center"
+                    >
+                    </el-table-column>
+                    <el-table-column
+                            prop="count"
+                            label="设备数量"
+                            align="center">
+                    </el-table-column>
+                </el-table>
+            </div>
         </div>
 
     </div>
 </template>
 
 <script>
+    import { homepageDateoverview, } from "@/api/console/console.js";
+
     import echarts from 'echarts/lib/echarts';
     // 引入柱状图
     import 'echarts/lib/chart/bar';
@@ -62,12 +85,18 @@
     import 'echarts/lib/component/toolbox';
     import 'echarts/lib/component/markPoint';
     import 'echarts/lib/component/tooltip';
+
 export default {
     data() {
         return {
             dataArr:["0点","2点","4点","6点","8点","10点","12点","14点","16点","18点","20点","22点","24点"],
-            screenWidth:document.body.clientWidth,
+            dateoverview:'',
+            tableDataleft:[],
+            tableDataright:[]
         }
+    },
+    created() {
+        this.homepageDateoverview()
     },
     mounted() {
         this.drawLine()
@@ -89,10 +118,8 @@ export default {
         // pieData: function (){
         //     this.initData()
         // }
-
     },
     methods: {
-
         drawLine() {
             // 基于准备好的dom，初始化echarts实例
             let myChart = echarts.init(document.getElementById('myChartleft'))
@@ -106,6 +133,7 @@ export default {
                 legend: {
                     data:['进入量','流入量']
                 },
+                color:['#40685f','#6de0c6'],
                 xAxis: {
                     data: this.dataArr
                 },
@@ -146,6 +174,7 @@ export default {
                     trigger: 'item',
                     formatter: "{a} <br/>{b}: {c} ({d}%)"
                 },
+                color:['#40685f', '#33bc9d','#4f9988','#6de0c6'],
                 legend: {
                     orient: 'vertical',
                     right:"10%",
@@ -159,7 +188,7 @@ export default {
                         name:'访问来源',
                         type:'pie',
                         radius: ['60%', '70%'],
-                        center : ['25%', '50%'],
+                        center : ['35%', '50%'],
                         avoidLabelOverlap: false,
                         label: {
                             normal: {
@@ -189,6 +218,18 @@ export default {
                     }
                 ]
             });
+        },
+        homepageDateoverview () {
+            let data = {
+                organizationId : 1,
+            }
+            homepageDateoverview(data).then(res => {
+                if(res.data.code == 200) {
+                    let resdata = res.data.data
+                    this.tableDataleft = resdata.equipmentList
+                    this.tableDataright = resdata.resourcesList
+                }
+            })
         },
     }
 }
@@ -229,9 +270,7 @@ export default {
         margin-left: 20px;
         margin-top: 30px;
     }
-    .consoles .right .titles{
-        margin-bottom: 40px;
-    }
+
     .consoles .left .datanum {
         font-size: 18px;
         margin: 10px 0 10px 20px;

@@ -160,7 +160,19 @@ export function emergencyplanallList(params) {
         params:params,
     })
 }
-
-
-
-
+//获取所有部门分组信息
+export function deptgroupallList(params) {
+    return request({
+        url: '/deptgroup/all/list',
+        method: 'get',
+        params:params,
+    })
+}
+//不分页查询全部通讯录人员列表
+export function addressbookgroupalllist(params) {
+    return request({
+        url: '/addressbook/all/list',
+        method: 'get',
+        params:params,
+    })
+}

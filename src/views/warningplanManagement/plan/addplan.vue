@@ -71,34 +71,29 @@
                     </el-col>
 
                     <el-col :span="12">
-                        <div style="text-align: left">
-                            <el-transfer
-                                    style="text-align: left; display: inline-block"
-                                    class="topchangetransfer"
-                                    v-model="value4"
+                        <div style="text-align: left" class="transferdata">
+                            <div class="right-main">
+                                <div class="right-left-main">
+                                    <span>请选择分组</span>
+                                    <el-select v-model="addressGroupId" placeholder="请选择分组" @change="addressGroupIdSeleceChanged">
+                                        <el-option
+                                                v-for="item in addressGroup"
+                                                :key="item.groupId"
+                                                :label="item.groupName"
+                                                :value="item.groupId"/>
+                                    </el-select>
+                                    <div class="select-con">
+                                        <el-checkbox v-for="(item, index) of addressGList" :key="index" v-model="item.checked" @change="checkSelectAdd(item)">{{ item.name }}</el-checkbox>
+                                    </div>
+                                </div>
 
-                                    :left-default-checked="[]"
-
-                                    :titles="['请选择短信接收人员', '已选择短信接收人员']"
-
-                                    :format="{
-                                        noChecked: '${total}',
-                                        hasChecked: '${checked}/${total}'
-                                    }"
-                                    @change="handleChange"
-                                    :data="data">
-                                <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
-                                <!--<el-select v-model="ruleForm.groupId" slot="left-footer" class="transfer-footer customized_input" placeholder="所有区域分组" size="medium" >-->
-                                    <!--<el-option-->
-                                            <!--v-for="item in eventgroupAllLists"-->
-                                            <!--:key="item.groupId"-->
-                                            <!--:label="item.groupName"-->
-                                            <!--:value="item.groupId">-->
-                                    <!--</el-option>-->
-                                <!--</el-select>-->
-
-
-                            </el-transfer>
+                                <div class="right-right-main">
+                                    <div v-for="(item, index) of addressListCheckList" :key="index" class="tab-item">
+                                        <p class="name ellipsis">{{ item.name }}</p >
+                                        <img class="xx-icon" src="" alt="" @click="deleteAddress(item)">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </el-col>
                 </el-row>
@@ -117,21 +112,10 @@
 </template>
 
 <script>
-    import { emergencyplanInfo, emergencyplanSave,eventgroupallList} from "@/api/warningplanManagement/warningplan.js";
+    import { emergencyplanInfo, emergencyplanSave,eventgroupallList, deptgroupallList, addressbookgroupalllist} from "@/api/warningplanManagement/warningplan.js";
 
     export default {
     data() {
-        const generateData = _ => {
-            const data = [];
-            for (let i = 1; i <= 15; i++) {
-                data.push({
-                    key: i,
-                    label: `备选项 ${ i }`,
-                    // disabled: i % 4 === 0
-                });
-            }
-            return data;
-        };
         return {
             active: 1,
             ruleForm:{
@@ -154,8 +138,6 @@
             eventgroupAllLists:[],
             labelname:'',
             labelPosition:"right",
-
-            data: generateData(),
             datalist:[{
                 type:'领导部',
                 list:[{
@@ -174,9 +156,11 @@
             }],
             value: [],
             value4: [],
-            renderFunc(h, option) {
-                return <span>{ option.key } - { option.label }</span>;
-            }
+
+            addressGroupId:[],
+            addressGroup:[],
+            addressGList:[],
+            addressListCheckList:[]
         }
     },
     created() {
@@ -187,12 +171,54 @@
             this.emergencyplanInfo()
         }
         this.eventgroupallList()
+        this.deptgroupallList()
     },
     methods: {
         goback () {
             this.$router.push({
                 path:'/warningplanManagement/planManagement'
             })
+        },
+        addressGroupIdSeleceChanged(id) {
+            addressbookgroupalllist({
+                organizationId: 1,
+                deptId: id,
+            }).then(res => {
+                const result = res.data.data.records
+                for (const item of result) {
+                    if (this.hasId(item)) {
+                        item.checked = true
+                    } else {
+                        item.checked = false
+                    }
+                }
+                this.addressGList = result
+            })
+        },
+        hasId(item) {
+            for (const i of this.addressListCheckList) {
+                if (i.id == item.id) {
+                    return true
+                }
+            }
+            return false
+        },
+        checkSelectAdd(item) {
+            if (item.checked == true) {
+                this.addressListCheckList.push(item)
+            } else {
+                this.deleteAddress(item)
+            }
+        },
+        deleteAddress(item) {
+            this.addressListCheckList = this.addressListCheckList.filter(i => {
+                return i.id !== item.id
+            })
+            for (const j of this.addressGList) {
+                if (j.id == item.id) {
+                    j.checked = false
+                }
+            }
         },
         next() {
             this.active = this.active + 1
@@ -211,6 +237,14 @@
             emergencyplanInfo(this.$route.query.id).then(res => {
                 if(res.data.code == 200) {
                     this.ruleForm = res.data.data
+                }
+            })
+        },
+        //获取部门分组
+        deptgroupallList () {
+            deptgroupallList({organizationId:1}).then(res => {
+                if(res.data.code == 200) {
+                    this.addressGroup = res.data.data
                 }
             })
         },
@@ -281,18 +315,22 @@
     }
 
      .topchangetransfer .el-transfer-panel__footer{
-         height: 4rem;
-         background: #FFF;
-         margin: 0;
-         padding: 0;
-         border-top: 0.1rem solid #EBEEF5;
-         position: absolute;
-         bottom: 0;
-         left: 0;
-         width: 100%;
-         z-index: 10!important;
 
-         /*bottom: 240px !important;*/
-         /*background: red;*/
+     }
+    .right-main {
+        width: 100%;
+    }
+    .right-left-main {
+        width: 250px;
+        height: 330px;
+        float: left;
+        border: 1px solid #DCDFE6;
+        border-radius: 4px;
+    }
+    .right-right-main {
+        float: left;
+        width: 250px;
+        height: 330px;
+        border: 1px solid #DCDFE6;
     }
 </style>

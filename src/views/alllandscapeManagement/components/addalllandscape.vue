@@ -37,24 +37,24 @@
 
                                 :on-success="handleAvatarSuccess"
                                 :before-upload="beforeAvatarUpload"
-                                style="display: inline-block;height: 70px"
+                                style="display: inline-block;height: 90px"
                                 :limit="1"
                                 multiple
 
                         >
 
                             <el-button size="small" type="primary">选择文件</el-button>
-                            <div slot="tip" style="display: inline-block">
-                                <el-input
-                                size="medium"
-                                placeholder="未选择任何文件"
-                                class="customized_input"
-                                disabled
-                                style="margin: 0 10px 0 10px"
-                                v-model="ruleForm.thumb">
-                                </el-input>
-                                <el-button size="small" type="primary">上传</el-button>
-                            </div>
+                            <!--<div slot="tip" style="display: inline-block">-->
+                                <!--<el-input-->
+                                <!--size="medium"-->
+                                <!--placeholder="未选择任何文件"-->
+                                <!--class="customized_input"-->
+                                <!--disabled-->
+                                <!--style="margin: 0 10px 0 10px"-->
+                                <!--v-model="ruleForm.thumb">-->
+                                <!--</el-input>-->
+                                <!--<el-button size="small" type="primary">上传</el-button>-->
+                            <!--</div>-->
                         </el-upload>
                         <div class="uploadimgs" >
                             <img :src="ruleForm.thumb"  alt="" />
@@ -130,7 +130,7 @@
         },
         methods: {
             handleRemove() {
-                // console.log(file, fileList);
+                // file, fileList);
             },
             handlePreview () {
 
@@ -215,7 +215,7 @@
 
                 }).catch( error => {
                     this.$message('添加失败！');
-                    console.log(error);
+
                 })
             },
             //添加
@@ -238,7 +238,6 @@
 
                 }).catch( error => {
                     this.$message('添加失败！');
-                    console.log(error);
                 })
             },
             submitForm(formName) {
@@ -251,7 +250,6 @@
                         }
 
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
