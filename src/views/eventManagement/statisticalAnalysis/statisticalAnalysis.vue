@@ -42,7 +42,8 @@
                 drawbarlist:{
                     xAxislist:[],
                     yAxislist1:[],
-                    yAxislist2:[]
+                    yAxislist2:[],
+                    yAxislist3:[],
                 },
             }
         },
@@ -74,7 +75,7 @@
 
         },
         methods: {
-
+            //左边的那个图
             drawLine() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = echarts.init(document.getElementById('myChartleft'))
@@ -107,6 +108,7 @@
                     ]
                 });
             },
+            //右边的那个图
             drawpie() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart_ = echarts.init(document.getElementById('myChartright'))
@@ -139,6 +141,7 @@
                     ]
                 })
             },
+            //下面的那个图
             drawbar() {
                 // 基于准备好的dom，初始化echarts实例
                 let myChart_b = echarts.init(document.getElementById('myChartbottom'))
@@ -162,7 +165,7 @@
                     series: [
                         {
                             name:'待处理',
-                            data: [120, 200, 150, 80, 70, 110, 130],
+                            data: this.drawbarlist.yAxislist1,
                             type: 'bar',
                             barWidth: '30', //柱形图宽度
                             itemStyle: {
@@ -182,7 +185,7 @@
                         },
                         {
                             name:'已处理',
-                            data: [120, 200, 150, 80, 70, 110, 130],
+                            data: this.drawbarlist.yAxislist2,
                             type: 'bar',
                             barWidth: '30', //柱形图宽度
                             itemStyle: {
@@ -202,7 +205,7 @@
                         },
                         {
                             name:'处理中',
-                            data: [120, 200, 150, 80, 70, 110, 130],
+                            data: this.drawbarlist.yAxislist3,
                             type: 'bar',
                             barWidth: '30', //柱形图宽度
                             itemStyle: {
@@ -240,7 +243,7 @@
                 let tDate = today.getDate();
                 tMonth = this.doHandleMonth(tMonth + 1);
                 tDate = this.doHandleMonth(tDate);
-                // console.log(tYear+"-"+tMonth+"-"+tDate)
+                // tYear+"-"+tMonth+"-"+tDate)
                 return tMonth+"-"+tDate;
             },
             doHandleMonth(month){
@@ -263,16 +266,19 @@
                             this.drawLinelist.xAxislist.push(item.days.slice(5))
                             this.drawLinelist.yAxislist.push(item.count)
                         })
+
                         //事件处理率
                         datalist.treatmentRate.map(item => {
                             this.drawpielist.xAxislist.push(item.days.slice(5))
                             this.drawpielist.yAxislist.push(item.rate.substring(0,item.rate.length-1) )
                         })
+
                         //上报事件处理情况统计
                         datalist.treatmentSituation.map(item => {
                             this.drawbarlist.xAxislist.push(item.days.slice(5))
-                            this.drawbarlist.yAxislist1.push(item.count)
-                            this.drawbarlist.yAxislist2.push(item.state)
+                            this.drawbarlist.yAxislist1.push(item.emBefore)
+                            this.drawbarlist.yAxislist2.push(item.emIng)
+                            this.drawbarlist.yAxislist3.push(item.emAfter)
                         })
                         this.drawLine()
                         this.drawpie()

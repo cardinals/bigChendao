@@ -83,7 +83,6 @@
                         this.areagroupInsert()
                     }
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });

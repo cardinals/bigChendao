@@ -178,7 +178,6 @@
                     if (valid) {
                         this.carSave()
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });

@@ -62,31 +62,26 @@
                     </el-col>
                     <el-col v-if="labelname == '景点'" :span="12">
                         <el-form-item label="上传语音 :">
-                            <el-upload
-                                    class="upload-demos"
-                                    action="https://jsonplaceholder.typicode.com/posts/"
-                                    :on-preview="handlePreview"
-                                    :on-remove="handleRemove"
-                                    :before-remove="beforeRemove"
-                                    multiple
-                                    style="display: inline-block;"
-                                    :limit="3"
-                                    :on-exceed="handleExceed"
-                            >
+                            <div style="height: 90px;width: 100%">
+                                <el-upload
+                                        class="upload-demos"
+                                        action="http://61.174.54.85:8001/nv2/audio/upload"
+                                        :on-preview="handlePreview"
+                                        :on-remove="handleRemove"
+                                        :before-remove="beforeRemove"
+                                        multiple
+                                        style="display: inline-block;"
+                                        :limit="1"
+                                        :on-exceed="handleExceed"
+                                        :on-success="handleAvatarSuccessaudio"
+                                        :before-upload="beforeAvatarUploadaudio"
+                                >
+                                    <el-button size="small" type="primary">选择文件</el-button>
+                                    <span slot="tip" class="el-upload__tip">（选填，支持MP3格式）</span>
+                                </el-upload>
 
-                                <el-button size="small" type="primary">选择文件</el-button>
-                                <div slot="tip" style="display: inline-block">
-                                    <el-input
-                                            size="medium"
-                                            placeholder="未选择任何文件"
-                                            class="customized_input"
-                                            style="margin: 0 10px 0 10px"
-                                            v-model="ruleForm.input2">
-                                    </el-input>
-                                    <el-button size="small" type="primary">上传</el-button>
-                                    （选填，支持MP3格式）
-                                </div>
-                            </el-upload>
+                            </div>
+
 
                         </el-form-item>
                     </el-col>
@@ -96,7 +91,7 @@
                                     size="medium"
                                     placeholder="请输入内容"
                                     class="customized_input"
-                                    v-model="ruleForm.input2">
+                                    v-model="ruleForm.resNumber">
                             </el-input>
                             个
                             （选填，填写整数）
@@ -175,33 +170,23 @@
                         <el-form-item label="上传图片（第一张） :" >
                             （必填，支持PNG、JPG、BMP）
                         </el-form-item>
-                        <el-upload
-                                action="http://61.174.54.85:8001/nv2/image/upload"
-                                :on-remove="handleRemove"
-                                :on-preview="handlePreview"
-                                :before-remove="beforeRemove"
-                                :on-exceed="handleExceed"
+                        <div style="width: 100%;height: 90px">
+                            <el-upload
+                                    action="http://61.174.54.85:8001/nv2/image/upload"
+                                    :on-remove="handleRemove"
+                                    :on-preview="handlePreview"
+                                    :before-remove="beforeRemove"
+                                    :on-exceed="handleExceed"
+                                    :on-success="handleAvatarSuccess1"
+                                    :before-upload="beforeAvatarUpload"
+                                    style="display: inline-block;"
+                                    :limit="1"
+                                    multiple
+                            >
+                                <el-button size="small" type="primary">选择文件</el-button>
+                            </el-upload>
+                        </div>
 
-                                :on-success="handleAvatarSuccess1"
-                                :before-upload="beforeAvatarUpload"
-                                style="display: inline-block;height: 90px"
-                                :limit="1"
-                                multiple
-                        >
-
-                            <el-button size="small" type="primary">选择文件</el-button>
-                            <div slot="tip" style="display: inline-block">
-                                <el-input
-                                        size="medium"
-                                        placeholder="未选择任何文件"
-                                        class="customized_input"
-                                        style="margin: 0 10px 0 10px"
-                                        v-model="ruleForm.input2">
-                                </el-input>
-                                <el-button size="small" type="primary">上传</el-button>
-                            </div>
-
-                        </el-upload>
 
                         <div class="uploadimgs" >
                             <img :src="picPath1?picPath1:'' " alt=""/>
@@ -211,33 +196,23 @@
                         <el-form-item label="上传图片（第二张） :">
                             （支持PNG、JPG、BMP）
                         </el-form-item>
-                        <el-upload
-                                action="http://61.174.54.85:8001/nv2/image/upload"
-                                :on-remove="handleRemove"
-                                :on-preview="handlePreview"
-                                :before-remove="beforeRemove"
-                                :on-exceed="handleExceed"
+                        <div style="width: 100%;height: 90px">
+                            <el-upload
+                                    action="http://61.174.54.85:8001/nv2/image/upload"
+                                    :on-remove="handleRemove"
+                                    :on-preview="handlePreview"
+                                    :before-remove="beforeRemove"
+                                    :on-exceed="handleExceed"
 
-                                :on-success="handleAvatarSuccess2"
-                                :before-upload="beforeAvatarUpload"
-                                style="display: inline-block;height: 90px"
-                                :limit="1"
-                                multiple
-                        >
-
-                            <el-button size="small" type="primary">选择文件</el-button>
-                            <div slot="tip" style="display: inline-block">
-                                <el-input
-                                        size="medium"
-                                        placeholder="未选择任何文件"
-                                        class="customized_input"
-                                        style="margin: 0 10px 0 10px"
-                                        v-model="ruleForm.input2">
-                                </el-input>
-                                <el-button size="small" type="primary">上传</el-button>
-                            </div>
-
-                        </el-upload>
+                                    :on-success="handleAvatarSuccess2"
+                                    :before-upload="beforeAvatarUpload"
+                                    style="display: inline-block;"
+                                    :limit="1"
+                                    multiple
+                            >
+                                <el-button size="small" type="primary">选择文件</el-button>
+                            </el-upload>
+                        </div>
 
                         <div class="uploadimgs" >
                             <img :src="picPath2?picPath2:'' " alt=""/>
@@ -247,33 +222,23 @@
                         <el-form-item label="上传图片（第三张） :">
                             （支持PNG、JPG、BMP）
                         </el-form-item>
-                        <el-upload
-                                action="http://61.174.54.85:8001/nv2/image/upload"
-                                :on-remove="handleRemove"
-                                :on-preview="handlePreview"
-                                :before-remove="beforeRemove"
-                                :on-exceed="handleExceed"
+                        <div style="width: 100%;height: 90px">
+                            <el-upload
+                                    action="http://61.174.54.85:8001/nv2/image/upload"
+                                    :on-remove="handleRemove"
+                                    :on-preview="handlePreview"
+                                    :before-remove="beforeRemove"
+                                    :on-exceed="handleExceed"
 
-                                :on-success="handleAvatarSuccess3"
-                                :before-upload="beforeAvatarUpload"
-                                style="display: inline-block;height: 90px"
-                                :limit="1"
-                                multiple
-                        >
-
-                            <el-button size="small" type="primary">选择文件</el-button>
-                            <div slot="tip" style="display: inline-block">
-                                <el-input
-                                        size="medium"
-                                        placeholder="未选择任何文件"
-                                        class="customized_input"
-                                        style="margin: 0 10px 0 10px"
-                                        v-model="ruleForm.input2">
-                                </el-input>
-                                <el-button size="small" type="primary">上传</el-button>
-                            </div>
-
-                        </el-upload>
+                                    :on-success="handleAvatarSuccess3"
+                                    :before-upload="beforeAvatarUpload"
+                                    style="display: inline-block;"
+                                    :limit="1"
+                                    multiple
+                            >
+                                <el-button size="small" type="primary">选择文件</el-button>
+                            </el-upload>
+                        </div>
 
                         <div class="uploadimgs" >
                             <img :src="picPath3?picPath3:'' " alt=""/>
@@ -282,17 +247,17 @@
 
                 </el-row>
             </el-form>
-            <el-form v-else ref="form" :model="form" label-width="125px">
+            <el-form v-else ref="form" :model="form" :rules="rules" label-width="125px">
                 <el-row type="flex" class="row-bg">
                     <el-col :span="24">
-                        <el-form-item label="所属区域分组 :">
-                            <el-select v-model="ruleForm.value" clearable placeholder="请选择" size="medium">
+                        <el-form-item label="所属区域分组 :" prop="groupId">
+                            <el-select v-model="ruleForm.groupId" clearable placeholder="请选择" size="medium"  class="customized_input" @change="changegroupName">
                                 <el-option
                                         size="medium"
-                                        v-for="item in options"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
+                                        v-for="item in areaNameoptions"
+                                        :key="item.groupId"
+                                        :label="item.groupName"
+                                        :value="item.groupId">
                                 </el-option>
                             </el-select>
                             （必填）
@@ -301,12 +266,12 @@
                 </el-row>
                 <el-row type="flex" class="row-bg">
                     <el-col :span="24">
-                        <el-form-item label="指挥物资名称 :">
+                        <el-form-item label="指挥物资名称 :" prop="name">
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
-                                    v-model="ruleForm.input2">
+                                    class="customized_input"
+                                    v-model="ruleForm.name">
                             </el-input>
                             （必填，不超过10个字符）
                         </el-form-item>
@@ -318,7 +283,7 @@
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                             （选填，不超过30个字符）
@@ -337,7 +302,7 @@
                             class="textareaheight"
                             type="textarea"
                             placeholder="请填写介绍，不超过350个字符"
-                            v-model="textarea"
+                            v-model="ruleForm.introduction"
                             maxlength="350"
                             :rows="4"
                             style="margin-bottom: 16px;"
@@ -368,14 +333,14 @@
                             经度： <el-input
                                 size="medium"
                                 placeholder="请输入内容"
-                                style="width: 180px"
+                                class="customized_input"
                                 v-model="ruleForm.input2">
                         </el-input>
                             纬度：
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
-                                    style="width: 180px"
+                                    class="customized_input"
                                     v-model="ruleForm.input2">
                             </el-input>
                         </el-form-item>
@@ -405,6 +370,7 @@
                 groupId:'',
                 locations:'',
                 introduction:'',
+                resNumber:null,//车位和厕位
                 lng:null, //经度
                 lat:null, //维度
                 input2:'',
@@ -433,6 +399,7 @@
             areaNameoptions:[],
             labelname:'',
             labelPosition:'right',
+            audios:''
         }
     },
     created() {
@@ -460,9 +427,25 @@
             //     }
             // })
         },
+        //音频上传
+        handleAvatarSuccessaudio (res) {
+            this.audios = res.url
+        },
+        beforeAvatarUploadaudio(file) {
+            var testmsg = file.name.substring(file.name.lastIndexOf('.')+1)
+            const extension = testmsg === 'mp3'
+            if(!extension){
+                this.$message({
+                    message:"上传文件只能是mp3格式！",
+                    type:'error'
+                })
+            }
+            return extension
+        },
+        //以下是图片上传
         //上传后
         handleAvatarSuccess1 (res) {
-            this.picPath1 = res.url
+            this.picPath1 = res.url    //browser  上传jpeg的时候后端有问题
         },
         handleAvatarSuccess2 (res) {
             this.picPath2 = res.url
@@ -473,13 +456,15 @@
         //上传前
         beforeAvatarUpload(file) {
             let flag = false
-            if(file.type === 'image/jpeg') {
+            if(file.type == 'image/jpeg') {
                 flag = true
-            }else if (file.type === 'image/png'){
+            }else if (file.type == 'image/png'){
                 flag = true
-            }else if (file.type === 'image/bmp') {
+            }else if (file.type == 'image/bmp') {
                 flag = true
-            }else {
+            }else  if (file.type == 'image/jpg') {
+                flag = true
+            }else{
                 flag = false
             }
             const isLt2M = file.size / 1024 / 1024 < 2
@@ -492,7 +477,7 @@
             return flag && isLt2M ;
         },
         handleRemove(file, fileList) {
-            // console.log(file, fileList);
+            // (file, fileList);
         },
         handlePreview(file) {
             // console.log(file);
@@ -522,12 +507,12 @@
                     this.ruleForm = res.data.data
 
                     if(datas.picPath && datas.picPath.length>0) {
-                        if(datas.picPath.length = 1) {
+                        if(datas.picPath.length == 1) {
                             this.picPath1 = datas.picPath[0].path
-                        }else if(datas.picPath.length = 2) {
+                        }else if(datas.picPath.length == 2) {
                             this.picPath1 = datas.picPath[0].path
                             this.picPath2 = datas.picPath[1].path
-                        }else if(datas.picPath.length = 3) {
+                        }else if(datas.picPath.length == 3) {
                             this.picPath1 = datas.picPath[0].path
                             this.picPath2 = datas.picPath[1].path
                             this.picPath3 = datas.picPath[2].path
@@ -590,7 +575,7 @@
                 lat:this.ruleForm.lat, //维度
                 address:'', //地址（资源独有）
                 phoneNumber:null, //电话（资源独有）
-                resNumber:null,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
+                resNumber:this.ruleForm.resNumber,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
                 introduction:this.ruleForm.introduction,//资源介绍（资源独有）
                 streamUrl:null,//监控视频流（视频监控独有）
                 groupId:this.ruleForm.groupId,//区域分组ID

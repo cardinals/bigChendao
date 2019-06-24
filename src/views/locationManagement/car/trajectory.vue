@@ -85,7 +85,6 @@
                     if (valid) {
                         //成功的
                     } else {
-                        console.log('error submit!!');
                         return false;
                     }
                 });
