@@ -8,35 +8,35 @@
 
             <el-form v-if="active == 1" :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="120px">
                 <el-col :span="24">
-                    <el-form-item label="事件分组 :" prop="mailList">
-                        <el-select v-model="ruleForm.mailList"  class="customized_input" placeholder="所有区域分组" size="medium" >
+                    <el-form-item label="事件分组 :" prop="groupId">
+                        <el-select v-model="ruleForm.groupId"  class="customized_input" placeholder="所有区域分组" size="medium" >
                             <el-option
-                                    v-for="item in options"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
+                                    v-for="item in eventgroupAllLists"
+                                    :key="item.groupId"
+                                    :label="item.groupName"
+                                    :value="item.groupId">
                             </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="预案名称 :" prop="name">
+                    <el-form-item label="预案名称 :" prop="planName">
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
                                 class="customized_input"
-                                v-model="ruleForm.input2">
+                                v-model="ruleForm.planName">
                         </el-input>
                         （必填，不超过10个字符）
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="预案内容 :" prop="textarea">
+                    <el-form-item label="预案内容 :" prop="content">
                         <el-input
                                 class="textareaheight"
                                 type="textarea"
                                 placeholder="请填写介绍，不超过350个字符"
-                                v-model="ruleForm.textarea"
+                                v-model="ruleForm.content"
                                 maxlength="350"
                                 :rows="4"
                                 style="margin-bottom: 16px;"
@@ -48,7 +48,7 @@
                 </el-col>
 
                 <el-col :span="24" style="text-align: center">
-                    <el-button type="warning" class="successing" @click="submitForm('ruleForm')"  size="small"> 下一步 </el-button>
+                    <el-button type="warning" class="successing" @click="nextone()"  size="small"> 下一步 </el-button>
                 </el-col>
             </el-form>
 
@@ -60,7 +60,7 @@
                                     class="textareaheight"
                                     type="textarea"
                                     placeholder="请填写介绍，不超过350个字符"
-                                    v-model="ruleForm.textarea"
+                                    v-model="ruleForm.message"
                                     maxlength="350"
                                     :rows="4"
                                     style="margin-bottom: 16px;width: 75%;"
@@ -74,6 +74,7 @@
                         <div style="text-align: left">
                             <el-transfer
                                     style="text-align: left; display: inline-block"
+                                    class="topchangetransfer"
                                     v-model="value4"
 
                                     :left-default-checked="[]"
@@ -86,7 +87,16 @@
                                     }"
                                     @change="handleChange"
                                     :data="data">
-                                <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
+                                <el-button class="transfer-footer" slot="left-footer" size="small">操作</el-button>
+                                <!--<el-select v-model="ruleForm.groupId" slot="left-footer" class="transfer-footer customized_input" placeholder="所有区域分组" size="medium" >-->
+                                    <!--<el-option-->
+                                            <!--v-for="item in eventgroupAllLists"-->
+                                            <!--:key="item.groupId"-->
+                                            <!--:label="item.groupName"-->
+                                            <!--:value="item.groupId">-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
+
 
                             </el-transfer>
                         </div>
@@ -107,7 +117,9 @@
 </template>
 
 <script>
-export default {
+    import { emergencyplanInfo, emergencyplanSave,eventgroupallList} from "@/api/warningplanManagement/warningplan.js";
+
+    export default {
     data() {
         const generateData = _ => {
             const data = [];
@@ -123,27 +135,43 @@ export default {
         return {
             active: 1,
             ruleForm:{
-                name:'',
-                mailList:'',
-                textarea:'',
+                groupId:'',
+                planName:'',
+                content:'',
+                message:''
             },
             rules: {
-                name: [
+                groupId: [
                     { required: true, message: '请选择事件分组', trigger: 'change' },
                 ],
-                mailList: [
+                planName: [
                     { required: true, message: '请输入事件名称', trigger: 'blur' }
                 ],
-                textarea: [
+                content: [
                     { required: true, message: '请输入预案内容', trigger: 'change' }
                 ],
             },
-            options:[],
+            eventgroupAllLists:[],
             labelname:'',
             labelPosition:"right",
 
             data: generateData(),
-
+            datalist:[{
+                type:'领导部',
+                list:[{
+                    a:'领导部1',b:'领导部2',c:'领导部3'
+                }]
+            },{
+                type:'执法部',
+                list:[{
+                    a:'执法部1',b:'执法部2',c:'执法部3'
+                }]
+            },{
+                type:'财务部',
+                list:[{
+                    a:'财务部1',b:'财务部2',c:'财务部3'
+                }]
+            }],
             value: [],
             value4: [],
             renderFunc(h, option) {
@@ -152,17 +180,18 @@ export default {
         }
     },
     created() {
-        if(this.$route.query.type === 1) {
-            this.$route.meta.title = '添加' + this.$route.query.name
+        if(this.$route.query.type == 1) {
+            this.$route.meta.title = '添加预案'
         }else {
-            this.$route.meta.title = '编辑' + this.$route.query.name
+            this.$route.meta.title = '编辑预案'
+            this.emergencyplanInfo()
         }
-        this.labelname = this.$route.query.name
+        this.eventgroupallList()
     },
     methods: {
         goback () {
             this.$router.push({
-                path:'/locationManagement/personnelManagement'
+                path:'/warningplanManagement/planManagement'
             })
         },
         next() {
@@ -174,14 +203,63 @@ export default {
         handleChange(value, direction, movedKeys) {
             console.log(value, direction, movedKeys);
         },
-        submitForm(formName) {
+        nextone() {
             this.next()
+        },
+        //查询
+        emergencyplanInfo () {
+            emergencyplanInfo(this.$route.query.id).then(res => {
+                if(res.data.code == 200) {
+                    this.ruleForm = res.data.data
+                }
+            })
+        },
+        //获取所有事件分组
+        eventgroupallList () {
+            eventgroupallList({organizationId:1}).then(res => {
+                if(res.data.code == 200) {
+                    this.eventgroupAllLists = res.data.data
+                }
+            })
+        },
+        //新增
+        emergencyplanSave () {
+            let groupNames = ''
+            this.eventgroupAllLists.forEach(item => {
+                if(item.groupId == this.ruleForm.groupId) {
+                    groupNames = item.groupName
+                }
+            })
+            let data = {
+                organizationId:1,
+                id:this.$route.query.type == 1?null:Number(this.$route.query.id),         //Integer	N	预案id（当id!= null时视为修改预案,否则视为新增）
+                planName:this.ruleForm.planName,                     //	String	Y	预案名称
+                content:this.ruleForm.content,	                    //String	Y	预案内容
+                sendPeopleId:'',                //	String	N	短信接收人ID（t_address_book.addr_book_id）
+                message:this.ruleForm.message,                     //	String	N	短信内容
+                mapDetail:'',                    //	String	N	地图显示内容，人员调度；车辆调度；人员和车辆调度
+                groupId:this.ruleForm.groupId,                     //	Integer	Y	所属分组ID
+                groupName:groupNames,                   //	String	Y	所属分组名称
+
+            }
+            emergencyplanSave(data).then(res => {
+                if(res.data.code == 200) {
+                    this.$message({
+                        message: '添加成功！',
+                        type: 'success'
+                    });
+                    this.goback()
+                }else {
+                    this.$message.error(res.data.data.message);
+                }
+            })
+        },
+        submitForm(formName) {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的
-
+                    this.emergencyplanSave()
                 } else {
-                    console.log('error submit!!');
                     return false;
                 }
             });
@@ -202,4 +280,19 @@ export default {
         display: none !important;
     }
 
+     .topchangetransfer .el-transfer-panel__footer{
+         height: 4rem;
+         background: #FFF;
+         margin: 0;
+         padding: 0;
+         border-top: 0.1rem solid #EBEEF5;
+         position: absolute;
+         bottom: 0;
+         left: 0;
+         width: 100%;
+         z-index: 10!important;
+
+         /*bottom: 240px !important;*/
+         /*background: red;*/
+    }
 </style>

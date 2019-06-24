@@ -1,7 +1,7 @@
 import request from '@/axios/axios.js'
 
 
-//---------------------------------------预案-----------------------------------------------
+//---------------------------------------预案之预案-----------------------------------------------
 //获取预案列表
 export function emergencyplanList(params) {
     return request({
@@ -40,6 +40,67 @@ export function emergencyplanInfo(id) {
         method: 'get',
     })
 }
+//获取所有事件分组名称
+export function eventgroupallList(params) {
+    return request({
+        url: '/eventgroup/all/list',
+        method: 'get',
+        params:params,
+    })
+}
+
+//---------------------------------------预案之事件分组-----------------------------------------------
+
+//获取预案事件分组列表
+export function eventgroupList(params) {
+    return request({
+        url: '/eventgroup/list',
+        method: 'get',
+        params:params,
+    })
+}
+//删除预案事件分组列表
+export function eventgroupDelete(id) {
+    return request({
+        url: `/eventgroup/delete/${id}`,
+        method: 'delete'
+    })
+}
+// 批量删除预案事件分组列表
+export function eventgroupDeletebatch(data) {
+    return request({
+        url: '/eventgroup/deletebatch',
+        method: 'delete',
+        data:data,
+    })
+}
+//新增预案事件分组
+export function eventgroupSave(data) {
+    return request({
+        url: '/eventgroup/insert',
+        method: 'post',
+        data:data,
+    })
+}
+//修改预案事件分组
+export function eventgroupUpdate(id,data) {
+    return request({
+        url: '/eventgroup/update/' + id,
+        method: 'PUT',
+        data:data,
+    })
+}
+//根据ID获取预案事件分组信息
+export function eventgroupInfo(id) {
+    return request({
+        url: '/eventgroup/info/'+id,
+        method: 'get',
+    })
+}
+
+
+
+
 
 
 

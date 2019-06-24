@@ -167,8 +167,6 @@
             })
         },
         submitForm(formName) {
-            this.earlywarningSave()
-            return
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的
