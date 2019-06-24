@@ -1,7 +1,3 @@
-const getters = {
-  get2dValue: state => { return state.value2D },
-  get3dValue: state => { return state.value3D }
-};
 const state = {
   clientWidth: 1280,
   clientHeight: 588,
@@ -24,11 +20,10 @@ const actions = {
     context.commit("setClientSize", value);
   },
   save23d(context, { d2, d3 }) {
-    console.log('d2:' + d2 + ',' + 'd3:' + d3 )
     context.commit("setState", { key: 'value2D', value: d2 })
     context.commit("setState", { key: 'value3D', value: d3 })
   }
 };
 export default {
-  state, mutations, actions, getters
+  state, mutations, actions
 }

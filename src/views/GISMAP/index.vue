@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapState } from "vuex"
 export default {
   data() {
     return {
@@ -31,28 +31,28 @@ export default {
   mounted() {
     this.initGis();
   },
-  computed: {
-    ...mapGetters([
-      'get2dValue',
-      'get3dValue'
-    ])
-  },
-  watch: {
-    get2dValue(newValue, oldValue) {
-      if (newValue != oldValue) {
-        this.value2d = newValue
-        console.log(this.value2d, 'getter监测到2d数据的变化')
-      }
-      this.mapEnd()
-    },
-    get3dValue(newValue, oldValue) {
-      if (newValue != oldValue) {
-        this.value3d = newValue
-        console.log(this.value3d, 'getter监测到3d数据的变化')
-      }
-      this.mapEnd()
-    }
-  },
+  // computed: {
+  //   ...mapState({
+  //     value2D: state => state.init.value2D,
+  //     value3D: state => state.init.value3D
+  //   })
+  // },
+  // watch: {
+  //   value2D(newValue, oldValue) {
+  //     if (newValue != oldValue) {
+  //       this.value2d = newValue
+  //       console.log(this.value2d, '监测到2d数据的变化')
+  //     }
+  //     this.mapEnd()
+  //   },
+  //   value3D(newValue, oldValue) {
+  //     if (newValue != oldValue) {
+  //       this.value3d = newValue
+  //       console.log(this.value3d, '监测到3d数据的变化')
+  //     }
+  //     this.mapEnd()
+  //   }
+  // },
   methods: {
     initGis() {
       let cfg1 = {
