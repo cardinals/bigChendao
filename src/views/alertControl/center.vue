@@ -12,9 +12,8 @@
     >
       <Top />
     </centerCommon>
-    <!-- v-if="this.$store.state.eventAlert.tabNumber == 0" -->
     <centerCommon
-      v-if="isTabNumber == 0"
+      v-if="this.$store.state.eventAlert.tabNumber == 0"
       :width="option[1].width"
       :height="option[1].height"
       :back="option[1].back"
@@ -82,19 +81,20 @@ export default {
       isTabNumber: 0
     }
   },
-  computed: {
-    ...mapState({
-      tabNumber: state => state.eventAlert.tabNumber
-    })
-  },
-  watch: {
-    tabNumber(newVal, oldVal) {
-      if (newVal !== oldVal) {
-        debugger
-        this.isTabNumber = newVal
-      }
-    }
-  }
+  // watchXstoreY
+  // computed: {
+  //   ...mapState({
+  //     tabNumber: state => state.eventAlert.tabNumber
+  //   })
+  // },
+  // watch: {
+  //   tabNumber(newVal, oldVal) {
+  //     if (newVal !== oldVal) {
+  //       debugger
+  //       this.isTabNumber = newVal
+  //     }
+  //   }
+  // }
 }
 </script>
 

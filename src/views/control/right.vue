@@ -1,30 +1,37 @@
 <template>
   <div class="controlRightModule">
-    <common
-      :width="datas.width"
-      :height="datas.height"
-      :title="datas.title"
-      :tabs="datas.tabs"
-      blueLineHeight="7%"
-      titleHeight="7%"
-      slotHeight="76%"
-      :isAlert="true"
-      @propEvent="receiveEvent"
-      :style="{ backgroundImage: datas.back }">
-      <tableModule :tableTitle="tableTitle1" :record="record1" v-if="dataNumber == 0" />
-      <tableModule :tableTitle="tableTitle2" :record="record2" v-if="dataNumber == 1" />
-      <tableModule :tableTitle="tableTitle3" :record="record3" v-if="dataNumber == 2" />
-    </common>
+    <transition name="el-zoom-in-top">
+      <common
+        v-if="isHidden == '隐藏浮窗'"
+        :width="datas.width"
+        :height="datas.height"
+        :title="datas.title"
+        :tabs="datas.tabs"
+        blueLineHeight="7%"
+        titleHeight="7%"
+        slotHeight="76%"
+        :isAlert="true"
+        @propEvent="receiveEvent"
+        :style="{ backgroundImage: datas.back }">
+        <tableModule :tableTitle="tableTitle1" :record="record1" v-if="dataNumber == 0" />
+        <tableModule :tableTitle="tableTitle2" :record="record2" v-if="dataNumber == 1" />
+        <tableModule :tableTitle="tableTitle3" :record="record3" v-if="dataNumber == 2" />
+      </common>
+    </transition>
+    <ranging />
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex"
 import common from "@/components/control/common";
 import tableModule from "@/components/common/table"
+import ranging from "@/components/common/ranging"
 export default {
-  components: { common, tableModule },
+  components: { common, tableModule, ranging },
   data() {
     return {
+      isHidden: '隐藏浮窗',
       datas: {
         width: "100%",
         height: "64%",
@@ -206,6 +213,16 @@ export default {
       dataNumber: 0
     }
   },
+  computed: {
+    ...mapState({
+      hiddenValue: state => state.control.hiddenValue
+    })
+  },
+  watch: {
+    hiddenValue(newValue, oldValue) {
+      this.isHidden = newValue
+    }
+  },
   methods: {
     receiveEvent(e) {
       this.dataNumber = e;
@@ -222,5 +239,10 @@ export default {
     // height: 890px;
     width: 21%;
     height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
   }
 </style>

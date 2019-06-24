@@ -1,13 +1,18 @@
 <template>
-  <div id="app" :style="{ backgroundImage: back }">
-    <router-view></router-view>
+  <!-- <div id="app" :style="{ backgroundImage: back }"> -->
+  <div id="app">
+    <GISMAP />
+    <div class="routerView">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
-
+import GISMAP from "@/views/GISMAP/index"
 export default {
   name: "app",
+  components: { GISMAP },
   data() {
     return {
       back: "url(" + require("../static/img/control/d.png") + ")"
@@ -31,17 +36,21 @@ export default {
 };
 </script>
 
-<style>
+<style lang="less" scoped>
 @import "./assets/style/style.css";
 #app {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  overflow: hidden;
+  .routerView {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 }
 </style>

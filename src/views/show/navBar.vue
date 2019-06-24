@@ -91,12 +91,12 @@ export default {
         map: {
           name: "地图",
           back: "url(" + require("../../assets/control/map.png") + ")",
-          color: "#fff"
+          color: "#fff",
         },
         movie: {
           name: "影像",
           back: "url(" + require("../../assets/control/movie.png") + ")",
-          color: "#fff"
+          color: "#fcff03",
         },
         search: {
           placeholder: "查询景点、设备、资源等",
@@ -104,6 +104,7 @@ export default {
           back2: "url(" + require("../../assets/control/sousuo.png") + ")"
         }
       },
+      map: { d2: false, d3: true }
     };
   },
   mounted() {
@@ -161,21 +162,27 @@ export default {
         if (hiddenColor == '#fff') {
           // 这里我曾遇到过坑
           self.holdUp.hidden.color = '#fcff03'
+          self.holdUp.hidden.name = '显示浮窗'
+          self.$store.dispatch("saveHidden", self.holdUp.hidden.name);
+
         } else if (hiddenColor == "#fcff03") {
           self.holdUp.hidden.color = "#fff"
+          self.holdUp.hidden.name = '隐藏浮窗'
+          self.$store.dispatch("saveHidden", self.holdUp.hidden.name);
         }
       } else if (name == 'map') {
-        if (mapColor == "#fff") {
-          self.holdUp.map.color = "#fcff03"
-        } else if (mapColor == "#fcff03") {
-          self.holdUp.map.color = "#fff"
-        }
+        // map: { d2: false, d3: true }
+        self.holdUp.map.color = "#fcff03"
+        self.holdUp.movie.color = "#fff"
+        self.map.d2 = true
+        self.map.d3 = false
+        self.$store.dispatch("save23d", self.map)
       } else if (name == 'movie') {
-        if (movieColor == "#fff") {
-          self.holdUp.movie.color = "#fcff03"
-        } else if (movieColor == "#fcff03") {
-          self.holdUp.movie.color = "#fff"
-        }
+        self.holdUp.movie.color = "#fcff03"
+        self.holdUp.map.color = "#fff"
+        self.map.d2 = false
+        self.map.d3 = true
+        self.$store.dispatch("save23d", self.map)
       }
     }
   }

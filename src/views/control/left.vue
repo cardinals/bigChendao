@@ -1,62 +1,71 @@
 <template>
   <div class="controlLeftModule">
-    <common
-      :width="datas.width"
-      :height="datas.height"
-      :title="datas.title"
-      :tabs="datas.tabs"
-      slotHeight="73%"
-      @propEvent="receiveEvent"
-      :style="{ backgroundImage: datas.back }">
-      <dataTourist :data="touristData" v-if="dataNumber == 0" />
-      <!-- 设备 -->
-      <layerContent 
-        width="87%" 
-        height="76%"
-        oneHeight="12%" 
-        marginTop="0" 
-        :datas="deviceData"
-        :isEvent="false"
-        :isRatio="true" 
-        v-if="dataNumber == 1" />
-      <!-- 资源 -->
-      <layerContent
-        width="87%"
-        height="76%"
-        oneHeight="12%"
-        marginTop="0"
-        :datas="resourceData"
-        :isRatio="true"
-        :isEvent="false"
-        v-if="dataNumber == 2" />
-    </common>
-    <common
-      :width="layer.width"
-      :height="layer.height"
-      :title="layer.title"
-      :tabs="layer.tabs"
-      slotHeight="50%"
-      border="none"
-      all="yes"
-      :style="{ backgroundImage: layer.back }"
-    >
-      <layerContent :datas="names" />
-    </common>
-    <common
-      :width="hot.width"
-      :height="hot.height"
-      :title="hot.title"
-      :tabs="hot.tabs"
-      border="none"
-      :style="{ backgroundImage: hot.back }"
-      blue="none"
-    >
-
-    </common>
+    <transition name="el-zoom-in-top">
+      <common
+        v-if="isHidden == '隐藏浮窗'"
+        :width="datas.width"
+        :height="datas.height"
+        :title="datas.title"
+        :tabs="datas.tabs"
+        slotHeight="73%"
+        @propEvent="receiveEvent"
+        :style="{ backgroundImage: datas.back }">
+        <dataTourist :data="touristData" v-if="dataNumber == 0" />
+        <!-- 设备 -->
+        <layerContent 
+          width="87%" 
+          height="76%"
+          oneHeight="12%" 
+          marginTop="0" 
+          :datas="deviceData"
+          :isEvent="false"
+          :isRatio="true" 
+          v-if="dataNumber == 1" />
+        <!-- 资源 -->
+        <layerContent
+          width="87%"
+          height="76%"
+          oneHeight="12%"
+          marginTop="0"
+          :datas="resourceData"
+          :isRatio="true"
+          :isEvent="false"
+          v-if="dataNumber == 2" />
+      </common>
+    </transition>
+    <transition name="el-zoom-in-top">
+      <common
+        v-if="isHidden == '隐藏浮窗'"
+        :width="layer.width"
+        :height="layer.height"
+        :title="layer.title"
+        :tabs="layer.tabs"
+        slotHeight="50%"
+        border="none"
+        all="yes"
+        :style="{ backgroundImage: layer.back }"
+      >
+        <layerContent :datas="names" />
+      </common>
+    </transition>
+    <transition name="el-zoom-in-top">
+      <common
+        v-if="isHidden == '隐藏浮窗'"
+        :width="hot.width"
+        :height="hot.height"
+        :title="hot.title"
+        :tabs="hot.tabs"
+        border="none"
+        :style="{ backgroundImage: hot.back }"
+        blue="none"
+      >
+      </common>
+    </transition>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex"
 import common from "@/components/control/common";
 import dataTourist from "@/components/control/dataTourist";
 import layerContent from "@/components/control/layerContent";
@@ -64,6 +73,7 @@ export default {
   components: { common, dataTourist, layerContent },
   data() {
     return {
+      isHidden: '隐藏浮窗',
       datas: {
         width: "100%",
         height: "36%",
@@ -313,6 +323,18 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...mapState({
+      hiddenValue: state => state.control.hiddenValue
+    })
+  },
+  watch: {
+    hiddenValue(newValue, oldValue) {
+      if (newValue != oldValue) {
+        this.isHidden = newValue
+      }
+    }
   },
   methods: {
     receiveEvent(e) {
