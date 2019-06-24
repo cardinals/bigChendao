@@ -15,7 +15,8 @@
         height="76%"
         oneHeight="12%" 
         marginTop="0" 
-        :datas="deviceData" 
+        :datas="deviceData"
+        :isEvent="false"
         :isRatio="true" 
         v-if="dataNumber == 1" />
       <!-- 资源 -->
@@ -26,6 +27,7 @@
         marginTop="0"
         :datas="resourceData"
         :isRatio="true"
+        :isEvent="false"
         v-if="dataNumber == 2" />
     </common>
     <common
@@ -247,80 +249,66 @@ export default {
       ],
       resourceData: [
         {
-          link: "url(" + require("../../assets/control/layer1.png") + ")",
-          link1: "url(" + require("../../assets/control/layer1x.png") + ")",
+          link: "url(" + require("../../assets/control/layer5.png") + ")", 
           isActive: true,
           name: "景点",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(27)"
         },
         {
-          link: "url(" + require("../../assets/control/layer2.png") + ")",
-          link1: "url(" + require("../../assets/control/layer2x.png") + ")",
+          link: "url(" + require("../../assets/control/malu.png") + ")",
           isActive: true,
           name: "游步道",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(4)"
         },
         {
-          link: "url(" + require("../../assets/control/layer3.png") + ")",
-          link1: "url(" + require("../../assets/control/layer3x.png") + ")",
+          link: "url(" + require("../../assets/control/wc.png") + ")",
           isActive: true,
           name: "卫生间",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(8)"
         },
         {
-          link: "url(" + require("../../assets/control/layer4.png") + ")",
-          link1: "url(" + require("../../assets/control/layer4x.png") + ")",
+          link: "url(" + require("../../assets/control/mian.png") + ")",
           isActive: true,
           name: "餐饮住宿",
           width: "15%",
           height: "80%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(4)"
         },
         {
-          link: "url(" + require("../../assets/control/layer5.png") + ")",
-          link1: "url(" + require("../../assets/control/layer5x.png") + ")",
+          link: "url(" + require("../../assets/control/customer.png") + ")",
           isActive: true,
           name: "游客中心",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(4)"
         },
         {
-          link: "url(" + require("../../assets/control/layer6.png") + ")",
-          link1: "url(" + require("../../assets/control/layer6x.png") + ")",
+          link: "url(" + require("../../assets/control/an.png") + ")",
           isActive: true,
           name: "治安点",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(4)"
         },
         {
-          link: "url(" + require("../../assets/control/layer6.png") + ")",
-          link1: "url(" + require("../../assets/control/layer6x.png") + ")",
+          link: "url(" + require("../../assets/control/p.png") + ")",
           isActive: true,
           name: "停车场",
           width: "15%",
           height: "100%",
           textColor: "#fff",
-          textColor1: "#fdc43b",
           ratio: "(4)"
         }
       ]

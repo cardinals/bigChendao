@@ -6,7 +6,7 @@
       class="everyOne" 
       v-for="(name, index) in datas"
       :key="index" 
-      @click="layerEvent(index)">
+      @click="isEvent ? layerEvent(index) : ''">
       <div class="img" 
         :style="{ backgroundImage: name.isActive ? name.link : name.link1, marginLeft: name.marginLeft, width: name.width, height: name.height }" />
       <div class="name" :style="{ color: name.isActive ? name.textColor : name.textColor1 }">{{ name.name }}</div>
@@ -44,6 +44,10 @@ export default {
     isRatio: {
       type: Boolean,
       default: false
+    },
+    isEvent: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

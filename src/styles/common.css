@@ -1,3 +1,9 @@
+/* 超出宽度文字... */
+.ddd {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 /*水平且垂直居中*/
 .cc {
   display: flex;

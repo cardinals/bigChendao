@@ -12,7 +12,8 @@ export default {
 
 <style lang="less" scoped>
   .controlCenterModule {
-    background: olivedrab;
+    // background: olivedrab;
+    border: 1px solid #fff;
     color: white;
     // width: 936px;
     // height: 890px;
