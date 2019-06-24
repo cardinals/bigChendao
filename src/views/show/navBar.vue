@@ -161,8 +161,13 @@ export default {
         if (hiddenColor == '#fff') {
           // 这里我曾遇到过坑
           self.holdUp.hidden.color = '#fcff03'
+          self.holdUp.hidden.name = '显示浮窗'
+          self.$store.dispatch("saveHidden", self.holdUp.hidden.name);
+
         } else if (hiddenColor == "#fcff03") {
           self.holdUp.hidden.color = "#fff"
+          self.holdUp.hidden.name = '隐藏浮窗'
+          self.$store.dispatch("saveHidden", self.holdUp.hidden.name);
         }
       } else if (name == 'map') {
         if (mapColor == "#fff") {
