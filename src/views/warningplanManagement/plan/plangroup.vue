@@ -34,24 +34,41 @@
                         width="55"
                 >
                 </el-table-column>
+                <template v-if="activeName == '预案' ">
+                    <el-table-column
+                            label="预案名称"
+                            prop="planName"
+                            show-overflow-tooltip>
+                        <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
+                    </el-table-column>
+                    <el-table-column
+                            prop="groupName"
+                            label="事件分组"
+                            show-overflow-tooltip>
+                    </el-table-column>
+                    <el-table-column
+                            prop="content"
+                            label="内容"
+                            show-overflow-tooltip>
+                    </el-table-column>
+                </template>
+                <template v-if="activeName == '事件分组' ">
+                    <el-table-column
+                            prop="groupName"
+                            label="事件分组名称"
+                            show-overflow-tooltip>
+                        <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
+                    </el-table-column>
+                    <el-table-column
+                            prop="count"
+                            label="预案数量"
+                            show-overflow-tooltip>
+                    </el-table-column>
+                </template>
+
+
                 <el-table-column
-                        label="预案名称"
-                        prop="planName"
-                        show-overflow-tooltip>
-                    <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
-                </el-table-column>
-                <el-table-column
-                        prop="name"
-                        label="事件分组名称"
-                        show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                        prop="address"
-                        label="预案数量"
-                        show-overflow-tooltip>
-                </el-table-column>
-                <el-table-column
-                        prop="date"
+                        prop="gmtCreate"
                         label="添加时间"
                         show-overflow-tooltip>
                 </el-table-column>
@@ -85,7 +102,7 @@
 </template>
 
 <script>
-    import { emergencyplanList,emergencyplanDelete,emergencyplanDeletebatch } from "@/api/warningplanManagement/warningplan.js";
+    import { emergencyplanList,emergencyplanDelete,emergencyplanDeletebatch,eventgroupList, eventgroupDeletebatch, eventgroupDelete} from "@/api/warningplanManagement/warningplan.js";
 
     export default {
         data() {
@@ -106,6 +123,7 @@
         },
         created () {
             this.emergencyplanList()
+            // this.eventgroupList()
         },
         methods: {
             handleSizeChange(val) {
@@ -120,12 +138,17 @@
                 this.emergencyplanList()
             },
             handleClicktab() {
+                if(this.activeName == '预案') {
+                    this.emergencyplanList()
+                }else {
+                    this.eventgroupList()
+                }
 
             },
             //添加
             addactiveName () {
                 this.$router.push({
-                    path: "/warningplanManagement/warningManagement/addwarning",
+                    path: this.activeName == '预案'?"/warningplanManagement/planManagement/addplan":"/warningplanManagement/planManagement/addeventlist",
                     query:{
                         type:1
                     },
@@ -134,9 +157,9 @@
             //编辑
             handleClick (row) {
                 this.$router.push({
-                    path: "/warningplanManagement/warningManagement/addwarning",
+                    path: this.activeName == '预案'?"/warningplanManagement/planManagement/addplan":"/warningplanManagement/planManagement/addeventlist",
                     query:{
-                        id:row.id
+                        id:this.activeName == '预案'?row.id:row.groupId
                     }
                 })
             },
@@ -153,7 +176,12 @@
             toggleSelection() {
                 let ids = []
                 this.multipleSelection.map(item => {
-                    ids.push(item.id)
+                    if(this.activeName == '预案') {
+                        ids.push(item.id)
+                    }else {
+                        ids.push(item.groupId)
+                    }
+
                 })
                 let dataids = ids.join(',')
                 let data = {
@@ -165,15 +193,27 @@
                     center: true,
                     customClass:"massagebox"
                 }).then(() => {
-                    emergencyplanDeletebatch(data).then(res => {
-                        if(res.data.code == 200) {
-                            this.emergencyplanList()
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
-                        }
-                    })
+                    if(this.activeName == '预案') {
+                        emergencyplanDeletebatch(data).then(res => {
+                            if(res.data.code == 200) {
+                                this.emergencyplanList()
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }
+                        })
+                    }else {
+                        eventgroupDeletebatch(data).then(res => {
+                            if(res.data.code == 200) {
+                                this.eventgroupList()
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }
+                        })
+                    }
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -189,15 +229,28 @@
                     center: true,
                     customClass:"massagebox"
                 }).then(() => {
-                    emergencyplanDelete(row.id).then(res => {
-                        if(res.data.code == 200) {
-                            this.emergencyplanList()
-                            this.$message({
-                                type: 'success',
-                                message: '删除成功!'
-                            });
-                        }
-                    })
+                    if(this.activeName == '预案') {
+                        emergencyplanDelete(row.id).then(res => {
+                            if(res.data.code == 200) {
+                                this.emergencyplanList()
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }
+                        })
+                    }else {
+                        eventgroupDelete(row.groupId).then(res => {
+                            if(res.data.code == 200) {
+                                this.eventgroupList()
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }
+                        })
+                    }
+
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -205,6 +258,7 @@
                     });
                 });
             },
+            //预案的list
             emergencyplanList () {
                 let data = {
                     organizationId:1,
@@ -214,6 +268,22 @@
                     limit:this.limit,
                 }
                 emergencyplanList(data).then(res => {
+                    if(res.data.code == 200) {
+                        let data = res.data.data
+                        this.tableData = data.records
+                        this.total = data.total
+                    }
+                })
+            },
+            //预案事件分组的list
+            eventgroupList () {
+                let data = {
+                    organizationId:1,
+                    keyword:this.keyword,
+                    page:this.page,
+                    limit:this.limit,
+                }
+                eventgroupList(data).then(res => {
                     if(res.data.code == 200) {
                         let data = res.data.data
                         this.tableData = data.records
