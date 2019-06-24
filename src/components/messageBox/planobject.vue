@@ -1,17 +1,66 @@
 <template>
-        <el-dialog title="查看发送对像" center class="seedobject" :visible.sync="dialogTableVisible" width="40%">
-            <div>
+        <el-dialog title="查看发送对像" center class="seedobject" :visible.sync="dialogTableVisible" width="40%" height="500px">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm"  label-width="140px">
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="所属分组 :">
+                            {{ruleForm.groupId || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="编号 :">
+                            {{ruleForm.eventName || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="预案名称 :">
+                            {{ruleForm.planName || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="预案内容 :">
+                            {{ruleForm.content || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="短信 :">
+                            {{ruleForm.message || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24">
+                        <el-form-item label="内容 :">
+                            {{ruleForm.content || '/'}}
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="24" style="text-align: center">
+                        <el-button type="warning" class="successing" @click="previous" size="small">取消</el-button>
+                        <el-button type="primary" class="successing" @click="submitForm('ruleForm')"  size="small">确认提交</el-button>
+                    </el-col>
+                </el-row>
 
-            </div>
+            </el-form>
         </el-dialog>
 </template>
 
 <script>
-    import { addressbookList, } from "@/api/eventManagement/event.js";
 
 export default {
     data() {
         return {
+            ruleForm:{},
+            rules:{},
             dialogTableVisible:false,
             tableData: [],
             multipleSelection: [],
@@ -27,13 +76,15 @@ export default {
     methods: {
         show (data) {
             this.dialogTableVisible = true
-            this.addressbookList(data)
+            this.ruleForm = data
+            console.log(this.ruleForm)
         },
-
-        toggleSelection() {
+        previous () {
             this.dialogTableVisible = false
         },
-
+        submitForm () {
+            this.$emit('changeplanobject')
+        }
     }
 }
 </script>
