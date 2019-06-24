@@ -2,12 +2,12 @@
   <div class="alertControl cc">
     <div 
       class="horn"
-      v-for="(horn, index) in alert.horns"
+      v-for="(horn, index) in alerts.horns"
       :key="index"
       :style="horn" />
       <div class="content cc">
-        <div class="light" :style="{ backgroundImage: alert.light }" />
-        <div class="off" :style="{ backgroundImage: alert.off }" @click="offAlert" />
+        <div class="light" :style="{ backgroundImage: alerts.light }" />
+        <div class="off" :style="{ backgroundImage: alerts.off }" @click="offAlert" />
         <Left />
         <Center />
         <Right />
@@ -23,7 +23,7 @@ export default {
   components: { Left, Center, Right },
   data() {
     return {
-      alert: {
+      alerts: {
         horns: [
           {
             backgroundImage:

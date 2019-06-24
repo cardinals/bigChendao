@@ -103,8 +103,7 @@ export default {
           back: "url(" + require("../../assets/control/search.png") + ")",
           back2: "url(" + require("../../assets/control/sousuo.png") + ")"
         }
-      },
-      map: { d2: false, d3: true }
+      }
     };
   },
   mounted() {
@@ -174,15 +173,13 @@ export default {
         // map: { d2: false, d3: true }
         self.holdUp.map.color = "#fcff03"
         self.holdUp.movie.color = "#fff"
-        self.map.d2 = true
-        self.map.d3 = false
-        self.$store.dispatch("save23d", self.map)
+        const value = true
+        self.$store.dispatch("save23d", value)
       } else if (name == 'movie') {
         self.holdUp.movie.color = "#fcff03"
         self.holdUp.map.color = "#fff"
-        self.map.d2 = false
-        self.map.d3 = true
-        self.$store.dispatch("save23d", self.map)
+        const value = false
+        self.$store.dispatch("save23d", value)
       }
     }
   }
