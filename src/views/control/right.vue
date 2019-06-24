@@ -18,6 +18,7 @@
         <tableModule :tableTitle="tableTitle3" :record="record3" v-if="dataNumber == 2" />
       </common>
     </transition>
+    <ranging />
   </div>
 </template>
 
@@ -25,8 +26,9 @@
 import { mapState } from "vuex"
 import common from "@/components/control/common";
 import tableModule from "@/components/common/table"
+import ranging from "@/components/common/ranging"
 export default {
-  components: { common, tableModule },
+  components: { common, tableModule, ranging },
   data() {
     return {
       isHidden: '隐藏浮窗',
@@ -237,5 +239,10 @@ export default {
     // height: 890px;
     width: 21%;
     height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative;
   }
 </style>
