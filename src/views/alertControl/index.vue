@@ -63,6 +63,7 @@ export default {
     offAlert() {
       const passAlert = { showAlert: false };
       this.$store.dispatch("showAlert", passAlert);
+      this.$store.dispatch("savePlanOrmanOrNo", 3);
     }
   }
 };

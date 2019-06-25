@@ -82,6 +82,7 @@ const router =  new Router({
   base: "/dcd",
   routes: [
     { path: "/", redirect: "/show" },
+    // { path: "/", redirect: "/console" },
     {
       path: "/show",
       redirect: "/show/control",

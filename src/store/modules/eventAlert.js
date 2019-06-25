@@ -1,6 +1,7 @@
 const state = {
   alertBoolean: false,
   tabNumber: 0,
+  planOrmanOrNoNumber: 3
 }
 
 const mutations = {
@@ -20,6 +21,9 @@ const actions = {
   },
   saveTabNumber(context, tabNumber) {
     context.commit("setState", { key: "tabNumber", value: tabNumber });
+  },
+  savePlanOrmanOrNo(context, number) {
+    context.commit("setState", { key: "planOrmanOrNoNumber", value: number })
   }
 }
 

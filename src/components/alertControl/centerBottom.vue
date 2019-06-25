@@ -1,8 +1,9 @@
 <template>
   <div class="centerBottom">
-    <div class="content">
+    <div class="content" :style="{ height: this.$store.state.eventAlert.tabNumber == 0 ? '65%' : '34%'}">
       <div
         class="handle cc"
+        @click="planOrmanOrNo(index)"
         v-for="(handle, index) in handles"
         :style="{ backgroundImage: handle.back }"
         :key="index">
@@ -23,6 +24,12 @@ export default {
         { back: "url(" + require('../../assets/event/handle3.png') + ")", text: "不处理" }
       ]
     }
+  },
+  methods: {
+    planOrmanOrNo(index) {
+      console.log(index)
+      this.$store.dispatch("savePlanOrmanOrNo", index)
+    }
   }
 }
 </script>
@@ -39,7 +46,6 @@ export default {
     margin: 0 auto;
     .content {
       width: 100%;
-      height: 65%;
       display: flex;
       justify-content: space-between;
       align-items: center;
