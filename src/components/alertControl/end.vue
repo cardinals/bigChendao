@@ -1,5 +1,5 @@
 <template>
-  <div class="planMan">
+  <div class="endBox">
     <div class="out">
       <div class="title" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">预案处理</div>
       <div class="title" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 1">人工处理</div>
@@ -11,16 +11,12 @@
         <div class="name">{{ content.header[0] }}</div>
         <div class="name">{{ content.header[1] }}</div>
       </div>
-      <div :class="this.$store.state.eventAlert.planOrmanOrNoNumber == 0 ? 'section1' : 'section11' ">
+      <div class="section11">
         <div class="top">
           <div class="s1name">{{ content.section1.title }}</div>
           <div class="selectBox">
-            <selects></selects>
-            <selects v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0"></selects>
+            <selects />
           </div>
-        </div>
-        <div class="bottomBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">
-          <div class="bottom" v-for="(item, index) in content.section1.text" :key="index">{{ item }}</div>
         </div>
       </div>
       <div class="section2">
@@ -30,7 +26,6 @@
             <input type="radio" id="radis">
             <label for="radis"><span>{{ content.section2.short[0] }}</span></label>
           </div>
-          <div class="edit" :style="{ backgroundImage: content.section2.edit }"></div>
         </div>
         <div class="section2BottomBox">
           <div class="title">{{ content.section2.short[1] }}</div>
@@ -42,15 +37,13 @@
         <div class="section3Bottom">
           <div class="section3Title">{{ content.section3.title[1] }}</div>
           <div class="contentBox">
-            <div class="section3ItemBox">
-              <div class="section3Item" v-for="(item, index) in content.section3.list" :key="index">
-                <input type="checkbox" :id="index">
-                <label :for="index">{{ item }}</label>
-              </div>
-            </div>
-            <selects width="30%" height="25%" />
+            
           </div>
         </div>
+      </div>
+      <div class="section4">
+        <div class="section4Top">{{ content.section4.title[0] }}</div>
+        <textarea name="" id="" cols="30" rows="10" :placeholder="content.section4.title[1]"></textarea>
       </div>
       <div class="btn">
         <div class="btn1 cc" @click="handle">{{ content.btn[0] }}</div>
@@ -88,23 +81,26 @@ export default {
           title: ["(3) 发送对象", "快捷选择对象"],
           list: ["请选择分组", "附近人员", "附近车辆"]
         },
-        btn: ["处置", "上一步"]
+        section4: {
+          title: ["(4) 请对完结情况描述下", "请输入描述..."]
+        },
+        btn: ["完成调拨", "上一步"]
       }
     }
   },
   methods: {
     lastStep() {
-      this.$store.dispatch("savePlanOrmanOrNo", 5);
+      this.$store.dispatch("savePlanOrmanOrNo", 3);
     },
     handle() {
-      this.$store.dispatch("savePlanOrmanOrNo", 3);
+      // this.$store.dispatch("savePlanOrmanOrNo", 3);
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  .planMan {
+  .endBox {
     color: white;
     width: 100%;
     height: 92%;
@@ -197,6 +193,7 @@ export default {
       .section1 {
         width: 91%;
         height: 20%;
+        margin-bottom: 2%;
         // background: yellowgreen;
         .top {
           height: 22%;
@@ -228,7 +225,8 @@ export default {
       }
       .section2 {
         width: 91%;
-        height: 30%;
+        height: 22%;
+        margin-bottom: 2%;
         // background: yellowgreen;
         display: flex;
         flex-direction: column;
@@ -258,7 +256,7 @@ export default {
             }
           }
           .edit {
-            height: 76%;
+            height: 100%;
             width: 5%;
             background-repeat: no-repeat;
             background-size: 100% 100%;
@@ -290,21 +288,22 @@ export default {
       .section3 {
         width: 91%;
         height: 28%;
+        margin-bottom: 2%;
         // background: yellowgreen;
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         .section3Top {
           width: 100%;
-          height: 14%;
+          height: 10%;
           font-size: 20px;
           color: white;
           margin-bottom: 2%;
         }
         .section3Bottom {
           width: 100%;
-          height: 67%;
+          height: 74%;
           border: 1px solid #7bd0ea;
           .section3Title {
             font-size: 16px;
@@ -322,29 +321,33 @@ export default {
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
-            .section3ItemBox {
-              width: 25%;
-              height: 100%;
-              display: flex;
-              flex-direction: column;
-              justify-content: flex-start;
-              align-items: flex-start;
-              margin-right: 7%;
-              margin-left: 5%;
-              .section3Item {
-                width: 100%;
-                font-size: 16px;
-                color: white;
-                // margin-bottom: 10%;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                input {
-                  margin-right: 10%;
-                }
-              }
-            }
+            
           }
+        }
+      }
+      .section4 {
+        width: 91%;
+        height: 28%;
+        // background: yellowgreen;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .section4Top {
+          width: 100%;
+          height: 10%;
+          font-size: 20px;
+          color: white;
+          margin-bottom: 4%;
+        }
+        textarea {
+          overflow: auto;
+          resize: vertical;
+          height: 50%;
+          width: 100%;
+          background: transparent;
+          color: white;
+          border: 0.1rem solid #7bd0ea;
         }
       }
       .btn {

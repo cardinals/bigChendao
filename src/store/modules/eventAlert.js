@@ -1,7 +1,7 @@
 const state = {
   alertBoolean: false,
   tabNumber: 0,
-  planOrmanOrNoNumber: 3
+  planOrmanOrNoNumber: 5
 }
 
 const mutations = {

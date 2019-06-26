@@ -17,7 +17,7 @@ export default {
   props: {
     width: {
       type: String,
-      default: "48%"
+      default: "45%"
     },
     height: {
       type: String,
@@ -34,7 +34,7 @@ export default {
     return {
       isClick: false,
       defaultText: "请选择",
-      jiaoBack: "url(" + require('../../assets/event/warning.png') + ")",
+      jiaoBack: "url(" + require('../../assets/event/jiao.png') + ")",
       list: ["选择内容1", "选择内容2", "选择内容3", "选择内容4", "选择内容5"]
     }
   },
