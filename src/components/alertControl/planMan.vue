@@ -196,7 +196,7 @@ export default {
       }
       .section1 {
         width: 91%;
-        height: 20%;
+        height: 24%;
         // background: yellowgreen;
         .top {
           height: 22%;

@@ -37,7 +37,18 @@
         <div class="section3Bottom">
           <div class="section3Title">{{ content.section3.title[1] }}</div>
           <div class="contentBox">
-            
+            <p class="p1">
+              <span>查看选择分组</span>
+              <span>查看名单</span>
+            </p>
+            <p class="p2">
+              <span>附近人员</span>
+              <span>附近车辆</span>
+            </p>
+            <p class="p3">
+              <span>所有名单</span>
+              <span>查看名单</span>
+            </p>
           </div>
         </div>
       </div>
@@ -93,7 +104,8 @@ export default {
       this.$store.dispatch("savePlanOrmanOrNo", 3);
     },
     handle() {
-      // this.$store.dispatch("savePlanOrmanOrNo", 3);
+      this.$store.dispatch("showAlert", false);
+      this.$store.dispatch("savePlanOrmanOrNo", 6);
     }
   }
 }
@@ -318,10 +330,39 @@ export default {
           .contentBox {
             height: 68%;
             width: 100%;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            
+            .p1 {
+              margin-left: 3%;
+            }
+            .p1 span:nth-child(1) {
+              margin-left: 3%;
+              font-size: 16px;
+            }
+            .p1 span:nth-child(2) {
+              font-size: 16px;
+              color: #67aec5;
+              border-bottom: 1px solid #67aec5;
+              cursor: pointer;
+              margin-left: 3%;
+            }
+            .p2 span:nth-child(1) {
+              margin-left: 6%;
+              font-size: 16px;
+            }
+            .p2 span:nth-child(2) {
+              font-size: 16px;
+              margin-left: 6%;
+            }
+            .p3 span:nth-child(1) {
+              margin-left: 6%;
+              font-size: 16px;
+            }
+            .p3 span:nth-child(2) {
+              font-size: 16px;
+              color: #67aec5;
+              border-bottom: 1px solid #67aec5;
+              margin-left: 3%;
+              cursor: pointer;
+            }
           }
         }
       }

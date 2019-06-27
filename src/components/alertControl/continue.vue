@@ -97,6 +97,7 @@ export default {
         border-radius: 5px;
         color: white;
         font-size: 18px;
+        cursor: pointer;
       }
     }
   }

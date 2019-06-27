@@ -5,6 +5,7 @@
     <Right />
     <transition name="el-zoom-in-top">
       <alertControl v-if="isAlertBoolean" />
+      <lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />
     </transition>
   </div>
 </template>
@@ -15,8 +16,9 @@ import Left from "./left";
 import Center from "./center";
 import Right from "./right"
 import alertControl from "@/views/alertControl/index"
+import lastOne from "@/components/alertControl/lastOne"
 export default {
-  components: { Left, Center, Right, alertControl },
+  components: { Left, Center, Right, alertControl, lastOne },
   data() {
     return {
       isAlertBoolean: false
