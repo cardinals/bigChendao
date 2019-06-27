@@ -1,6 +1,6 @@
 <template>
   <!-- 此可以当做一个组件 暴露数据 宽高 isActive接口-->
-  <div class="layerContent" :style="{ width: width, height: height, marginTop: marginTop }">
+  <div class="layerContent" :style="{ width: width, height: height, marginTop: marginTop }" :class="isColumn ? 'layerContent1': ''">
     <div
       :style="{ height: oneHeight }"
       class="everyOne" 
@@ -48,6 +48,10 @@ export default {
     isEvent: {
       type: Boolean,
       default: true
+    },
+    isColumn: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -86,6 +90,37 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.layerContent1 {
+  color: white;
+  // margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  .everyOne {
+    width: 50%;
+    // height: 20%;
+    // background: black;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .img {
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      margin-right: 7%;
+    }
+    .name {
+      margin-right: 5%;
+      font-size: 15px;
+      margin-left: 1%;
+    }
+    .ratio {
+      color: #00e2ff;
+      font-size: 18px;
+    }
+  }
+}
 .layerContent {
   color: white;
   // margin-top: 10%;
@@ -98,7 +133,7 @@ export default {
     // height: 20%;
     // background: black;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     .img {
       background-repeat: no-repeat;

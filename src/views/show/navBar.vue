@@ -111,6 +111,7 @@ export default {
     this.timer = setInterval(() => {
       self.holdUp.time.name = moment().format("HH:mm:ss");
     }, 1000);
+    this.resetSelect()
   },
   beforeDestroy() {
     if (this.timer) {
@@ -118,6 +119,15 @@ export default {
     }
   },
   methods: {
+    resetSelect() {
+      const path = this.$route.path;
+      const self = this;
+      if (path == '/show/control') {
+        self.navigator(0)
+      } else if (path == '/show/command') {
+        self.navigator(1)
+      }
+    },
     navigator(e) {
       const options = this.options;
       if (e == 0) {
@@ -130,6 +140,9 @@ export default {
         options[0].color = "#00e2ff";
         options[1].color = "#fff";
         options[2].color = "#fff";
+        this.$router.push({
+          path: '/show/control'
+        })
       } else if (e == 1) {
         options[0].back =
           "url(" + require("../../assets/control/option1.png") + ")";
@@ -140,6 +153,9 @@ export default {
         options[0].color = "#fff";
         options[1].color = "#00e2ff";
         options[2].color = "#fff";
+        this.$router.push({
+          path: '/show/command'
+        })
       } else if (e == 2) {
         options[0].back =
           "url(" + require("../../assets/control/option1.png") + ")";

@@ -1,14 +1,15 @@
 <template>
-  <div class="tableModule">
-    <div class="titleBox">
+  <div class="tableModule" :style="{ height: moduleHeight, marginTop: moduleMt }">
+    <div class="titleBox" :style="{ height: titleHeight }">
       <div class="title"
         v-for="(title, index) in tableTitle"
         :key="index">
           {{ title }}
       </div>
     </div>
-    <div class="tableContent">
-      <div class="content" 
+    <div class="tableContent" :style="{ height: tableHeight }">
+      <div class="content"
+        :style="{ height: contentHeight }"
         v-for="(article, index) in record" 
         :key="index" 
         @click="pointEvent(index)">
@@ -37,6 +38,26 @@ export default {
       default: () => {
         return [];
       }
+    },
+    contentHeight: {
+      type: String,
+      default: "15%"
+    },
+    titleHeight: {
+      type: String,
+      default: "10%"
+    },
+    tableHeight: {
+      type: String,
+      default: "90%"
+    },
+    moduleHeight: {
+      type: String,
+      default: "100%"
+    },
+    moduleMt: {
+      type: String,
+      default: "4%"
     }
   },
   data() {
@@ -61,12 +82,12 @@ export default {
   .tableModule {
     color: #ffffff;
     width: 83%;
-    height: 100%;
+    // height: 100%;
     // background: red;
-    margin-top: 4%;
+    // margin-top: 4%;
     .titleBox {
       display: flex;
-      height: 10%;
+      // height: 10%;
       width: 100%;
       justify-content: space-between;
       align-items: center;
@@ -81,12 +102,12 @@ export default {
       display: none;
     }
     .tableContent {
-      height: 90%;
+      // height: 90%;
       width: 100%;
       // 超出滚动
       overflow-y: scroll;
       .content {
-        height: 15%;
+        // height: 15%;
         width: 100%;
         border-bottom: 1px solid #31416d;
         display: flex;

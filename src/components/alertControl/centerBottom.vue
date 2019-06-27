@@ -28,7 +28,12 @@ export default {
   methods: {
     planOrmanOrNo(index) {
       console.log(index)
+      const self = this;
       this.$store.dispatch("savePlanOrmanOrNo", index)
+      if (index == 2) {
+        self.$store.dispatch("showAlert", false);
+        self.$store.dispatch("savePlanOrmanOrNo", 6);
+      }
     }
   }
 }

@@ -3,10 +3,10 @@
     背景图 尺寸 title tabName titleHeight tabs的居中方式 .slot的高度
   -->
   <div class="commonModule" 
-    :style="{ backgroundImage: back, width: width, height: height }"
+    :style="{ backgroundImage: back, width: width, height: height, marginBottom: mb }"
   >
     <div class="titleBox cc" 
-      :style="{ backgroundImage: titleBack, height: titleHeight }">
+      :style="{ backgroundImage: isBack ? titleBack1 : titleBack, width: titleWidth, height: titleHeight }">
       {{ title }}
     </div>
     <div class="blueLine" :style="{ height: blueLineHeight }" v-if="blue != 'none'">
@@ -59,6 +59,10 @@ export default {
       type: String,
       default: '11%'
     },
+    mb: {
+      type: String,
+      default: '0%'
+    },
     border: {
       type: String,
       default: ''
@@ -82,12 +86,21 @@ export default {
     isAlert: {
       type: Boolean,
       default: false
-    }
+    },
+    isBack: {
+      type: Boolean,
+      default: false
+    },
+    titleWidth: {
+      type: String,
+      default: '45%'
+    },
   },
   components: { all },
   data() {
     return {
       titleBack: "url(" + require("../../assets/control/titleBack.png") +")",
+      titleBack1: "url(" + require("../../assets/command/week.png") +")",
       defaultNum: 0
     }
   },
@@ -111,7 +124,7 @@ export default {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     .titleBox {
-      width: 46%;
+      // width: 46%;
       background-repeat: no-repeat;
       background-size: 100% 100%;
       margin: 0 auto;
