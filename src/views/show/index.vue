@@ -17,6 +17,7 @@ export default {
   .show {
     width: 100%;
     height: 100%;
+    pointer-events: none;
     // position: absolute;
     // top: 0;
     // left: 0;

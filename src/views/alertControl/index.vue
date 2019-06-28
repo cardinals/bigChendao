@@ -71,6 +71,7 @@ export default {
 
 <style lang="less" scoped>
 .alertControl {
+  pointer-events: auto;
   width: 71%;
   height: 95%;
   // background: #ffffff;

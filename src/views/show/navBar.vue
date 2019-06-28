@@ -36,9 +36,15 @@
         <div class="movie cc" :style="{ backgroundImage: holdUp.movie.back, color: holdUp.movie.color }" @click="showOption('movie')">
           {{ holdUp.movie.name }}
         </div>
-        <div class="search" :style="{ backgroundImage: holdUp.search.back }">
+        <!-- 
+          梅花鹿
+         -->
+        <div class="search" :style="{ backgroundImage: holdUp.search.back }" v-if="this.$route.path == '/show/control'">
           <input class="ipt" type="text" :placeholder="holdUp.search.placeholder">
           <div class="sousuo" :style="{ backgroundImage: holdUp.search.back2 }"></div>
+        </div>
+        <div v-if="this.$route.path == '/show/command'" class="news" :style="{ backgroundImage: titleBox.title.ldBack }">
+          <div class="red"></div>  
         </div>
       </div>
     </div>
@@ -54,7 +60,8 @@ export default {
         title: {
           name: "大陈岛管控指挥可视化平台",
           back:
-            "url(" + require("../../../static/img/control/titleImg.png") + ")"
+            "url(" + require("../../../static/img/control/titleImg.png") + ")",
+          ldBack: "url(" +require('../../assets/command/ld.png') + ")"
         }
       },
       options: [
@@ -205,6 +212,7 @@ export default {
 <style scoped lang="less">
   // 140 1080 13% 87%
 .navBar {
+  pointer-events: auto;
   text-align: center;
   .size(100%; 14.2%);
   .font(30px; #fff);
@@ -361,6 +369,24 @@ export default {
           height: 32%;
           background-repeat: no-repeat;
           background-size: 100% 100%;
+        }
+      }
+      .news {
+        margin-left: 50%;
+        width: 6%;
+        height: 51%;
+        // background: yellow;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        .red {
+          width: 36%;
+          height: 32%;
+          background: red;
+          border-radius: 50%;
+          position: absolute;
+          right: 0;
+          top: 0;
         }
       }
     }

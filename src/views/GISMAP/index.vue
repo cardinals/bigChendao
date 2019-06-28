@@ -10,7 +10,20 @@
       <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
         @click="hideLayer">图层隐藏</button>
     </div>
-    <div id="glCanvas2"></div>
+    <div id="glCanvas2" style="z-index:999;">
+      <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="drawPoints">画点</button>
+      <button style="position: absolute;top: 80px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="measurePolyline">测距</button>
+      <button style="position: absolute;top: 120px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="measurePolygon">测面积</button>
+      <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="showLayer">图层显示</button>
+      <button style="position: absolute;top: 200px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="hideLayer">图层隐藏</button>
+      <button style="position: absolute;top: 240px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="clearAll">清除分析结果</button>
+    </div>
   </div>
 </template>
 
@@ -34,11 +47,11 @@ export default {
   watch: {
     value23D(val, oldVal) {
       if (val == true) {
-        this.changeMap2d()
+        this.changeMap2d();
       } else {
-        this.changeMap3d()
+        this.changeMap3d();
       }
-    },
+    }
   },
   methods: {
     initGis() {
@@ -89,12 +102,15 @@ export default {
       let cfg2 = {
         dom: document.getElementById("glCanvas2"),
         key: "wSryzKApfH8y",
-        EngineIP: "http://115.236.87.26:9004", //引擎访问地址
-        ResourcesIP: "http://115.236.87.26:9999/xwyq/", //资源访问地址
+        EngineIP: "http://183.60.191.57:7002/", //引擎访问地址
+        ResourcesIP: "http://183.60.191.57:8888/szgz/", //资源访问地址
+        LookAt: { x: 120.21094304007175, y: 30.2542158154715 },
+        castShadow: true,
         hideBGTile: false //是否隐藏底图切片（默认为true）
       };
-      window.earth = new Earth(cfg2); //创建二维地图对象
-      earth.open(); //打开二维地图
+      window.map = new MapGis(cfg2); //创建二维地图对象
+      map.open(); //打开二维地图
+      map.on("MapFinish", () => {});
     },
     addModelBtn() {
       window.addModel = true;
@@ -102,7 +118,7 @@ export default {
     changeMap2d() {
       document.getElementById("glCanvas1").style.display = "none";
       document.getElementById("glCanvas2").style.display = "block";
-      earth.fireEvent("EarthResize", earth);
+      map.fireEvent("MapResize", map);
     },
     changeMap3d() {
       document.getElementById("glCanvas1").style.display = "block";
@@ -146,6 +162,177 @@ export default {
     },
     hideLayer() {
       engine.Api.Layers.showLayer("FFDX_GEO_3DMODEL", false);
+    },
+    // 画点
+    drawPoints() {
+      //在地图上绘制一个点，在回调函数中我们可以拿到该点
+      map.Api.Draws.drawPoint({}, function(data) {
+        let p = data.point.clone().changeEPSGType("4326"); //将点转为经纬度坐标
+        let label_data = {
+          name: `我是新画的点`,
+          fill_color: "ecedf0",
+          font_color: "2e2f37",
+          font_size: 14,
+          font_face: "微软雅黑",
+          align: "left"
+        };
+        let label = new map.Api.Type.Label(label_data, map, data.marker); //创建标签，将标签添加到绘制的点上
+        data.marker.setLabel(label);
+      });
+    },
+    // 测距
+    measurePolyline() {
+      let moveMarker;
+      let cfg = {
+        isTool: true,
+        depthTest: false,
+        color: "#FF4500",
+        line_width: 2
+      };
+      map.Api.Draws.drawLine(cfg, function(data) {
+        if (data && data.coordinate.drawObj) {
+          let points = data.coordinate.drawObj.points; //线中的所有节点
+          var length = 0;
+          points.forEach((element, index) => {
+            //计算相邻两个节点的距离
+            if (index < points.length - 1) {
+              length += points[index].distanceTo(points[index + 1]);
+            }
+          });
+          let distance =
+            length > 1000
+              ? (length / 1000).toFixed(2) + "公里"
+              : length.toFixed(2) + "米 <br>";
+          let pos = points[points.length - 1].clone(); //在节点位置添加计算所得的结果
+          let layer = data.markerLayer;
+          if (data.type == "click") {
+            let marker = new map.Api.Type.Models.Marker(
+              {
+                data: {
+                  icon: "./images/default/point.png"
+                },
+                shapes: [pos]
+              },
+              map
+            );
+            let label = new map.Api.Type.Label(
+              {
+                name: distance,
+                font_color: "ffffff",
+                fill_color: "404b57",
+                font_size: 12,
+                NotSelect: true,
+                align: "left"
+              },
+              map,
+              marker
+            );
+            marker.setLabel(label);
+            layer.add(marker);
+            data.coordinate.markers.push(marker);
+          } else if (data.type == "move") {
+            //跟着鼠标一直移动的节点
+            if (!moveMarker) {
+              moveMarker = new map.Api.Type.Models.Marker(
+                {
+                  data: {
+                    icon: "./images/default/point.png"
+                  },
+                  shapes: [pos]
+                },
+                map
+              );
+              let label = new map.Api.Type.Label(
+                {
+                  name: distance,
+                  font_color: "ffffff",
+                  fill_color: "404b57",
+                  font_size: 12,
+                  NotSelect: true,
+                  align: "left"
+                },
+                map,
+                moveMarker
+              );
+              moveMarker.setLabel(label);
+              layer.add(moveMarker);
+              data.coordinate.markers.push(moveMarker);
+            } else {
+              moveMarker.updateConfg({ name: distance });
+              moveMarker.setPosition(pos);
+            }
+          } else if (data.type == "rightClick") {
+            //右键结束
+            layer.remove(moveMarker);
+          }
+        }
+      });
+    },
+    // 测面积
+    measurePolygon() {
+      let areaMarker;
+      let cfg = {
+        isTool: true,
+        depthTest: false,
+        color: "#FF4500",
+        line_width: 2
+      };
+      map.Api.Draws.drawPolygon(cfg, function(data) {
+        let point = data.point;
+        let layer = data.markerLayer;
+        let result = map.Api.Measure.getArea(data.coordinate.drawObj.points);
+        if (data.type == "move") {
+          if (!areaMarker) {
+            areaMarker = new map.Api.Type.Models.Marker(
+              {
+                data: {
+                  name: result.area + result.unit,
+                  font_color: "ffffff",
+                  fill_color: "404b57",
+                  font_size: 12,
+                  NotSelect: true
+                },
+                shapes: [point]
+              },
+              map
+            );
+            layer.add(areaMarker);
+            data.coordinate.markers.push(areaMarker);
+          } else {
+            areaMarker.updateConfg({ name: result.area + result.unit });
+            areaMarker.setPosition(point);
+          }
+        } else if (data.type == "rightClick") {
+          let point1 =
+            data.coordinate.drawObj.points[
+              data.coordinate.drawObj.points.length - 2
+            ];
+          if (areaMarker) {
+            areaMarker.updateConfg({ name: result.area + result.unit });
+            areaMarker.setPosition(point1);
+            areaMarker.updateOffsetxy("65,2");
+          }
+        }
+      });
+    },
+    // 图层显示
+    clearAll() {
+      map.Api.Draws.clear(); //清除地图上所有的绘制对象
+    },
+    // 图层隐藏
+    showLayer() {
+      //这里获取的图层是画点的那个markerLayer图层
+      let layer = map.Api.Layers.getLayer("标注绘制图层");
+      if (layer) {
+        layer.setVisible(true);
+      }
+    },
+    // 清除分析结果
+    hideLayer() {
+      let layer = map.Api.Layers.getLayer("标注绘制图层");
+      if (layer) {
+        layer.setVisible(false);
+      }
     }
   }
 };
@@ -155,6 +342,7 @@ export default {
 .gisMap {
   width: 100%;
   height: 100%;
+  pointer-events: auto;
   #glCanvas1 {
     width: 100%;
     height: 100%;

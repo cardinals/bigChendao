@@ -10,8 +10,8 @@
         slotHeight="73%"
         @propEvent="receiveEvent"
         :style="{ backgroundImage: datas.back }">
-        <dataTourist :data="touristData" v-if="dataNumber == 0" />
-        
+          <event v-if="dataNumber == 0" />
+          <position v-if="dataNumber == 1" />
       </common>
     </transition>
     <transition name="el-zoom-in-top">
@@ -50,13 +50,14 @@
 </template>
 
 <script>
+import event from "@/components/command/event"
+import position from "@/components/command/position"
 import echarts from 'echarts'
 import { mapState } from "vuex";
 import common from "@/components/control/common";
-import dataTourist from "@/components/control/dataTourist";
 import BaseEchart from "@/components/echarts/BaseEchart";
 export default {
-  components: { common, dataTourist, BaseEchart },
+  components: { common, BaseEchart, event, position },
   data() {
     return {
       isHidden: "隐藏浮窗",
@@ -244,7 +245,10 @@ export default {
           top: "10%",
           right: "10%",
           bottom: "20%",
-          left: "15%"
+          left: "15%",
+          show:true,  
+          borderColor:"transparent",
+          backgroundColor:'rgba(255, 255, 255, 0.1)'
         },
         xAxis: {
           type: "category",
@@ -298,7 +302,10 @@ export default {
           top: "10%",
           right: "10%",
           bottom: "20%",
-          left: "15%"
+          left: "15%",
+          show:true,  
+          borderColor:"transparent",
+          backgroundColor:'rgba(255, 255, 255, 0.1)'
         },
         xAxis: {
           data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"],
@@ -383,5 +390,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  pointer-events: auto;
 }
 </style>

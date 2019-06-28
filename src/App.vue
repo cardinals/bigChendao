@@ -51,6 +51,7 @@ export default {
     left: 0;
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    pointer-events: none;
   }
 }
 </style>

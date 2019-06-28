@@ -1,7 +1,7 @@
 <template>
   <div class="command lc">
     <Left />
-    <Center />
+    <!-- <Center /> -->
     <Right />
     <transition name="el-zoom-in-top">
       <alertControl v-if="isAlertBoolean" />
@@ -48,5 +48,6 @@ export default {
     top: 14.2%;
     padding-left: 1%;
     padding-right: 1%;
+    pointer-events: none;
   }
 </style>

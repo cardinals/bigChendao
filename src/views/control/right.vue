@@ -244,5 +244,6 @@ export default {
     justify-content: space-between;
     align-items: flex-end;
     position: relative;
+    pointer-events: auto;
   }
 </style>
