@@ -1,7 +1,8 @@
 const state = {
   alertBoolean: false,
   tabNumber: 0,
-  planOrmanOrNoNumber: 5
+  planOrmanOrNoNumber: 5,
+  showNewsAlert: false
 }
 
 const mutations = {
@@ -24,7 +25,10 @@ const actions = {
   },
   savePlanOrmanOrNo(context, number) {
     context.commit("setState", { key: "planOrmanOrNoNumber", value: number })
-  }
+  },
+  showNewsAlert(context, passAlert) {
+    context.commit("setState", { key: "showNewsAlert", value: passAlert });
+  },
 }
 
 export default {

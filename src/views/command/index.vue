@@ -4,6 +4,7 @@
     <!-- <Center /> -->
     <Right />
     <transition name="el-zoom-in-top">
+      <newsAlert v-if="isNewsAlert"/>
       <alertControl v-if="isAlertBoolean" />
       <lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />
     </transition>
@@ -17,22 +18,30 @@ import Center from "./center";
 import Right from "./right"
 import alertControl from "@/views/alertControl/index"
 import lastOne from "@/components/alertControl/lastOne"
+import newsAlert from "@/views/newsAlert/index"
 export default {
-  components: { Left, Center, Right, alertControl, lastOne },
+  components: { Left, Center, Right, alertControl, newsAlert, lastOne },
   data() {
     return {
-      isAlertBoolean: false
+      isAlertBoolean: false,
+      isNewsAlert: false
     }
   },
   computed: {
     ...mapState({
-      alertBoolean: state => state.eventAlert.alertBoolean
+      alertBoolean: state => state.eventAlert.alertBoolean,
+      newsAlertBoolean: state => state.eventAlert.showNewsAlert
     })
   },
   watch: {
     alertBoolean(newVal, oldValue) {
       if (newVal != oldValue) {
         this.isAlertBoolean = newVal
+      }
+    },
+    newsAlertBoolean(newVal, oldValue) {
+      if (newVal != oldValue) {
+        this.isNewsAlert = newVal
       }
     }
   }

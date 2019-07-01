@@ -43,7 +43,10 @@
           <input class="ipt" type="text" :placeholder="holdUp.search.placeholder">
           <div class="sousuo" :style="{ backgroundImage: holdUp.search.back2 }"></div>
         </div>
-        <div v-if="this.$route.path == '/show/command'" class="news" :style="{ backgroundImage: titleBox.title.ldBack }">
+        <div
+          v-if="this.$route.path == '/show/command'"
+          class="news"
+          :style="{ backgroundImage: titleBox.title.ldBack }" @click="openNews">
           <div class="red"></div>  
         </div>
       </div>
@@ -110,7 +113,8 @@ export default {
           back: "url(" + require("../../assets/control/search.png") + ")",
           back2: "url(" + require("../../assets/control/sousuo.png") + ")"
         }
-      }
+      },
+      passAlert: true
     };
   },
   mounted() {
@@ -204,6 +208,10 @@ export default {
         const value = false
         self.$store.dispatch("save23d", value)
       }
+    },
+    openNews() {
+      const passAlert = this.passAlert;
+      this.$store.dispatch("showNewsAlert", passAlert);
     }
   }
 };
@@ -379,6 +387,7 @@ export default {
         background-repeat: no-repeat;
         background-size: 100% 100%;
         position: relative;
+        cursor: pointer;
         .red {
           width: 36%;
           height: 32%;
