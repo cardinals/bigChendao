@@ -9,6 +9,7 @@
     <div class="ranging">
       <div
         class="c"
+        @click="rangingEvent(index)"
         v-for="(item, index) in option.ranging"
         :key="index" :style="{ backgroundImage: item.back }">
           {{ item.name }}     
@@ -28,9 +29,15 @@ export default {
         ],
         ranging: [
           { back: "url(" + require('../../assets/control/cj.png') + ")", name: '测距' },
-          { back: "url(" + require('../../assets/control/cmj.png') + ')', name: '测面积' }
+          { back: "url(" + require('../../assets/control/cmj.png') + ')', name: '测面积' },
+          { back: "url(" + require('../../assets/control/cj.png') + ")", name: '清除结果' }
         ]
       }
+    }
+  },
+  methods: {
+    rangingEvent(index) {
+      this.$store.dispatch("triggerRanging", index);
     }
   }
 }
@@ -42,17 +49,17 @@ export default {
     bottom: 0;
     right: 0;
     color: white;
-    width: 66%;
+    width: 100%;
     height: 19%;
     // background: yellowgreen;
     margin-bottom: 3%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: flex-end;
     .openBig {
       height: 42%;
-      width: 11%;
+      width: 7%;
       // background: darkcyan;
       display: flex;
       flex-direction: column;
@@ -74,7 +81,7 @@ export default {
       justify-content: space-between;
       align-items: center;
       .c {
-        width: 46%;
+        width: 30%;
         height: 100%;
         background-repeat: no-repeat;
         background-size: 100% 100%;

@@ -13,16 +13,16 @@
     <div id="glCanvas2" style="z-index:999;">
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="drawPoints">画点</button>
-      <button style="position: absolute;top: 80px; padding: 5px 10px; cursor: pointer; z-index: 1"
+      <!-- <button style="position: absolute;top: 80px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="measurePolyline">测距</button>
       <button style="position: absolute;top: 120px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="measurePolygon">测面积</button>
+          @click="measurePolygon">测面积</button> -->
       <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="showLayer">图层显示</button>
       <button style="position: absolute;top: 200px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="hideLayer">图层隐藏</button>
-      <button style="position: absolute;top: 240px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="clearAll">清除分析结果</button>
+      <!-- <button style="position: absolute;top: 240px; padding: 5px 10px; cursor: pointer; z-index: 1"
+          @click="clearAll">清除分析结果</button> -->
     </div>
   </div>
 </template>
@@ -41,7 +41,8 @@ export default {
   },
   computed: {
     ...mapState({
-      value23D: state => state.init.value23D
+      value23D: state => state.init.value23D,
+      rangingNum: state => state.map.rangingNum
     })
   },
   watch: {
@@ -50,6 +51,15 @@ export default {
         this.changeMap2d();
       } else {
         this.changeMap3d();
+      }
+    },
+    rangingNum(val, oldVal) {
+      if (val == 0) {
+        this.measurePolyline()
+      } else if (val == 1) {
+        this.measurePolygon()
+      } else if (val == 2) {
+        this.clearAll()
       }
     }
   },
@@ -315,7 +325,6 @@ export default {
         }
       });
     },
-    // 图层显示
     clearAll() {
       map.Api.Draws.clear(); //清除地图上所有的绘制对象
     },
@@ -327,7 +336,6 @@ export default {
         layer.setVisible(true);
       }
     },
-    // 清除分析结果
     hideLayer() {
       let layer = map.Api.Layers.getLayer("标注绘制图层");
       if (layer) {
