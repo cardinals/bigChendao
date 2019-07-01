@@ -10,19 +10,13 @@
       <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
         @click="hideLayer">图层隐藏</button>
     </div>
-    <div id="glCanvas2" style="z-index:999;">
+    <div id="glCanvas2">
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="drawPoints">画点</button>
-      <!-- <button style="position: absolute;top: 80px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="measurePolyline">测距</button>
-      <button style="position: absolute;top: 120px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="measurePolygon">测面积</button> -->
       <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="showLayer">图层显示</button>
       <button style="position: absolute;top: 200px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="hideLayer">图层隐藏</button>
-      <!-- <button style="position: absolute;top: 240px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="clearAll">清除分析结果</button> -->
     </div>
   </div>
 </template>

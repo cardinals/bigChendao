@@ -67,6 +67,7 @@ export default {
       width: 20%;
       font-size: 31px;
       color: #ffffff;
+      text-align: center;
     }
     .rightLine {
       width: 38%;

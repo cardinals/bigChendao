@@ -1,20 +1,22 @@
 <template>
   <div class="newsAlert cc">
-    <div 
-      class="horn"
-      v-for="(horn, index) in alerts.horns"
-      :key="index"
-      :style="horn" />
+    <div class="horn" v-for="(horn, index) in alerts.horns" :key="index" :style="horn" />
       <div class="content cc">
         <div class="light" :style="{ backgroundImage: alerts.light }" />
         <div class="off" :style="{ backgroundImage: alerts.off }" @click="offAlert" />
+        <titleModule width="92%" height="11%" title="全部消息" />
+        <newList />
+        <paging />
       </div>
   </div>
 </template>
 
 <script>
+import titleModule from "@/components/alertControl/titleModule"
+import newList from "./list"
+import paging from "./paging"
 export default {
-  components: {  },
+  components: { titleModule, newList, paging },
   data() {
     return {
       alerts: {
@@ -87,7 +89,8 @@ export default {
     background: linear-gradient(to right, #02143a, #02020f);
     position: relative;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
     .light {
       width: 68%;
@@ -111,6 +114,12 @@ export default {
       margin: 1%;
       cursor: pointer;
       z-index: 999;
+    }
+    .header {
+      color: #ffffff;
+      // width: 92%;
+      // height: 11%;
+      background: palegreen;
     }
   }
 }
