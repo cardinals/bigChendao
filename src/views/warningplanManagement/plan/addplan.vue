@@ -323,7 +323,7 @@ import { log } from 'util';
                 message:this.ruleForm.message,                     //	String	N	短信内容
                 mapDetail:'',                    //	String	N	地图显示内容，人员调度；车辆调度；人员和车辆调度
                 groupId:groupIds,                     //	Integer	Y	所属分组ID
-                groupName:this.ruleForm.groupNames,                   //	String	Y	所属分组名称
+                groupName:this.ruleForm.groupName,                   //	String	Y	所属分组名称
 
             }
             emergencyplanSave(data).then(res => {
@@ -352,17 +352,6 @@ import { log } from 'util';
             });
         },
         submitForms () {
-            // console.log(this.addressGrouplist)
-            // let namelist = []
-            // for(const i of this.addressGrouplist) {
-            //     if(i.length >0 ) {
-
-            //     }
-            //     for(const j of i.itemlist) {
-            //         namelist.push(j.id)
-            //     }
-            // }
-            // return
             this.ruleForm.poplist = this.addressGrouplist
             this.$refs.planobject.show(this.ruleForm)
         }
