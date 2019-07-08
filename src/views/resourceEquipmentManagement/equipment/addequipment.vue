@@ -85,7 +85,7 @@
 
                         </el-form-item>
                     </el-col>
-                    <el-col v-if="labelname == '游客中心'" :span="12">
+                    <el-col v-if="labelname == '停车场'" :span="12">
                         <el-form-item label="总车位数 :">
                             <el-input
                                     size="medium"
@@ -532,7 +532,7 @@
                 organizationId:1,
                 name:this.ruleForm.name, //名称
                 moduleType:2, //设备/资源类型 1：设备 2：资源
-                layerTypeId:12,//关联图层类型
+                layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
                 address:'', //地址（资源独有）
@@ -570,7 +570,7 @@
                 organizationId:1,
                 name:this.ruleForm.name, //名称
                 moduleType:2, //设备/资源类型 1：设备 2：资源
-                layerTypeId:12,//关联图层类型
+                layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
                 address:'', //地址（资源独有）
@@ -629,6 +629,10 @@
     .addmap {
         box-sizing: border-box;
         padding:0 23px 0 0;
+        /* width: 100%; */
+        /* height: 79vh; */
+         /* height: calc(100% - 200px); */
+        /* overflow-y: scroll; */
     }
 
     .addmap .el-upload-list {

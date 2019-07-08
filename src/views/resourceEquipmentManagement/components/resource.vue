@@ -122,12 +122,14 @@
         findkeyword () {
             this.baseinfoList()
         },
+        //增加
         addactiveName () {
             this.$router.push({
                 path: "/resourceEquipmentManagement/resourceManagement/addresource",
                 query:{
                     name:this.activeName,
-                    type:1
+                    type:1,
+                    layerTypeId:this.layerTypeId
                 },
             })
         },
@@ -178,7 +180,8 @@
                 path: "/resourceEquipmentManagement/resourceManagement/addresource",
                 query:{
                     name:this.activeName,
-                    id:row.id
+                    id:row.id,
+                    layerTypeId:this.layerTypeId
                 },
             })
         },

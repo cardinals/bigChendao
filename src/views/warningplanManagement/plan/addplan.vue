@@ -132,7 +132,7 @@
         },
     data() {
         return {
-            active: 1,
+            active: 2,
             ruleForm:{
                 groupName:'',
                 planName:'',
@@ -192,7 +192,6 @@
             }).then(res => {
                 const result = res.data.data
                 for (const item of result) {
-                    console.log(this.hasId(item))
 
                     if (this.hasId(item)) {
                         item.checked = true
@@ -227,7 +226,9 @@
         },
         //删除
         deleteAddress(item) {
-            // this.addressGrouplist.forEach(itemlists=> {
+            //es5
+            // let temps = JSON.parse(JSON.stringify(this.addressGrouplist))
+            // temps.forEach(itemlists=> {
             //     if(itemlists.groupName == item.deptName) {
             //         itemlists.itemlist.forEach( (itemdatalist,index) => {
             //             if(itemdatalist.id == item.id) {
@@ -236,6 +237,9 @@
             //         })
             //     }
             // })
+            // this.addressGrouplist = temps
+
+            //es6
             let temp = JSON.parse(JSON.stringify(this.addressGrouplist))
             temp.forEach((itemdata)=> {
                 itemdata.itemlist = itemdata.itemlist.filter(itemList => {
@@ -364,10 +368,6 @@
     .addmap .el-upload-list {
         display: none !important;
     }
-
-     .topchangetransfer .el-transfer-panel__footer{
-
-     }
     .right-main {
         width: 100%;
     }

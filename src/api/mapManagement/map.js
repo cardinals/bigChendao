@@ -49,3 +49,12 @@ export function layerDeletebatch(data) {
         data:data
     })
 }
+//http://localhost:8081/layertype/listbyparentid?organizationId=1&parentId=0
+//关联
+export function layertypeListbyparentid(params) {
+    return request({
+        url: '/layertype/listbyparentid',
+        method: 'get',
+        params:params,
+    })
+}
