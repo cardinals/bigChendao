@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState } from "vuex";
 import common from "@/components/control/common";
 import dataTourist from "@/components/control/dataTourist";
 import layerContent from "@/components/control/layerContent";
@@ -73,7 +73,7 @@ export default {
   components: { common, dataTourist, layerContent },
   data() {
     return {
-      isHidden: '隐藏浮窗',
+      isHidden: "隐藏浮窗",
       datas: {
         width: "100%",
         height: "36%",
@@ -259,7 +259,7 @@ export default {
       ],
       resourceData: [
         {
-          link: "url(" + require("../../assets/control/layer5.png") + ")", 
+          link: "url(" + require("../../assets/control/layer5.png") + ")",
           isActive: true,
           name: "景点",
           width: "15%",
@@ -332,13 +332,21 @@ export default {
   watch: {
     hiddenValue(newValue, oldValue) {
       if (newValue != oldValue) {
-        this.isHidden = newValue
+        this.isHidden = newValue;
       }
     }
+  },
+  mounted() {
+    this.initRequest();
   },
   methods: {
     receiveEvent(e) {
       this.dataNumber = e;
+    },
+    initRequest() {
+      const self = this;
+      // 数据概览
+      this.$store.dispatch("_dataOverView", { organizationId: self.$store.state.init.organizationId });
     }
   }
 };

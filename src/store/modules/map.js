@@ -1,5 +1,6 @@
 const state = {
-  rangingNum: 3
+  rangingNum: 3,
+  bigOrLitNum: null
 }
 const mutations = {
   setState(state, { key, value }) {
@@ -9,6 +10,9 @@ const mutations = {
 const actions = {
   triggerRanging(context, number) {
     context.commit("setState", { key: "rangingNum", value: number })
+  },
+  triggerBigOrLit(context, number) {
+    context.commit("setState", { key: "bigOrLitNum", value: number })
   }
 }
 

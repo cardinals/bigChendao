@@ -3,7 +3,8 @@
     <div class="openBig">
       <div class="big"
         v-for="(item, index) in option.big"
-        :key="index" :style="{ backgroundImage: item.back }">
+        :key="index" :style="{ backgroundImage: item.back }"
+        @click="bigOrlit(index)">
       </div>
     </div>
     <div class="ranging">
@@ -36,6 +37,9 @@ export default {
     }
   },
   methods: {
+    bigOrlit(index) {
+      this.$store.dispatch("triggerBigOrLit", index);
+    },
     rangingEvent(index) {
       this.$store.dispatch("triggerRanging", index);
     }

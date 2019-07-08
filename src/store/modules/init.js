@@ -1,4 +1,5 @@
 const state = {
+  organizationId: 1,
   clientWidth: 1280,
   clientHeight: 588,
   aspectRatio: 1280 / 588,

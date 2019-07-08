@@ -46,6 +46,7 @@ export default {
 <style scoped lang="less">
     .el-header{
         background-color: rgba(241,246,252,1);
+        pointer-events: auto;
     }
     .el-footer {
         text-align: center;
@@ -55,14 +56,16 @@ export default {
 
     .el-aside {
         background-color: rgb(241, 246, 252);
+        pointer-events: auto;
     }
 
     .el-main {
-
+      pointer-events: auto;
     }
 
     body > .el-container {
         margin-bottom: 40px;
+        pointer-events: auto;
     }
 
     .el-container:nth-child(5) .el-aside,
