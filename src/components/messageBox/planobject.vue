@@ -4,17 +4,17 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="所属分组 :">
-                            {{ruleForm.groupId || '/'}}
+                            {{ruleForm.groupName || '/'}}
                         </el-form-item>
                     </el-col>
                 </el-row>
-                <el-row>
+                <!-- <el-row>
                     <el-col :span="24">
                         <el-form-item label="编号 :">
                             {{ruleForm.eventName || '/'}}
                         </el-form-item>
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="预案名称 :">
@@ -32,14 +32,22 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="短信 :">
-                            {{ruleForm.message || '/'}}
+                            <!-- {{ruleForm.poplist || '/'}} -->
+
+                             <div v-for="(item, index) of ruleForm.poplist" :key="index" class="tab-item">
+                                <span v-if="item.itemlist.length>0">【{{item.groupName}}】</span>
+
+                                <span style="box-sizing: border-box;padding-left: 5px" v-for="(items, index2) of item.itemlist" :key="index2+1000">
+                                    <span style="padding-left: 5px">{{ items.name }}</span>
+                                </span>
+                            </div>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="内容 :">
-                            {{ruleForm.content || '/'}}
+                            {{ruleForm.message || '/'}}
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -77,6 +85,7 @@ export default {
         show (data) {
             this.dialogTableVisible = true
             this.ruleForm = data
+
             console.log(this.ruleForm)
         },
         previous () {

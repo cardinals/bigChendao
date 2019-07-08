@@ -125,6 +125,7 @@
 <script>
     import { emergencyplanInfo, emergencyplanSave,eventgroupallList, deptgroupallList, addressbookgroupalllist} from "@/api/warningplanManagement/warningplan.js";
     import planobject from '@/components/messageBox/planobject.vue'
+import { log } from 'util';
 
     export default {
         components: {
@@ -132,7 +133,7 @@
         },
     data() {
         return {
-            active: 2,
+            active: 1,
             ruleForm:{
                 groupName:'',
                 planName:'',
@@ -351,6 +352,18 @@
             });
         },
         submitForms () {
+            // console.log(this.addressGrouplist)
+            // let namelist = []
+            // for(const i of this.addressGrouplist) {
+            //     if(i.length >0 ) {
+
+            //     }
+            //     for(const j of i.itemlist) {
+            //         namelist.push(j.id)
+            //     }
+            // }
+            // return
+            this.ruleForm.poplist = this.addressGrouplist
             this.$refs.planobject.show(this.ruleForm)
         }
 

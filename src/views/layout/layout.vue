@@ -11,7 +11,7 @@
                 <el-main>
                     <breadcrumb />
                     <transition name="breadcrumb">
-                        <router-view></router-view>
+                        <router-view ></router-view>
                     </transition>
                 </el-main>
                 <el-footer height="31px">
@@ -52,6 +52,7 @@ export default {
         text-align: center;
         font-size: 12px;
         color: #999999;
+        line-height: 31px;
     }
 
     .el-aside {
@@ -60,7 +61,9 @@ export default {
     }
 
     .el-main {
-      pointer-events: auto;
+        pointer-events: auto;
+        height: 86.2vh;
+        overflow-y: auto;
     }
 
     body > .el-container {
@@ -75,5 +78,9 @@ export default {
 
     .el-container:nth-child(7) .el-aside {
         line-height: 320px;
+    }
+    .content_boxbig {
+       
+
     }
 </style>
