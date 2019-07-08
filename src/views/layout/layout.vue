@@ -62,7 +62,8 @@ export default {
 
     .el-main {
         pointer-events: auto;
-        height: 86.2vh;
+        height: calc(100vh - 105px);
+        // height: 86.2vh;
         overflow-y: auto;
     }
 
