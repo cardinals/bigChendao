@@ -88,9 +88,6 @@ export default {
             page:1,
             limit:10,
             total:0,
-
-
-
         }
     },
     created() {
@@ -109,7 +106,8 @@ export default {
             this.$router.push({
                 path: "/mapManagement/mapManagementLayer/addmap",
                 query:{
-                    type:1
+                    type:1,
+                    moduleType:this.moduleType
                 }
             })
         },
@@ -175,7 +173,8 @@ export default {
             this.$router.push({
                 path: "/mapManagement/mapManagementLayer/addmap",
                 query:{
-                    id:row.id
+                    id:row.id,
+                    moduleType:this.moduleType
                 }
             })
         },

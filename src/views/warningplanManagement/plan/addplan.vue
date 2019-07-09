@@ -125,6 +125,7 @@
 <script>
     import { emergencyplanInfo, emergencyplanSave,eventgroupallList, deptgroupallList, addressbookgroupalllist} from "@/api/warningplanManagement/warningplan.js";
     import planobject from '@/components/messageBox/planobject.vue'
+import { log } from 'util';
 
     export default {
         components: {
@@ -192,7 +193,6 @@
             }).then(res => {
                 const result = res.data.data
                 for (const item of result) {
-                    console.log(this.hasId(item))
 
                     if (this.hasId(item)) {
                         item.checked = true
@@ -227,7 +227,9 @@
         },
         //删除
         deleteAddress(item) {
-            // this.addressGrouplist.forEach(itemlists=> {
+            //es5
+            // let temps = JSON.parse(JSON.stringify(this.addressGrouplist))
+            // temps.forEach(itemlists=> {
             //     if(itemlists.groupName == item.deptName) {
             //         itemlists.itemlist.forEach( (itemdatalist,index) => {
             //             if(itemdatalist.id == item.id) {
@@ -236,6 +238,9 @@
             //         })
             //     }
             // })
+            // this.addressGrouplist = temps
+
+            //es6
             let temp = JSON.parse(JSON.stringify(this.addressGrouplist))
             temp.forEach((itemdata)=> {
                 itemdata.itemlist = itemdata.itemlist.filter(itemList => {
@@ -318,7 +323,7 @@
                 message:this.ruleForm.message,                     //	String	N	短信内容
                 mapDetail:'',                    //	String	N	地图显示内容，人员调度；车辆调度；人员和车辆调度
                 groupId:groupIds,                     //	Integer	Y	所属分组ID
-                groupName:this.ruleForm.groupNames,                   //	String	Y	所属分组名称
+                groupName:this.ruleForm.groupName,                   //	String	Y	所属分组名称
 
             }
             emergencyplanSave(data).then(res => {
@@ -347,6 +352,7 @@
             });
         },
         submitForms () {
+            this.ruleForm.poplist = this.addressGrouplist
             this.$refs.planobject.show(this.ruleForm)
         }
 
@@ -364,10 +370,6 @@
     .addmap .el-upload-list {
         display: none !important;
     }
-
-     .topchangetransfer .el-transfer-panel__footer{
-
-     }
     .right-main {
         width: 100%;
     }

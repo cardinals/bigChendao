@@ -295,7 +295,7 @@
         width: 100%;
         box-sizing: border-box;
         padding:0 23px 0 20px;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
     .consoles .left {
         width: 47%;

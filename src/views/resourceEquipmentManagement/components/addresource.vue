@@ -152,7 +152,7 @@
                 organizationId:1,
                 name:this.ruleForm.name, //名称
                 moduleType:1, //设备/资源类型 1：设备 2：资源
-                layerTypeId:6,//关联图层类型
+                layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
                 streamUrl:this.ruleForm.streamUrl,//监控视频流（视频监控独有）
@@ -176,7 +176,7 @@
                 organizationId:1,
                 name:this.ruleForm.name, //名称
                 moduleType:1, //设备/资源类型 1：设备 2：资源
-                layerTypeId:6,//关联图层类型
+                layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
                 streamUrl:this.ruleForm.streamUrl,//监控视频流（视频监控独有）

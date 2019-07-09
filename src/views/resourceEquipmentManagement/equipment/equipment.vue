@@ -103,7 +103,8 @@
                 path: "/resourceEquipmentManagement/equipmentManagement/addequipment",
                 query:{
                     name:this.activeName,
-                    type:1
+                    type:1,
+                    layerTypeId:this.layerTypeId
                 },
             })
         },
@@ -154,7 +155,8 @@
                 path: "/resourceEquipmentManagement/equipmentManagement/addequipment",
                 query:{
                     name:this.activeName,
-                    id:row.id
+                    id:row.id,
+                    layerTypeId:this.layerTypeId
                 },
 
             })
