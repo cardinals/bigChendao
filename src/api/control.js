@@ -8,3 +8,12 @@ export function dataOverView(params) {
     params
   })
 }
+
+// 右侧事件列表
+export function eventList(params) {
+  return request({
+    method: "GET",
+    url: "homepage/management/geteventlist",
+    params
+  })
+}

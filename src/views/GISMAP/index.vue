@@ -22,8 +22,6 @@
           onclick="flyToLine3D()">漫游</button> -->
       <!-- <button style="position: absolute;top: 440px; padding: 5px 10px; cursor: pointer; z-index: 1"
           onclick="hotMap3D()">热力图</button> -->
-      <button style="position: absolute;top: 400px; padding: 5px 10px; cursor: pointer; z-index: 1"
-        @click="changeMap">切换到二维</button>
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
         @click="setRightMenu">右键菜单</button>
       
@@ -45,8 +43,6 @@
           @click="flyToPoint2D">定位</button>
       <!--<button style="position: absolute;top: 200px; padding: 5px 10px; cursor: pointer; z-index: 1"
           onclick="hotMap2D()">热力图</button>-->
-      <button style="position: absolute;top: 240px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="changeMap">切换到三维</button>
     </div>
   </div>
 </template>
@@ -57,7 +53,8 @@ import { parse } from "path";
 export default {
   data() {
     return {
-      value23d: false
+      value23d: false,
+      markerLayer: null
     };
   },
   mounted() {
@@ -202,14 +199,15 @@ export default {
       map.open(); //打开二维地图
 
       map.on("MapFinish", () => {
-        markerLayer = map.Api.Layers.getLayer("marker图层"); //二维marker图层
+        const self = this;
+        self.markerLayer = map.Api.Layers.getLayer("marker图层"); //二维marker图层
         let layerControl = map.getControl("LayerControl");
-        if (!markerLayer) {
-          markerLayer = new map.Api.Layers.MarkerLayer(
+        if (!self.markerLayer) {
+          self.markerLayer = new map.Api.Layers.MarkerLayer(
             { objType: "marker图层" },
             map
           );
-          layerControl.addLayer(markerLayer);
+          layerControl.addLayer(self.markerLayer);
         }
       });
 
@@ -234,6 +232,7 @@ export default {
       });
     },
     initMarker() {
+      const self = this;
       let marker_arr = [
         { id: "10", x: 120.20899039190837, y: 30.25377328887613, z: 0 },
         { id: "11", x: 120.2103851405965, y: 30.25532096480706, z: 0 },
@@ -268,7 +267,7 @@ export default {
           marker
         );
         marker.setLabel(label);
-        markerLayer.add(marker);
+        self.markerLayer.add(marker);
       });
     },
     addModel() {
@@ -372,6 +371,7 @@ export default {
     },
     flyToLine3D() {},
     addMarker() {
+      const self = this;
       let point = new map.Api.Type.Point(
         120.21096986216192,
         30.252517521923203,
@@ -400,11 +400,12 @@ export default {
         marker
       );
       marker.setLabel(label);
-      markerLayer.add(marker);
+      self.markerLayer.add(marker);
     },
     deleteMarker() {
-      let m = markerLayer.getModel("16");
-      markerLayer.remove(m);
+      const self = this;
+      let m = self.markerLayer.getModel("16");
+      self.markerLayer.remove(m);
     },
     showLayer2D(show) {
       //这里获取的图层是画点的那个markerLayer图层
@@ -473,6 +474,7 @@ export default {
     },
     // 测距
     measurePolyline() {
+      const self = this;
       let moveMarker;
       let cfg = {
         isTool: true,

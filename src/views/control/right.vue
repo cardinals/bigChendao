@@ -13,9 +13,9 @@
         :isAlert="true"
         @propEvent="receiveEvent"
         :style="{ backgroundImage: datas.back }">
-        <tableModule :tableTitle="tableTitle1" :record="record1" v-if="dataNumber == 0" />
-        <tableModule :tableTitle="tableTitle2" :record="record2" v-if="dataNumber == 1" />
-        <tableModule :tableTitle="tableTitle3" :record="record3" v-if="dataNumber == 2" />
+        <tableModule :tableTitle="tableTitle1" :record="this.$store.state.control.alarmList" v-if="dataNumber == 0" />
+        <tableModule :tableTitle="tableTitle2" :record="this.$store.state.control.emergencyList" v-if="dataNumber == 1" />
+        <tableModule :tableTitle="tableTitle3" :record="this.$store.state.control.otherList" v-if="dataNumber == 2" />
       </common>
     </transition>
     <ranging />
@@ -222,6 +222,10 @@ export default {
     hiddenValue(newValue, oldValue) {
       this.isHidden = newValue
     }
+  },
+  mounted() {
+    const self = this;
+    this.$store.dispatch("_eventList", { organizationId: self.$store.state.init.organizationId })
   },
   methods: {
     receiveEvent(e) {
