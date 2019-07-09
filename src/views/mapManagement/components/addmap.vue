@@ -16,7 +16,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="关联 :" prop="id_er">
+                    <el-form-item label="关联 :" prop="id">
                         <el-select v-model="ruleForm.id" clearable placeholder="请选择" size="medium"  class="customized_input" @change="changetype(ruleForm.id)">
                             <el-option
                                     v-for="item in options"
@@ -105,8 +105,8 @@ export default {
                 name: [
                     { required: true, message: '请输入图层名称', trigger: 'blur' },
                 ],
-                id_er:[
-                    { required: true, message: '请输入关联名称', trigger: 'change' }
+                id:[
+                    { required: true, message: '请选择关联', trigger: 'change' }
                 ],
                 iconPath: [
                     { required: true, message: '请选择图层ICON', trigger: 'change' }
@@ -176,7 +176,7 @@ export default {
             let data = {
                 name:this.ruleForm.name,
                 moduleType:this.$route.query.moduleType,
-                layerTypeId:this.ruleForm.id_er,
+                layerTypeId:this.ruleForm.id_er?this.ruleForm.id_er:this.ruleForm.id,
                 iconPath:this.ruleForm.iconPath,
                 organizationId:1,
             }
@@ -222,7 +222,6 @@ export default {
                 if (res.data.code == 200) {
                     let data = res.data.data
                     this.options2 = data
-                    
                 }
             })
         },

@@ -63,7 +63,14 @@ export function addressbookList(params) {
         params:params,
     })
 }
-
+//获取区域分组
+export function areagroupGroupalllist(params) {
+    return request({
+        url: '/areagroup/all/list',
+        method: 'get',
+        params:params,
+    })
+}
 
 
 
