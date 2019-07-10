@@ -247,7 +247,7 @@
 
                 </el-row>
             </el-form>
-            <el-form v-else ref="form" :model="form" :rules="rules" label-width="125px">
+            <el-form v-else ref="ruleForm" :model="ruleForm" :rules="rules" label-width="125px">
                 <el-row type="flex" class="row-bg">
                     <el-col :span="24">
                         <el-form-item label="所属区域分组 :" prop="groupId">
@@ -284,7 +284,7 @@
                                     size="medium"
                                     placeholder="请输入内容"
                                     class="customized_input"
-                                    v-model="ruleForm.input2">
+                                    v-model="ruleForm.address">
                             </el-input>
                             （选填，不超过30个字符）
                         </el-form-item>
@@ -334,14 +334,14 @@
                                 size="medium"
                                 placeholder="请输入内容"
                                 class="customized_input"
-                                v-model="ruleForm.input2">
+                                v-model="ruleForm.lng">
                         </el-input>
                             纬度：
                             <el-input
                                     size="medium"
                                     placeholder="请输入内容"
                                     class="customized_input"
-                                    v-model="ruleForm.input2">
+                                    v-model="ruleForm.lat">
                             </el-input>
                         </el-form-item>
                     </el-col>
@@ -373,6 +373,7 @@
                 resNumber:null,//车位和厕位
                 lng:null, //经度
                 lat:null, //维度
+                address:'',//物资地址
                 input2:'',
                 value:'',
                 resource:'',
@@ -535,7 +536,7 @@
                 layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
-                address:'', //地址（资源独有）
+                address:this.ruleForm.address, //地址（资源独有）
                 phoneNumber:null, //电话（资源独有）
                 resNumber:null,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
                 introduction:this.ruleForm.introduction,//资源介绍（资源独有）

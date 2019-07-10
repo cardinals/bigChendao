@@ -75,8 +75,34 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
+                    <el-form-item label="所属区域分组 :" prop="areagroupId">
+                        <el-select v-model="ruleForm.areagroupId" clearable placeholder="请选择所属区域分组" size="medium"  class="customized_input" >
+                            <el-option
+                                    size="medium"
+                                    v-for="item in areaNameoptions"
+                                    :key="item.groupId"
+                                    :label="item.groupName"
+                                    :value="item.groupId">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="24">
                     <el-form-item label="选择发生地点位置 :">
-                        map位置
+                        map位置（后面举例）
+                        <el-input
+                                size="medium"
+                                placeholder="请输入经度"
+                                class="customized_input"
+                                v-model="ruleForm.lng">
+                        </el-input>
+                        <el-input
+                                style="margin-left: 10px"
+                                size="medium"
+                                placeholder="请输入纬度"
+                                class="customized_input"
+                                v-model="ruleForm.lat">
+                        </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -117,21 +143,25 @@
 
 <script>
 
-    import { eventmanagementInsert ,eventgroupAllList} from "@/api/eventManagement/event.js";
+    import { eventmanagementInsert ,eventgroupAllList,areagroupGroupalllist} from "@/api/eventManagement/event.js";
 
     export default {
     data() {
         return {
             value: '',
+            areaNameoptions:[],
             ruleForm:{
                 eventName:'',
                 eventDescription:'',
                 groupName:'',
                 datas:'',
                 times:'',
+                areagroupId:'',
                 eventAddr:'',
                 eventState:'',
-                endeventDescription:''
+                endeventDescription:'',
+                lng:'',
+                lat:''
             },
             eventStateoptions:[{id:0,name:'待处理'},{id:1,name:'处置中'},{id:2,name:'已完结'}],
             eventgroupAllLists:[],//事件分组
@@ -141,6 +171,9 @@
                 ],
                 groupName: [
                     { required: true, message: '请选择所属事件分组', trigger: 'change' }
+                ],
+                areagroupId: [
+                    { required: true, message: '请选择所属区域分组', trigger: 'change' }
                 ],
                 eventAddr: [
                     { required: true, message: '请输入事件发生地', trigger: 'blur' }
@@ -154,6 +187,7 @@
     },
     created() {
         this.eventgroupAllList()
+        this.areagroupGroupalllist()
     },
     methods: {
         goback () {
@@ -170,6 +204,17 @@
                 }
             })
         },
+        //获取区域分组
+        areagroupGroupalllist () {
+            let data = {
+                organizationId : 1,
+            }
+            areagroupGroupalllist(data).then(res => {
+                if(res.data.code == 200) {
+                    this.areaNameoptions = res.data.data
+                }
+            })
+        },
         //新增
         eventmanagementInsert () {
 
@@ -180,6 +225,13 @@
                     groupNames = item.groupName
                 }
             })
+            let areaName = ''
+            this.areaNameoptions.forEach(item => {
+                if(item.groupId == this.ruleForm.areagroupId) {
+                    areaName = item.groupName
+                }
+            })
+
             let data = {
                 eventName:this.ruleForm.eventName,	                //	事件名称
                 eventAddr:this.ruleForm.eventAddr,	                //	事件地点
@@ -187,15 +239,16 @@
                 eventState:this.ruleForm.eventState,	            //	事件状态，0：待处理；1：处置中；2：已完结
                 endDescription:	this.ruleForm.endDescription,       //	完结描述，如是假事件，取消警报的，则是取消警报描述
                 happenedTime:dataTIme,                              //  事件发生时间
-                lng: null ,                                         //  经度 暂时木有
-                lat	: null,                                         //  维度
+                lng: this.ruleForm.lng ,                            //  经度 暂时木有
+                lat	: this.ruleForm.lat,                            //  维度
                 eventType:0,                                        //	事件类型，0：人工录入；1：设备录入
                 sendPeopleId:null,	                                //	短信接收人ID(t_address_book.addr_book_id)
                 message:null,                                       //	短信内容
                 groupId:this.ruleForm.groupName,                    //	所属分组ID
                 groupName:groupNames,                               //	所属分组名称
                 organizationId:1,	                                //	组织ID
-
+                areaId:this.ruleForm.areagroupId,                   //  区域id
+                areaName:areaName                                   //  区域名称
             }
             eventmanagementInsert(data).then(res => {
                 if(res.data.code == 200) {

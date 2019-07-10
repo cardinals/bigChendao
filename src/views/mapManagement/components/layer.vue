@@ -36,8 +36,10 @@
                     <el-table-column label="图层元素数量" prop="resCount" show-overflow-tooltip>
 
                     </el-table-column>
-                    <el-table-column label="图层ICON" prop="iconPath" show-overflow-tooltip>
-
+                    <el-table-column label="图层ICON" show-overflow-tooltip>
+                        <template slot-scope="scope">
+                            <img style="width: 50px" :src="scope.row.iconPath" alt="">
+                        </template>
                     </el-table-column>
                     <el-table-column label="添加时间" prop="gmtCreate" show-overflow-tooltip>
 
