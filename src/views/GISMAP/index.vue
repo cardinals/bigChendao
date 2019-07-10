@@ -2,7 +2,7 @@
   <div class="gisMap">
     <div id="glCanvas1">
       <!--三维地图DIV-->
-      <!-- <button style="position: absolute;top: 0px; padding: 5px 10px; cursor: pointer; z-index: 1"
+      <button style="position: absolute;top: 0px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="addModel">添加设备</button>
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="editModel">修改设备</button>
@@ -19,7 +19,7 @@
       <button style="position: absolute;top: 360px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="flyToPoint3D">定位</button>
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
-        @click="setRightMenu">右键菜单</button> -->
+        @click="setRightMenu">右键菜单</button>
         <!-- <button style="position: absolute;top: 400px; padding: 5px 10px; cursor: pointer; z-index: 1"
           onclick="flyToLine3D()">漫游</button> -->
       <!-- <button style="position: absolute;top: 440px; padding: 5px 10px; cursor: pointer; z-index: 1"
@@ -31,7 +31,7 @@
           @click="drawPoints">画点</button>-->
 
       <!--二维地图DIV-->
-      <!-- <button style="position: absolute;top: 0px; padding: 5px 10px; cursor: pointer; z-index: 1"
+      <button style="position: absolute;top: 0px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="addMarker">添加marker</button>
       <button style="position: absolute;top: 40px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="deleteMarker">删除marker</button>
@@ -40,7 +40,7 @@
       <button style="position: absolute;top: 120px; padding: 5px 10px; cursor: pointer; z-index: 1"
           @click="showLayer2D(false)">图层隐藏</button>
       <button style="position: absolute;top: 160px; padding: 5px 10px; cursor: pointer; z-index: 1"
-          @click="flyToPoint2D">定位</button> -->
+          @click="flyToPoint2D">定位</button>
       <!--<button style="position: absolute;top: 200px; padding: 5px 10px; cursor: pointer; z-index: 1"
           onclick="hotMap2D()">热力图</button>-->
     </div>

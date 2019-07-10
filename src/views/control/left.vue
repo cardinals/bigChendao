@@ -363,6 +363,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  pointer-events: auto;
+  pointer-events: none;
 }
 </style>

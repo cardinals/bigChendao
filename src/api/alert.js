@@ -24,3 +24,29 @@ export function nearbyCar(params) {
     params
   })
 }
+
+// 附近广播
+export function nearbyRadio(params) {
+  return request({
+    url: 'baseinfo/all/list',
+    method: "GET",
+    params
+  })
+}
+
+// 下拉-预案分组接口
+export function planGroup(params) {
+  return request({
+    url: 'eventgroup/all/list',
+    method: "GET",
+    params
+  })
+}
+
+// 下拉-预案
+export function planSelf(params) {
+  return request({
+    url: `emergencyplan/infobygroupid/${params}`,
+    method: "GET"
+  })
+}

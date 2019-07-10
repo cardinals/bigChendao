@@ -303,6 +303,6 @@ export default {
     justify-content: flex-start;
     align-items: flex-end;
     position: relative;
-    pointer-events: auto;
+    pointer-events: none;
   }
 </style>

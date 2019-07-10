@@ -62,7 +62,9 @@ const actions = {
               desc: item.eventDescription,
               handle: item.eventState == 0 ? '待处理': item.eventState == 1 ? '处理中': '已处理',
               link: "url(" + require('../../assets/control/position.png') + ")",
-              areaId: item.areaId
+              areaId: item.areaId,
+              eventAddr: item.eventAddr,
+              happenedTime: item.happenedTime
             }) 
           })
           data.emergencyList.map(item => {

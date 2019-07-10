@@ -49,6 +49,7 @@ export default {
 
 <style lang="less" scoped>
   .rangingBox {
+    pointer-events: none;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -62,6 +63,7 @@ export default {
     justify-content: space-between;
     align-items: flex-end;
     .openBig {
+      pointer-events: auto;
       height: 42%;
       width: 7%;
       // background: darkcyan;
@@ -78,6 +80,7 @@ export default {
       }
     }
     .ranging {
+      pointer-events: auto;
       width: 100%;
       height: 29%;
       // background: green;

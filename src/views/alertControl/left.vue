@@ -18,7 +18,7 @@
         <listContent
           width="86%"
           height="66%"
-          :data="data2"
+          :data="this.$store.state.eventAlert.nearbyRadio"
           :isChecked="true"
           margin="5.5%" 
           nameWidth="32%"

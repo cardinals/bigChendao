@@ -78,11 +78,16 @@ export default {
   },
   methods: {
     pointEvent(index) {
-      // 取当前areaId
+      // 取当前areaId 地点 时间
       const alarmList = this.alarmList;
       const currentAreaId = alarmList[index].areaId;
+      const currentAddress = alarmList[index].eventAddr;
+      const currentTime = alarmList[index].happenedTime;
+      //把当前地址和时间存起来
+      this.$store.dispatch("saveAddressTime", { currentAddress: currentAddress, currentTime: currentTime });
+
       // 去请求紧急联系人接口 - 附近人员 - 附近资源车辆
-      this.$store.dispatch("_emergencyContact", { organizationId: 1, areaId: currentAreaId, groupId: 1 })
+      this.$store.dispatch("_emergencyContact", { organizationId: 1, areaId: currentAreaId, groupId: 2, layerTypeId: 11 })
       this.passAlert.pointId = index;
       const passAlert = this.passAlert;
       this.$store.dispatch("showAlert", passAlert);

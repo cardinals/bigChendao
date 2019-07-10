@@ -15,8 +15,8 @@
       <div class="big" v-if="this.$store.state.eventAlert.tabNumber != 1" :style="{ backgroundImage: info.bigBack }"></div>
     </div>
     <div class="info">
-      <p class="text">地点: {{ info.location }}</p>
-      <p class="text">时间: {{ info.time }}</p>
+      <p class="text">地点: {{ this.$store.state.tables.currentAddress }}</p>
+      <p class="text">时间: {{ this.$store.state.tables.currentTime }}</p>
     </div>
   </div>
 </template>

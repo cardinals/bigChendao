@@ -123,6 +123,7 @@ export default {
   .commonModule {
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    pointer-events: auto;
     .titleBox {
       // width: 46%;
       background-repeat: no-repeat;

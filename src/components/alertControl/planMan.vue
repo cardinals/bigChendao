@@ -15,8 +15,8 @@
         <div class="top">
           <div class="s1name">{{ content.section1.title }}</div>
           <div class="selectBox">
-            <selects></selects>
-            <selects v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0"></selects>
+            <selects1 :title="select1.title" :data="this.$store.state.eventAlert.planGroup" />
+            <selects2 :title="select2.title" :data="this.$store.state.eventAlert.planSelf" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0" />
           </div>
         </div>
         <div class="bottomBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">
@@ -61,9 +61,10 @@
 </template>
 
 <script>
-import selects from "@/components/common/select"
+import selects1 from "@/components/common/select"
+import selects2 from "@/components/common/select2"
 export default {
-  components: { selects },
+  components: { selects1, selects2 },
   data() {
     return {
       out: {
@@ -89,6 +90,14 @@ export default {
           list: ["请选择分组", "附近人员", "附近车辆"]
         },
         btn: ["处置", "上一步"]
+      },
+      select1: {
+        title: "选择预案分组",
+        data: ["预案分组1", "预案分组2", "预案分组3", "预案分组4", "预案分组5"]
+      },
+      select2: {
+        title: "选择预案",
+        data: ["预案1", "预案2", "预案3", "预案4", "预案5"]
       }
     }
   },
