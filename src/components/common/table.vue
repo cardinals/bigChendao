@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     tableTitle: {
@@ -68,8 +69,20 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      alarmList: state => state.control.alarmList,
+      emergencyList: state => state.control.emergencyList,
+      otherList: state => state.control.otherList
+    })
+  },
   methods: {
     pointEvent(index) {
+      // 取当前areaId
+      const alarmList = this.alarmList;
+      const currentAreaId = alarmList[index].areaId;
+      // 去请求紧急联系人接口 - 附近人员 - 附近资源车辆
+      this.$store.dispatch("_emergencyContact", { organizationId: 1, areaId: currentAreaId, groupId: 1 })
       this.passAlert.pointId = index;
       const passAlert = this.passAlert;
       this.$store.dispatch("showAlert", passAlert);

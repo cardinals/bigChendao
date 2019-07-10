@@ -7,7 +7,7 @@
       titleLeft="3%"
       positionBottom="9%"
       slotHeight="77%">
-        <listContent width="73%" height="85%" :data="data1" />
+        <listContent width="73%" height="85%" :data="this.$store.state.eventAlert.emergencyContact" />
     </listModule>
     <listModule
       :option="bottomData"

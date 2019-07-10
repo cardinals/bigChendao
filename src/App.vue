@@ -1,7 +1,7 @@
 <template>
   <!-- <div id="app" :style="{ backgroundImage: back }"> -->
   <div id="app">
-    <GISMAP />
+    <GISMAP v-if="this.$route.path == '/show/control' || this.$route.path == '/show/command'"/>
     <div class="routerView">
       <router-view></router-view>
     </div>

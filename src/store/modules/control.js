@@ -7,7 +7,8 @@ const state = {
       number: '0006',
       desc: '游客掉进西湖6',
       handle: '待处理',
-      link: "url(" + require('../../assets/control/position.png') + ")"
+      link: "url(" + require('../../assets/control/position.png') + ")",
+      areaId: null
     }
   ],
   emergencyList: [
@@ -15,7 +16,8 @@ const state = {
       number: '0006',
       desc: '游客掉进西湖6',
       handle: '待处理',
-      link: "url(" + require('../../assets/control/position.png') + ")"
+      link: "url(" + require('../../assets/control/position.png') + ")",
+      areaId: null
     }
   ],
   otherList: [
@@ -23,7 +25,8 @@ const state = {
       number: '0006',
       desc: '游客掉进西湖6',
       handle: '待处理',
-      link: "url(" + require('../../assets/control/position.png') + ")"
+      link: "url(" + require('../../assets/control/position.png') + ")",
+      areaId: null
     }
   ]
 };
@@ -58,7 +61,8 @@ const actions = {
               number: item.eventCode,
               desc: item.eventDescription,
               handle: item.eventState == 0 ? '待处理': item.eventState == 1 ? '处理中': '已处理',
-              link: "url(" + require('../../assets/control/position.png') + ")"
+              link: "url(" + require('../../assets/control/position.png') + ")",
+              areaId: item.areaId
             }) 
           })
           data.emergencyList.map(item => {
@@ -66,7 +70,8 @@ const actions = {
               number: item.eventCode,
               desc: item.eventDescription,
               handle: item.eventState == 0 ? '待处理' : item.eventState == 1 ? '处理中' : '已处理',
-              link: "url(" + require('../../assets/control/position.png') + ")"
+              link: "url(" + require('../../assets/control/position.png') + ")",
+              areaId: item.areaId
             })
           })
           data.otherList.map(item => {
@@ -74,7 +79,8 @@ const actions = {
               number: item.eventCode,
               desc: item.eventDescription,
               handle: item.eventDescription == 0 ? '待处理' : item.eventState == 1 ? '处理中' : '已处理',
-              link: "url(" + require('../../assets/control/position.png') + ")"
+              link: "url(" + require('../../assets/control/position.png') + ")",
+              areaId: item.areaId
             })
           })
           context.commit("setState", { key: "alarmList", value: _alarmList })

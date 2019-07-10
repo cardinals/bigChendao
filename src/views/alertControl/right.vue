@@ -7,7 +7,7 @@
       titleTop="0"
       titleLeft="0%"
       slotHeight="77%">
-        <listContent width="73%" height="85%" :data="data1" />
+        <listContent width="73%" height="85%" :data="this.$store.state.eventAlert.nearbyPeople" />
     </listModule>
     <listModule
       @propEvent="receiveEvent"
@@ -32,7 +32,7 @@
           v-if="dataNumber == 1"
           position="relative"
           top="10%"
-          :data="data3" />
+          :data="this.$store.state.eventAlert.nearbyCar" />
     </listModule>
   </div>
 </template>
