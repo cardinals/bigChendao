@@ -1,12 +1,12 @@
 <template>
   <div class="selectBox" :style="{ width: width, height: height }">
-    <div class="show" @click="pointer">
-      <div class="text">{{ defaultText }}</div>
+    <div class="show" @click="pointer" @mouseleave="onleave">
+      <div class="text">{{ title }}</div>
       <div class="jiao" :style="{ backgroundImage: jiaoBack }"></div>
     </div>
     <transition name="el-zoom-in-top">
-      <div class="hidden" v-if="isClick">
-        <div class="hiddenItem" v-for="(item, index) in list" :key="index" @click="selectOption">{{ item }}</div>
+      <div class="hidden" v-if="isClick" @mouseenter="onenter" @mouseleave="onleave">
+        <div class="hiddenItem" v-for="(item, index) in data" :key="index" @click="selectOption(item)">{{ item.groupName }}</div>
       </div>
     </transition>
   </div>
@@ -28,22 +28,41 @@ export default {
       default: () => {
         return []
       }
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    data: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
     return {
       isClick: false,
-      defaultText: "请选择",
       jiaoBack: "url(" + require('../../assets/event/jiao.png') + ")",
-      list: ["选择内容1", "选择内容2", "选择内容3", "选择内容4", "选择内容5"]
     }
   },
   methods: {
+    // 请求预案分组
     pointer() {
       this.isClick = !this.isClick
+      this.$store.dispatch("_planGroup", { organizationId: 1 })
     },
-    selectOption() {
+    // 保存预案分组id
+    selectOption(item) {
       this.isClick = false;
+      const groupId = item.groupId;
+      this.$store.dispatch("saveplanGroupId", groupId);
+    },
+    onenter() {
+      this.isClick = true;
+    },
+    onleave() {
+      this.isClick = false
     }
   }
 }
@@ -91,6 +110,9 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+      }
+      .hiddenItem:hover {
+        background: #898a8e;
       }
     }
   }

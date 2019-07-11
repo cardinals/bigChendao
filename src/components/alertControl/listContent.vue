@@ -93,7 +93,7 @@ export default {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  // justify-content: space-between;
   .checkAll {
     display: flex;
     justify-content: flex-start;
