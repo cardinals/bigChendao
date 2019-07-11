@@ -7,11 +7,11 @@
     <transition name="el-zoom-in-bottom">
       <div class="hiddenBox" v-if="isClick" @mouseenter="onenter">
         <div class="hiddenHeader">
-          <div class="all">
+          <div class="all" @click="allSelect">
             <input class="mt10" type="checkbox" name="" id="">
             <span>全部</span>
           </div>
-          <div class="sure">确认</div>
+          <div class="sure" @click="sure">确认</div>
         </div>
         <div class="hidden">
           <div class="hiddenItem" v-for="(item, index) in data" :key="index" @click="selectOption(item)">
@@ -88,6 +88,20 @@ export default {
       item.ischeck = !item.ischeck
       item.children.map(e => {
         e.ischeck = !e.ischeck
+      })
+    },
+    // 确定
+    sure() {
+      this.isClick = false
+    },
+    // 所有全选
+    allSelect() {
+      let data = this.$store.state.eventAlert.departmentMens;
+      data.map(item => {
+        item.ischeck = !item.ischeck
+        item.children.map(e => {
+          e.ischeck = !e.ischeck
+        })
       })
     }
   }

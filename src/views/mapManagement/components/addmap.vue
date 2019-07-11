@@ -83,7 +83,7 @@
 </template>
 
 <script>
-    import {layerInfo,layerInsert,layertypeListbyparentid} from '@/api/mapManagement/map.js'
+    import {layerInfo,layerInsert,layertypeListbyparentid,layerUpdate} from '@/api/mapManagement/map.js'
 import { log } from 'util';
 export default {
     data() {
@@ -171,6 +171,29 @@ export default {
             }
             return flag && isLt2M ;
         },
+        //修改编辑
+        layerUpdate () {
+            let data = {
+                name:this.ruleForm.name,
+                moduleType:this.$route.query.moduleType,
+                layerTypeId:this.ruleForm.id_er?this.ruleForm.id_er:this.ruleForm.id,
+                iconPath:this.ruleForm.iconPath,
+                organizationId:1,
+            }
+            let ids_ = this.$route.query.id
+            layerUpdate(ids_,data).then(res => {
+                if(res.data.code == 200) {
+                    this.$message({
+                        message: '编辑成功！',
+                        type: 'success'
+                    });
+                    this.goback()
+                }
+            }).catch( error => {
+                this.$message('编辑失败！');
+                console.log(error);
+            })
+        },
         //保存
         layerInsert () {
             let data = {
@@ -239,7 +262,12 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if (valid) {
                     //成功的
-                    this.layerInsert()
+                    if (this.$route.query.type == 1) {
+                        this.layerInsert()
+                    }else {
+                        this.layerUpdate()
+                    }
+                    
                 } else {
                     console.log('error submit!!');
                     return false;

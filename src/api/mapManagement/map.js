@@ -34,6 +34,15 @@ export function layerInsert(data) {
         data:data,
     })
 }
+
+//修改图层
+export function layerUpdate(id,data) {
+    return request({
+        url: '/layer/update/' + id,
+        method: 'put',
+        data:data,
+    })
+}
 //删除图层信息
 export function layerDelete(data) {
     return request({

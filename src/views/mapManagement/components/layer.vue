@@ -38,14 +38,14 @@
                     </el-table-column>
                     <el-table-column label="图层ICON" show-overflow-tooltip>
                         <template slot-scope="scope">
-                            <img style="width: 50px" :src="scope.row.iconPath" alt="">
+                            <img style="width: 20px" :src="scope.row.iconPath" alt="">
                         </template>
                     </el-table-column>
                     <el-table-column label="添加时间" prop="gmtCreate" show-overflow-tooltip>
 
                     </el-table-column>
 
-                    <el-table-column fixed="right" label="操作"width="130">
+                    <el-table-column fixed="right" label="操作" width="130">
                         <template slot-scope="scope">
                             <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit-outline" style="color: #E79524"></i>编辑</el-button>
                             <el-button @click="handleClickdeleta(scope.row)" type="text" size="small"><i class="el-icon-delete" style="color: #C30E29"></i>删除</el-button>
@@ -176,7 +176,7 @@ export default {
                 path: "/mapManagement/mapManagementLayer/addmap",
                 query:{
                     id:row.id,
-                    moduleType:this.moduleType
+                    moduleType:this.moduleType,
                 }
             })
         },

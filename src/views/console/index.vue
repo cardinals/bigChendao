@@ -19,20 +19,25 @@
                         border
                         style="width: 100%">
                     <el-table-column
-                            prop="iconPath"
                             label="设备icon"
                             align="center"
+                            show-overflow-tooltip
                             >
+                        <template slot-scope="scope">
+                            <img style="width: 30px" :src="scope.row.iconPath" alt="">
+                        </template>
                     </el-table-column>
                     <el-table-column
                             prop="name"
                             label="设备类型"
                             align="center"
+                            show-overflow-tooltip
                             >
                     </el-table-column>
                     <el-table-column
                             prop="count"
                             label="设备数量"
+                            show-overflow-tooltip
                             align="center">
                     </el-table-column>
                 </el-table>
@@ -49,10 +54,12 @@
                         border
                         style="width: 100%">
                     <el-table-column
-                            prop="iconPath"
                             label="设备icon"
                             align="center"
                     >
+                     <template slot-scope="scope">
+                            <img style="width: 30px" :src="scope.row.iconPath" alt="">
+                    </template>
                     </el-table-column>
                     <el-table-column
                             prop="name"
