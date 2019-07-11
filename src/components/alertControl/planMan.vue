@@ -15,8 +15,8 @@
         <div class="top">
           <div class="s1name">{{ content.section1.title }}</div>
           <div class="selectBox">
-            <selects1 :title="select1.title" :data="this.$store.state.eventAlert.planGroup" />
-            <selects2 :title="select2.title" :data="this.$store.state.eventAlert.planSelf" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0" />
+            <selects1 :data="this.$store.state.eventAlert.planGroup" />
+            <selects2 :data="this.$store.state.eventAlert.planSelf" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0" />
           </div>
         </div>
         <div class="bottomBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">
@@ -27,14 +27,14 @@
         <div class="section2Top">
           <div class="section2Title">{{ content.section2.title }}</div>
           <div class="section2short cc">
-            <input type="radio" id="radis">
+            <input type="radio" id="radis" :checked="true">
             <label for="radis"><span>{{ content.section2.short[0] }}</span></label>
           </div>
-          <div class="edit" :style="{ backgroundImage: content.section2.edit }"></div>
+          <div class="edit" :style="{ backgroundImage: content.section2.edit }" @click="editEvent"></div>
         </div>
         <div class="section2BottomBox">
           <div class="title">{{ content.section2.short[1] }}</div>
-          <div class="section2Bottom cc">{{ content.section2.text }}</div>
+          <textarea :class="isTextArea ? 'noback' : '' " :disabled="isTextArea ? 'disabled' : false " class="section2Bottom cc" v-model="content.section2.text"></textarea>
         </div>
       </div>
       <div class="section3">
@@ -44,11 +44,11 @@
           <div class="contentBox">
             <div class="section3ItemBox">
               <div class="section3Item" v-for="(item, index) in content.section3.list" :key="index">
-                <input type="checkbox" :id="index">
-                <label :for="index">{{ item }}</label>
+                <input type="checkbox" :id="index" :checked="item.check" >
+                <span>{{ item.name }}</span>
               </div>
             </div>
-            <selects width="30%" height="25%" />
+            <selects3 width="28%" height="40%" :data="this.$store.state.eventAlert.departmentMens" />
           </div>
         </div>
       </div>
@@ -63,10 +63,26 @@
 <script>
 import selects1 from "@/components/common/select"
 import selects2 from "@/components/common/select2"
+import selects3 from "@/components/common/select3"
 export default {
-  components: { selects1, selects2 },
+  components: { selects1, selects2, selects3 },
   data() {
     return {
+      data3: [
+        {
+          name: '领导组',
+          children: [ { name: '张领导' }, { name: '李领导' }, { name: '王领导' } ]
+        },
+        {
+          name: '技术部',
+          children: [ { name: '张技术' }, { name: '李技术' }, { name: '王技术' } ]
+        },
+        {
+          name: '测试部',
+          children: [ { name: '张测试' }, { name: '李测试' }, { name: '王测试' } ]
+        }
+      ],
+      checkList: ['请选择分组'],
       out: {
         title: "曲院风荷入口",
         waring: "url(" + require('../../assets/event/warning.png') + ")",
@@ -87,18 +103,11 @@ export default {
         },
         section3: {
           title: ["(3) 发送对象", "快捷选择对象"],
-          list: ["请选择分组", "附近人员", "附近车辆"]
+          list: [{ name: "请选择分组", check: true }, { name: "附近人员", check: false }, { name: "附近车辆", check: false }]
         },
         btn: ["处置", "上一步"]
       },
-      select1: {
-        title: "选择预案分组",
-        data: ["预案分组1", "预案分组2", "预案分组3", "预案分组4", "预案分组5"]
-      },
-      select2: {
-        title: "选择预案",
-        data: ["预案1", "预案2", "预案3", "预案4", "预案5"]
-      }
+      isTextArea: true
     }
   },
   methods: {
@@ -107,6 +116,9 @@ export default {
     },
     handle() {
       this.$store.dispatch("savePlanOrmanOrNo", 3);
+    },
+    editEvent() {
+      this.isTextArea = !this.isTextArea
     }
   }
 }
@@ -261,9 +273,9 @@ export default {
             justify-content: flex-start;
             align-items: center;
             input {
-              height: 20px;
-              width: 20px;
               margin-right: 4%;
+              cursor: pointer;
+              margin-top: 3%;
             }
           }
           .edit {
@@ -292,9 +304,13 @@ export default {
             color: #ffffff;
             padding-left: 5%;
             padding-right: 5%;
+            background: transparent;
+          }
+          .noback {
+            background: rgba(255, 255, 255, 0.6);
+            color: black;
           }
         }
-
       }
       .section3 {
         width: 91%;

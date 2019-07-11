@@ -50,3 +50,11 @@ export function planSelf(params) {
     method: "GET"
   })
 }
+// 各种分组的人员
+export function allPeopleId(params) {
+  return request({
+    url: 'addressbook/all/list',
+    method: "GET",
+    params
+  })
+}

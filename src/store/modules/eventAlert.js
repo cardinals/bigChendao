@@ -4,7 +4,8 @@ import {
   nearbyCar,
   nearbyRadio,
   planGroup,
-  planSelf
+  planSelf,
+  allPeopleId
 } from "@/api/alert";
 const state = {
   alertBoolean: false,
@@ -17,7 +18,14 @@ const state = {
   nearbyRadio: [{ name: "西湖广播1", tel: "GB0010001", status: 0 }],
   planGroup: [],
   planGroupId: null,
-  planSelf: []
+  planSelf: [],
+  departmentMens: [
+    {
+      name: '领导组',
+      children: [ { name: '张领导' }, { name: '李领导' }, { name: '王领导' } ]
+    }
+  ]
+
 };
 
 const mutations = {
@@ -148,6 +156,35 @@ const actions = {
         }
       })
       .catch();
+  },
+  // 各种部门人员的id
+  _allPeopleId(context, { organizationId }) {
+    allPeopleId({ organizationId }).then(res => {
+      console.log(res, '各种部门')
+      if (res.status == 200) {
+        const data = res.data.data;
+        let department = [], departmentSet = [], endData = [];
+        data.map(item => {
+          department.push(item.deptName)
+        })
+        departmentSet = Array.from(new Set(department));
+        console.log(departmentSet, '部门集合去重')
+        departmentSet.map(item => {
+          endData.push({
+            name: item,
+            children: data.map(e => {
+              return {
+                name: e.deptName == item ? e.name : '',
+                id: e.deptName == item ? e.id : '',
+                ischeck: e.deptName == item ? false : ''
+              }
+            }).filter(e => e.name != '')
+          })
+        })
+        console.log(endData, '最终数据')
+        context.commit("setState", { key: "departmentMens", value: endData })
+      }
+    }).catch()
   }
 };
 
