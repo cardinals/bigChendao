@@ -176,7 +176,7 @@ export default {
                 path: "/mapManagement/mapManagementLayer/addmap",
                 query:{
                     id:row.id,
-                    moduleType:this.moduleType
+                    moduleType:this.moduleType,
                 }
             })
         },
