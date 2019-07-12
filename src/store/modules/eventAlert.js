@@ -22,6 +22,7 @@ const state = {
   departmentMens: [
     {
       name: '领导组',
+      ischeck: false,
       children: [ { name: '张领导' }, { name: '李领导' }, { name: '王领导' } ]
     }
   ]
@@ -172,6 +173,7 @@ const actions = {
         departmentSet.map(item => {
           endData.push({
             name: item,
+            ischeck: false,
             children: data.map(e => {
               return {
                 name: e.deptName == item ? e.name : '',
