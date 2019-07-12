@@ -5,8 +5,9 @@ import control from "./modules/control"
 import eventAlert from "./modules/eventAlert"
 import map from "./modules/map"
 import tables from "./modules/tables"
+import monitor from "./modules/monitor"
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-  modules: { control, init, eventAlert, map, tables }
+  modules: { control, init, eventAlert, map, tables, monitor }
 })

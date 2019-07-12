@@ -7,7 +7,7 @@
         <div class="warnText" v-if="this.$store.state.eventAlert.tabNumber == 1">{{ info.title2 }}</div>
         <div class="warnText" v-if="this.$store.state.eventAlert.tabNumber == 2">{{ info.title3 }}</div>
       </div>
-      <div class="more">更多监控>></div>
+      <div class="more" @click="moreMonitor">更多监控>></div>
     </div>
     <div class="movie cc" :style="{ border: this.$store.state.eventAlert.tabNumber == 1 ? '': '1px solid #325a74'}">
       <p v-if="this.$store.state.eventAlert.tabNumber != 1" class="movieText">{{ info.status }}</p>
@@ -38,6 +38,13 @@ export default {
         time: "2019-05-11 12:34:56"
       }
     };
+  },
+  methods: {
+    moreMonitor() {
+      const passAlert = { showAlert: false };
+      this.$store.dispatch("showAlert", passAlert);
+      this.$store.dispatch("saveMonitorBoolean", true)
+    }
   }
 };
 </script>
