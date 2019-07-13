@@ -1,6 +1,6 @@
 <template>
   <div class="commandEvent">
-    <div class="everyOne" v-for="(item, index) in options" :key="index">
+    <div class="everyOne" v-for="(item, index) in this.$store.state.command.eventDateList" :key="index">
       <div class="titleBox">
         <p class="title">{{ item.title }}</p>
         <p class="titleNum">{{ item.num }}</p>

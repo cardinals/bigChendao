@@ -1,12 +1,12 @@
 <template>
   <div class="commandPosition">
-    <div class="oneBox" v-for="(item, index) in options" :key="index">
+    <div class="oneBox" v-for="(item, index) in this.$store.state.command.carPersonList" :key="index">
       <div class="oneBoxTop">
         <div class="oneLeft">
           <p class="text">{{ item.text1 }}</p>
           <p class="number">{{ item.num1 }}</p>
         </div>
-        <div class="oneRight">
+        <div class="oneRight" :style="{ background: item.back, border: item.border }">
           <p class="text">{{ item.text2 }}</p>
           <p class="number">{{ item.num2 }}</p>
         </div>
@@ -24,9 +24,11 @@ export default {
         {
           text1: "人员",
           num1: 66,
-          text2: "在线人员",
-          num2: 36,
-          check: "查看>>"
+          text2: "",
+          num2: '',
+          check: "查看>>",
+          back: "transparent",
+          border: 'none'
         },
         {
           text1: "车辆",
