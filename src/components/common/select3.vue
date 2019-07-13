@@ -7,16 +7,16 @@
     <transition name="el-zoom-in-bottom">
       <div class="hiddenBox" v-if="isClick" @mouseenter="onenter">
         <div class="hiddenHeader">
-          <div class="all" @click="allSelect">
-            <input class="mt10" type="checkbox" name="" id="">
-            <span>全部</span>
+          <div class="all cc" @click="allSelect">
+            <!-- <input class="mt10" type="checkbox" name=""> -->
+            <span>全选</span>
           </div>
           <div class="sure" @click="sure">确认</div>
         </div>
         <div class="hidden">
           <div class="hiddenItem" v-for="(item, index) in data" :key="index" @click="selectOption(item)">
             <p class="cc ppp" @click="pointBoss(item)">
-              <input class="mt10" type="checkbox" :checked="item.ischeck" name="" id="">
+              <!-- <input class="mt10" type="checkbox" :checked="item.ischeck" name="" id=""> -->
               <span>{{ item.name }}</span>
             </p>
             <div class="itemitem cc" v-for="(e, num) in item.children" :key="num" @click="pointE(e)">
@@ -58,7 +58,8 @@ export default {
     return {
       isClick: false,
       jiaoBack: "url(" + require("../../assets/event/jiao.png") + ")",
-      title: "请选择"
+      title: "请选择",
+      sendPeopleId: []
     };
   },
   methods: {
@@ -77,32 +78,88 @@ export default {
     onleave() {
       this.isClick = false;
     },
+
     // 点选每一个人
     pointE(e) {
       console.log(e);
       e.ischeck = !e.ischeck
+      let data = this.$store.state.eventAlert.departmentMens;
+      let _sendPeopleId = []
+      data.map(item => {
+        // if (item.ischeck == false) { continue; }
+        item.children.map(e => {
+          if (e.ischeck) {
+            _sendPeopleId.push(e.id);
+          }
+        })
+      })
+      this.sendPeopleId = Array.from(new Set(_sendPeopleId));
+      console.log(this.sendPeopleId, "每一个")
     },
     // 点类
     pointBoss(item) {
       console.log(item, '1213')
-      item.ischeck = !item.ischeck
-      item.children.map(e => {
-        e.ischeck = !e.ischeck
+      let everyBooleany = false;
+      let everyBooleann = false;
+      let someBoolean = false;
+      item.ischeck = !item.ischeck;
+      let data = this.$store.state.eventAlert.departmentMens;
+      let _sendPeopleId = [];
+      everyBooleany = item.children.every(e => {
+        return e.ischeck == true
       })
+      everyBooleann = item.children.every(e => {
+        return e.ischeck == false
+      })
+      someBoolean = item.children.some(e => {
+        return e.ischeck == false
+      })
+      if (everyBooleany) {
+         item.children.map(e => {
+           e.ischeck = false
+         })
+      }
+      if (everyBooleann) {
+        item.children.map(e => {
+          e.ischeck = true
+        })
+      }
+      if (someBoolean) {
+        item.children.map(e => {
+          e.ischeck = true
+        })
+      }
+      data.map(item => {
+        item.children.map(e => {
+          if (e.ischeck) {
+            _sendPeopleId.push(e.id);
+          }
+        })
+      })
+      this.sendPeopleId = Array.from(new Set(_sendPeopleId));
+      console.log(this.sendPeopleId, 'boss')
     },
     // 确定
     sure() {
+      const self = this;
       this.isClick = false
+      this.$store.dispatch("_saveDisposalParamSendId", self.sendPeopleId);
     },
     // 所有全选
     allSelect() {
       let data = this.$store.state.eventAlert.departmentMens;
+      let _sendPeopleId = [];
       data.map(item => {
         item.ischeck = !item.ischeck
         item.children.map(e => {
           e.ischeck = !e.ischeck
+          if (e.ischeck) {
+            _sendPeopleId.push(e.id)
+          }
         })
-      })
+      }) 
+      this.sendPeopleId = Array.from(new Set(_sendPeopleId));
+      console.log(this.sendPeopleId, 'all')
     }
   }
 };

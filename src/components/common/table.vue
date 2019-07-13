@@ -12,7 +12,7 @@
         :style="{ height: contentHeight }"
         v-for="(article, index) in record" 
         :key="index" 
-        @click="pointEvent(index)">
+        @click="pointEvent(index, article)">
         <p class="num">{{ article.number }}</p>
         <div class="descBox">
           <p class="desc">{{ article.desc }}</p>
@@ -77,7 +77,10 @@ export default {
     })
   },
   methods: {
-    pointEvent(index) {
+    pointEvent(index, article) {
+      console.log(article, '当前条')
+      // 当前事件id存起来
+      this.$store.dispatch("saveCurrentEventId", article.id);
       // 取当前areaId 地点 时间
       const alarmList = this.alarmList;
       const currentAreaId = alarmList[index].areaId;

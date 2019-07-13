@@ -58,3 +58,12 @@ export function allPeopleId(params) {
     params
   })
 }
+
+// 提交【处置】
+export function SubmitDisposal(id, data) {
+  return request({
+    url: `eventmanagement/update/${id}`,
+    method: "PUT",
+    data
+  })
+}

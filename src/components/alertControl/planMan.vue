@@ -44,7 +44,7 @@
           <div class="contentBox">
             <div class="section3ItemBox">
               <div class="section3Item" v-for="(item, index) in content.section3.list" :key="index">
-                <input type="checkbox" :id="index" :checked="item.check" >
+                <input type="checkbox" :id="index" :checked="item.check" @click="addTwo(item)">
                 <span>{{ item.name }}</span>
               </div>
             </div>
@@ -115,10 +115,32 @@ export default {
       this.$store.dispatch("savePlanOrmanOrNo", 5);
     },
     handle() {
+      const self = this;
+      this.$store.dispatch("_saveDisposalParamStatus", 1);
+      this.$store.dispatch("_saveDisposalParamMassage", self.content.section2.text);
+      this.$store.dispatch("_SubmitDisposal", { id: self.$store.state.control.currentEventId, data: self.$store.state.eventAlert.disposalParameters });
+      console.log(this.$store.state.eventAlert.disposalParameters, '提交的都是啥')
       this.$store.dispatch("savePlanOrmanOrNo", 3);
     },
     editEvent() {
       this.isTextArea = !this.isTextArea
+    },
+    addTwo(item) {
+      item.check = !item.check
+      console.log(item, '附近人员，附近车辆')
+      if (item.name == '附近人员' && item.check) {
+        this.$store.dispatch("_pushNearby", 'personnel')
+      }
+      if (item.name == '附近车辆' && item.check) {
+        this.$store.dispatch("_pushNearby", 'car')
+      }
+      if (item.name == '附近人员' && !item.check) {
+        this.$store.dispatch("_popNearby", 'personnel')
+      }
+      if (item.name == "附近车辆" && !item.check) {
+        this.$store.dispatch("_popNearby", 'car')
+      }
+      console.log(this.$store.state.eventAlert.disposalParameters, 'push和pop')
     }
   }
 }

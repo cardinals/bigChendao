@@ -1,4 +1,4 @@
-import { dataOverView, eventList } from "@/api/control";
+import { dataOverView, eventList, dataOverview } from "@/api/control";
 const state = {
   layerNumber: 0,
   hiddenValue: "隐藏浮窗",
@@ -28,7 +28,8 @@ const state = {
       link: "url(" + require('../../assets/control/position.png') + ")",
       areaId: null
     }
-  ]
+  ],
+  currentEventId: null
 };
 const mutations = {
   setState(state, { key, value }) {
@@ -45,7 +46,7 @@ const actions = {
   _dataOverView(context, { organizationId }) {
     dataOverView({ organizationId })
       .then(res => {
-        console.log(res, "数据概览的返回数据");
+        console.log(res, "管控-数据概览的返回数据");
       })
       .catch(err => {});
   },
@@ -64,7 +65,8 @@ const actions = {
               link: "url(" + require('../../assets/control/position.png') + ")",
               areaId: item.areaId,
               eventAddr: item.eventAddr,
-              happenedTime: item.happenedTime
+              happenedTime: item.happenedTime,
+              id: item.eventId
             }) 
           })
           data.emergencyList.map(item => {
@@ -91,7 +93,10 @@ const actions = {
         }
       })
       .catch();
-  }
+  },
+  saveCurrentEventId(context, value) {
+    context.commit("setState", { key: "currentEventId", value: value })
+  } 
 };
 
 export default {
