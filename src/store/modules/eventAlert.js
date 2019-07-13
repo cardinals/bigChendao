@@ -247,13 +247,13 @@ const actions = {
   _SubmitDisposal(context, { id, data }) {
     SubmitDisposal(id, data).then(res => {
       console.log(res, "处置提交结果")
+      if (res.status == 200) {
+        // 提交完清空参数
+        context.commit("clearDisposalParam")
+      }
       // this.$store.dispatch("clearDisposalParam");
     }).catch()
   },
-  // 提交完清空
-  clearDisposalParam(context) {
-    context.commit("clearDisposalParam")
-  }
 };
 
 export default {
