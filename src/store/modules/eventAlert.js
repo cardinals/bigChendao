@@ -4,7 +4,9 @@ import {
   nearbyCar,
   nearbyRadio,
   planGroup,
-  planSelf
+  planSelf,
+  allPeopleId,
+  SubmitDisposal
 } from "@/api/alert";
 const state = {
   alertBoolean: false,
@@ -17,12 +19,47 @@ const state = {
   nearbyRadio: [{ name: "西湖广播1", tel: "GB0010001", status: 0 }],
   planGroup: [],
   planGroupId: null,
-  planSelf: []
+  planSelf: [],
+  departmentMens: [
+    {
+      name: '领导组',
+      ischeck: false,
+      children: [ { name: '张领导', id: 1, ischeck: false }, { name: '李领导', id: 1, ischeck: false } ]
+    }
+  ],
+  // 点处置要提交的参数
+  disposalParameters: {
+    planId: null,
+    sendPeopleId: [],
+    message: "",
+    eventState: null
+  }
+
 };
 
 const mutations = {
   setState(state, { key, value }) {
     state[key] = value;
+  },
+  setDisposal(state, { key, value }) {
+    state['disposalParameters'][key] = value
+  },
+  pushNearby(state, { key, value }) {
+    state['disposalParameters'][key].push(value)
+  },
+  popNearby(state, { key, value }) {
+    state['disposalParameters'][key].pop(value)
+  },
+  pushsendId(state, { key, value }) {
+    state['disposalParameters'][key] = state['disposalParameters'][key].concat(value)
+  },
+  // 清空参数
+  clearDisposalParam(state) {
+    state['disposalParameters']['planId'] = '';
+    state['disposalParameters']['sendPeopleId'] = '';
+    state['disposalParameters']['message'] = '';
+    state['disposalParameters']['eventState'] = ''
+    
   }
 };
 
@@ -148,7 +185,75 @@ const actions = {
         }
       })
       .catch();
-  }
+  },
+  // 各种部门人员的id
+  _allPeopleId(context, { organizationId }) {
+    allPeopleId({ organizationId }).then(res => {
+      console.log(res, '各种部门')
+      if (res.status == 200) {
+        const data = res.data.data;
+        let department = [], departmentSet = [], endData = [];
+        data.map(item => {
+          department.push(item.deptName)
+        })
+        departmentSet = Array.from(new Set(department));
+        console.log(departmentSet, '部门集合去重')
+        departmentSet.map(item => {
+          endData.push({
+            name: item,
+            ischeck: false,
+            children: data.map(e => {
+              return {
+                name: e.deptName == item ? e.name : '',
+                id: e.deptName == item ? e.id : '',
+                ischeck: e.deptName == item ? false : ''
+              }
+            }).filter(e => e.name != '')
+          })
+        })
+        console.log(endData, '最终数据')
+        context.commit("setState", { key: "departmentMens", value: endData })
+      }
+    }).catch()
+  },
+  // 提交【处置】预案id
+  _saveDisposalParamPlanId(context, planId) {
+    context.commit("setDisposal", { key: "planId", value: planId });
+  },
+  // push【处置】联系人id数组
+  // _saveDisposalParamSendId(context, sendPeopleId) {
+  //   context.commit("setDisposal", { key: "sendPeopleId", value: sendPeopleId });
+  // },
+  _saveDisposalParamSendId(context, sendPeopleId) {
+    context.commit("pushsendId", { key: "sendPeopleId", value: sendPeopleId });
+  },
+  // push附近
+  _pushNearby(context, value) {
+    context.commit("pushNearby", { key: "sendPeopleId", value: value })
+  },
+  // pop附近
+  _popNearby(context, value) {
+    context.commit("popNearby", { key: "sendPeopleId", value: value })
+  },
+  // 提交【处置】信息
+  _saveDisposalParamMassage(context, message) {
+    context.commit("setDisposal", { key: "message", value: message })
+  },
+  // 提交【处置】事件状态
+  _saveDisposalParamStatus(context, eventStatus) {
+    context.commit("setDisposal", { key: "eventState", value: eventStatus });
+  },
+  // 处置提交
+  _SubmitDisposal(context, { id, data }) {
+    SubmitDisposal(id, data).then(res => {
+      console.log(res, "处置提交结果")
+      if (res.status == 200) {
+        // 提交完清空参数
+        context.commit("clearDisposalParam")
+      }
+      // this.$store.dispatch("clearDisposalParam");
+    }).catch()
+  },
 };
 
 export default {

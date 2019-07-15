@@ -1,6 +1,6 @@
 <template>
   <div class="commandEvent">
-    <div class="everyOne" v-for="(item, index) in options" :key="index">
+    <div class="everyOne" v-for="(item, index) in this.$store.state.command.eventDateList" :key="index">
       <div class="titleBox">
         <p class="title">{{ item.title }}</p>
         <p class="titleNum">{{ item.num }}</p>
@@ -20,7 +20,7 @@
         </p>
       </div>
     </div>
-    <div class="check">查看>></div>
+    <div class="check" @click="eventLook">查看>></div>
   </div>
 </template>
 
@@ -49,6 +49,11 @@ export default {
           width: "18%"
         }
       ]
+    }
+  },
+  methods: {
+    eventLook() {
+      this.$store.dispatch("saveTableAlertValue", 1);
     }
   }
 }

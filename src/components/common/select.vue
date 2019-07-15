@@ -29,10 +29,6 @@ export default {
         return []
       }
     },
-    title: {
-      type: String,
-      default: ''
-    },
     data: {
       type: Array,
       default: () => {
@@ -44,6 +40,7 @@ export default {
     return {
       isClick: false,
       jiaoBack: "url(" + require('../../assets/event/jiao.png') + ")",
+      title: "选择预案分组"
     }
   },
   methods: {
@@ -57,6 +54,7 @@ export default {
       this.isClick = false;
       const groupId = item.groupId;
       this.$store.dispatch("saveplanGroupId", groupId);
+      this.title = item.groupName
     },
     onenter() {
       this.isClick = true;

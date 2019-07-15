@@ -262,9 +262,9 @@ export default {
             justify-content: flex-start;
             align-items: center;
             input {
-              height: 20px;
-              width: 20px;
               margin-right: 4%;
+              margin-top: 3%;
+              cursor: pointer;
             }
           }
           .edit {

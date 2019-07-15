@@ -359,6 +359,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.initDataOverview()
+  },
   computed: {
     ...mapState({
       hiddenValue: state => state.control.hiddenValue
@@ -374,6 +377,11 @@ export default {
   methods: {
     receiveEvent(e) {
       this.dataNumber = e;
+    },
+    // 请求事件统计和 定位统计
+    initDataOverview() {
+      const self = this;
+      this.$store.dispatch("_dataOverview", { organizationId: self.$store.state.init.organizationId })
     }
   }
 };

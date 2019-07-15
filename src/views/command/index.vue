@@ -5,6 +5,9 @@
     <Right />
     <transition name="el-zoom-in-top">
       <newsAlert v-if="isNewsAlert"/>
+      <tableAlert v-if="this.$store.state.command.tableAlertValue == 1" />
+      <tableAlert v-if="this.$store.state.command.tableAlertValue == 2" />
+      <tableAlert v-if="this.$store.state.command.tableAlertValue == 3" />
       <alertControl v-if="isAlertBoolean" />
       <lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />
     </transition>
@@ -19,12 +22,14 @@ import Right from "./right"
 import alertControl from "@/views/alertControl/index"
 import lastOne from "@/components/alertControl/lastOne"
 import newsAlert from "@/views/newsAlert/index"
+import tableAlert from "@/components/command/alertTable"
 export default {
-  components: { Left, Center, Right, alertControl, newsAlert, lastOne },
+  components: { Left, Center, Right, alertControl, newsAlert, lastOne, tableAlert },
   data() {
     return {
       isAlertBoolean: false,
-      isNewsAlert: false
+      isNewsAlert: false,
+      isTableAlert: null
     }
   },
   computed: {

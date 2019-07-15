@@ -12,6 +12,10 @@ import "./styles/reset.css"
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 
+// vue-seamless-scroll
+import scroll from 'vue-seamless-scroll'
+Vue.use(scroll)
+
 import moment from "moment";
 Vue.prototype.$moment = moment;
 Vue.config.productionTip = false;
