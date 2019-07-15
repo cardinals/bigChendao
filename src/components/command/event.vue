@@ -20,7 +20,7 @@
         </p>
       </div>
     </div>
-    <div class="check">查看>></div>
+    <div class="check" @click="eventLook">查看>></div>
   </div>
 </template>
 
@@ -49,6 +49,11 @@ export default {
           width: "18%"
         }
       ]
+    }
+  },
+  methods: {
+    eventLook() {
+      this.$store.dispatch("saveTableAlertValue", 1);
     }
   }
 }

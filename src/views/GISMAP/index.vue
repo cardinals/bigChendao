@@ -105,7 +105,7 @@ export default {
   methods: {
     initGis() {
       var cfg1 = {
-        EngineIP: "http://115.236.87.26:9904/", //引擎访问地址（必填）
+        EngineIP: "http://115.239.224.98:4401/", //引擎访问地址（必填）
         dom: document.getElementById("glCanvas1"), //<body>标签中的div的ID（必填）
         key: "wSryzKApfH8y" //产品密钥（必填）
       };

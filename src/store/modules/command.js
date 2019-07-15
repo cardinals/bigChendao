@@ -1,7 +1,8 @@
 import { dataOverview } from "@/api/command.js"
 const state = {
   eventDateList: [],
-  carPersonList: []
+  carPersonList: [],
+  tableAlertValue: null
 }
 const mutations = {
   setState(state, { key, value}) {
@@ -70,6 +71,9 @@ const actions = {
         context.commit("setState", { key: "carPersonList", value: _carPersonList })
       }
     }).catch()
+  },
+  saveTableAlertValue(context, value) {
+    context.commit("setState", { key: "tableAlertValue", value: value });
   }
 }
 

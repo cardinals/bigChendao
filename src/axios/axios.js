@@ -5,6 +5,7 @@ import axios from "axios";
 
 const service = axios.create({
     baseURL: 'http://192.168.1.117:8081/',
+    // baseURL: 'http://192.168.1.121:8081/',
     timeout: 5000, // 请求超时时间
     headers: {
         // 'app_key': '1234567890',

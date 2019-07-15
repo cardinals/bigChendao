@@ -11,7 +11,7 @@
           <p class="number">{{ item.num2 }}</p>
         </div>
       </div>
-      <div class="oneBoxBottom">{{ item.check }}</div>
+      <div class="oneBoxBottom" @click="positionLook(index)">{{ item.check }}</div>
     </div>
   </div>
 </template>
@@ -38,6 +38,15 @@ export default {
           check: "查看>>"
         }
       ]
+    }
+  },
+  methods: {
+    positionLook(index) {
+      if (index == 0) {
+        this.$store.dispatch("saveTableAlertValue", 2);
+      } else if (index == 1) {
+        this.$store.dispatch("saveTableAlertValue", 3);
+      }
     }
   }
 }
