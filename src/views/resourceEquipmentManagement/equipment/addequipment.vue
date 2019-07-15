@@ -47,7 +47,7 @@
                                     size="medium"
                                     class="customized_input"
                                     placeholder="请输入内容"
-                                    v-model="ruleForm.input2">
+                                    v-model="ruleForm.phoneNumber">
                             </el-input>
                             （选填，不超过11个字符）
                         </el-form-item>
@@ -103,7 +103,7 @@
                                     size="medium"
                                     placeholder="请输入内容"
                                     class="customized_input"
-                                    v-model="ruleForm.input2">
+                                    v-model="ruleForm.resNumber">
                             </el-input>
                             个
                             （选填，填写整数）
@@ -400,7 +400,8 @@
             areaNameoptions:[],
             labelname:'',
             labelPosition:'right',
-            audios:''
+            audios:'',
+            phoneNumber:''
         }
     },
     created() {
@@ -537,13 +538,13 @@
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
                 address:this.ruleForm.address, //地址（资源独有）
-                phoneNumber:null, //电话（资源独有）
-                resNumber:null,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
+                phoneNumber:this.ruleForm.phoneNumber, //电话（资源独有）
+                resNumber:this.ruleForm.resNumber,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
                 introduction:this.ruleForm.introduction,//资源介绍（资源独有）
                 streamUrl:null,//监控视频流（视频监控独有）
                 groupId:this.ruleForm.groupId,//区域分组ID
                 picturesList:picturesLists,//资源图片（资源独有且至少有1张图片）
-                audio:null,//景点语音（景点独有）
+                audio:this.audios,//景点语音（景点独有）
             }
             let ids = this.$route.query.id
             baseinfoUpdate(ids,data).then(res => {
@@ -574,14 +575,14 @@
                 layerTypeId:this.$route.query.layerTypeId,//关联图层类型
                 lng:this.ruleForm.lng, //经度    以下暂时写死
                 lat:this.ruleForm.lat, //维度
-                address:'', //地址（资源独有）
-                phoneNumber:null, //电话（资源独有）
+                address:this.ruleForm.address, //地址（资源独有）
+                phoneNumber:this.ruleForm.phoneNumber, //电话（资源独有）
                 resNumber:this.ruleForm.resNumber,//资源内设数量（如：停车场车位数，卫生间厕位数）（资源独有）
                 introduction:this.ruleForm.introduction,//资源介绍（资源独有）
                 streamUrl:null,//监控视频流（视频监控独有）
                 groupId:this.ruleForm.groupId,//区域分组ID
                 picturesList:picturesLists,//资源图片（资源独有且至少有1张图片）
-                audio:null,//景点语音（景点独有）
+                audio:this.audios,//景点语音（景点独有）
             }
             baseinfoInsert(data).then(res => {
                 if(res.data.code == 200) {
