@@ -2,7 +2,7 @@
   <div class="navBar">
     <div class="nameAndout">
       <div class="titleBox" :style="{ backgroundImage: titleBox.title.back }">
-        <p class="title">{{ titleBox.title.name }}</p>
+        <p class="title">{{ titleBox.title.name }}{{planOrmanOrNoNumber1}}</p>
         <div class="options">
           <div 
             class="option cc"
@@ -56,6 +56,7 @@
 
 <script>
 const moment = require("moment");
+import { mapState } from "vuex"
 export default {
   data() {
     return {
@@ -116,6 +117,11 @@ export default {
       },
       passAlert: true
     };
+  },
+  computed: {
+    ...mapState({
+      planOrmanOrNoNumber1: state => state.eventAlert.planOrmanOrNoNumber
+    })
   },
   mounted() {
     let self = this;

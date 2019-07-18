@@ -3,27 +3,35 @@
     <div class="out">
       <div class="title" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">预案处理</div>
       <div class="title" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 1">人工处理</div>
+      <div class="title" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 7">不处理</div>
       <div class="waring" :style="{ backgroundImage: out.waring }" />
       <p class="text">{{ out.text }}</p>
     </div>
     <div class="content" :style="{ backgroundImage: content.back }">
       <div class="header">
-        <div class="name">{{ content.header[0] }}</div>
+        <div class="name" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">预案处理</div>
+        <div class="name" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 1">人工处理</div>
+        <div class="name" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 7">不处理</div>
         <div class="name">{{ content.header[1] }}</div>
       </div>
-      <div :class="this.$store.state.eventAlert.planOrmanOrNoNumber == 0 ? 'section1' : 'section11' ">
+      <div v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0||this.$store.state.eventAlert.planOrmanOrNoNumber == 1" :class="this.$store.state.eventAlert.planOrmanOrNoNumber == 0 ? 'section1' : 'section11' ">
         <div class="top">
-          <div class="s1name">{{ content.section1.title }}</div>
-          <div class="selectBox">
+          <div v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0" class="s1name">{{ content.section1.title }}</div>
+          <div v-else class="s1name">{{ content.section1.title1 }}</div>
+          <div class="selectBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">
             <selects1 :data="this.$store.state.eventAlert.planGroup" />
             <selects2 :data="this.$store.state.eventAlert.planSelf" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0" />
           </div>
+          <div class="selectBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 1">
+            {{currentGroupData.groupName}}
+          </div>
         </div>
         <div class="bottomBox" v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0">
-          <div class="bottom" v-for="(item, index) in content.section1.text" :key="index">{{ item }}</div>
+          <div class="bottom" v-html="this.$store.state.eventAlert.planText"></div>
+          <!--<div v-for="(item, index) in content.section1.text" :key="index">{{ item }}</div>-->
         </div>
       </div>
-      <div class="section2">
+      <div v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0||this.$store.state.eventAlert.planOrmanOrNoNumber == 1" class="section2">
         <div class="section2Top">
           <div class="section2Title">{{ content.section2.title }}</div>
           <div class="section2short cc">
@@ -37,7 +45,7 @@
           <textarea :class="isTextArea ? 'noback' : '' " :disabled="isTextArea ? 'disabled' : false " class="section2Bottom cc" v-model="content.section2.text"></textarea>
         </div>
       </div>
-      <div class="section3">
+      <div v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0||this.$store.state.eventAlert.planOrmanOrNoNumber == 1" class="section3">
         <div class="section3Top">{{ content.section3.title[0] }}</div>
         <div class="section3Bottom">
           <div class="section3Title">{{ content.section3.title[1] }}</div>
@@ -48,9 +56,13 @@
                 <span>{{ item.name }}</span>
               </div>
             </div>
-            <selects3 width="28%" height="40%" :data="this.$store.state.eventAlert.departmentMens" />
+            <selects3 width="28%" height="40%" :data="this.$store.state.eventAlert.departmentMens" @checkedPeople="checkedPeople"/>
           </div>
         </div>
+      </div>
+      <div v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 7" class="notDeal">
+        <div class="title">不处置理由</div>
+        <textarea class="section2Bottom cc" v-model="endDescription"></textarea>
       </div>
       <div class="btn">
         <div class="btn1 cc" @click="handle">{{ content.btn[0] }}</div>
@@ -61,6 +73,8 @@
 </template>
 
 <script>
+  import moment from 'moment';
+  import { mapState } from "vuex";
 import selects1 from "@/components/common/select"
 import selects2 from "@/components/common/select2"
 import selects3 from "@/components/common/select3"
@@ -93,13 +107,14 @@ export default {
         header: ["预案处理", "待处理"],
         section1: {
           title: "(1) 请选择预案",
-          text: ["*预案内容", "(1)给工作人员发短信通知。", "(2)进行500米以内的人员和车辆调度。", "(3)请当日内填写《意外事故记录表》备案。"]
+          title1: "(1) 事件分组",
+          text: ''
         },
         section2: {
           title: "(2) 请进行操作",
           short: ["短信通知", "短信内容"],
           edit: "url(" + require('../../assets/event/edit.png') + ")",
-          text: "【停水停电】尊敬的领导和同事们:因近期雨雪天气,景区内将出现短时停水停电,请知悉。"
+          text: ""
         },
         section3: {
           title: ["(3) 发送对象", "快捷选择对象"],
@@ -107,23 +122,61 @@ export default {
         },
         btn: ["处置", "上一步"]
       },
-      isTextArea: true
+      isTextArea: true,
+      peopleId: [],
+      endDescription: ''
+    }
+  },
+  computed: {
+    ...mapState({
+      curMessage: state => {return state.eventAlert.disposalParameters.message},
+      currentGroupData: state => {return state.control.currentGroupData }
+    })
+  },
+  watch: {
+    curMessage(newValue, oldValue) {
+      this.content.section2.text = newValue
     }
   },
   methods: {
+    moment,
     lastStep() {
       this.$store.dispatch("savePlanOrmanOrNo", 5);
     },
     handle() {
       const self = this;
-      this.$store.dispatch("_saveDisposalParamStatus", 1);
-      this.$store.dispatch("_saveDisposalParamMassage", self.content.section2.text);
-      this.$store.dispatch("_SubmitDisposal", { id: self.$store.state.control.currentEventId, data: self.$store.state.eventAlert.disposalParameters });
-      console.log(this.$store.state.eventAlert.disposalParameters, '提交的都是啥')
-      this.$store.dispatch("savePlanOrmanOrNo", 3);
+      if (self.$store.state.eventAlert.planOrmanOrNoNumber == 7) {
+        if (!self.endDescription) { self.$message.error('请输入完成描述'); return }
+        this.$store.dispatch("_saveDisposalParamStatus", 2);
+        const data = {
+          eventState: 2,
+          endDescription: self.endDescription,
+          endTime: moment().format('YYYY-MM-DD HH:MM:SS')
+        }
+        this.$store.dispatch("_SubmitDisposal", { data: data }).then((res) => {
+          if (res) {
+            this.$message.error(res)
+          }
+        })
+      } else {
+        let allPeopleId = self.$store.state.eventAlert.disposalParameters.sendPeopleId;
+        allPeopleId = allPeopleId.concat(self.peopleId)
+        this.$store.dispatch("_saveDisposalParamPeople", allPeopleId)
+        this.$store.dispatch("_saveDisposalParamTime", moment().format('YYYY-MM-DD HH:MM:SS'))
+        this.$store.dispatch("_saveDisposalParamStatus", 1);
+        this.$store.dispatch("_saveDisposalParamMassage", self.content.section2.text);
+        this.$store.dispatch("_SubmitDisposal", { id: self.$store.state.control.currentEventId, data: self.$store.state.eventAlert.disposalParameters }).then((res) => {
+          if (res) {
+            this.$message.error(res)
+          }
+        })
+      }
     },
     editEvent() {
       this.isTextArea = !this.isTextArea
+    },
+    checkedPeople(peopleId) {
+      this.peopleId = peopleId
     },
     addTwo(item) {
       item.check = !item.check
@@ -238,6 +291,7 @@ export default {
         }
       }
       .section1 {
+        margin: 0 auto;
         width: 91%;
         height: 24%;
         // background: yellowgreen;
@@ -270,6 +324,7 @@ export default {
         }
       }
       .section2 {
+        margin: 0 auto;
         width: 91%;
         height: 30%;
         // background: yellowgreen;
@@ -335,6 +390,7 @@ export default {
         }
       }
       .section3 {
+        margin: 0 auto;
         width: 91%;
         height: 28%;
         // background: yellowgreen;
@@ -422,6 +478,27 @@ export default {
           cursor: pointer;
         }
       }
+    }
+  }
+  .notDeal {
+    margin: 0 auto;
+    width: 91%;
+    height: 90%;
+    .title {
+      margin: 20px 0;
+      font-size: 20px;
+      color: white;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      border: 1px solid #7bd0ea;
+      font-size: 14px;
+      color: #ffffff;
+      padding-left: 5%;
+      padding-right: 5%;
+      background: transparent;
+      resize: none;
     }
   }
 </style>

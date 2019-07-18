@@ -17,7 +17,7 @@
           height="76%"
           oneHeight="12%" 
           marginTop="0" 
-          :datas="deviceData"
+          :datas="equipmentList"
           :isEvent="false"
           :isRatio="true" 
           v-if="dataNumber == 1" />
@@ -27,7 +27,7 @@
           height="76%"
           oneHeight="12%"
           marginTop="0"
-          :datas="resourceData"
+          :datas="resourcesList"
           :isRatio="true"
           :isEvent="false"
           v-if="dataNumber == 2" />
@@ -69,6 +69,7 @@ import { mapState } from "vuex";
 import common from "@/components/control/common";
 import dataTourist from "@/components/control/dataTourist";
 import layerContent from "@/components/control/layerContent";
+
 export default {
   components: { common, dataTourist, layerContent },
   data() {
@@ -191,10 +192,32 @@ export default {
       ],
       deviceData: [
         {
-          link: "url(" + require("../../assets/control/layer1.png") + ")",
-          link1: "url(" + require("../../assets/control/layer1x.png") + ")",
+          link: "url(" + require("../../assets/control/chuanganqi.png") + ")",
+          link1: "url(" + require("../../assets/control/chuanganqi1.png") + ")",
           isActive: true,
-          name: "事件",
+          name: "传感器",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          textColor1: "#fdc43b",
+          ratio: "(123/126)"
+        },
+        {
+          link: "url(" + require("../../assets/control/guangbo.png") + ")",
+          link1: "url(" + require("../../assets/control/guangbo1.png") + ")",
+          isActive: true,
+          name: "广播",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          textColor1: "#fdc43b",
+          ratio: "(123/126)"
+        },
+        {
+          link: "url(" + require("../../assets/control/baojing.png") + ")",
+          link1: "url(" + require("../../assets/control/baojing1.png") + ")",
+          isActive: true,
+          name: "报警柱",
           width: "15%",
           height: "100%",
           textColor: "#fff",
@@ -213,37 +236,15 @@ export default {
           ratio: "(103/136)"
         },
         {
-          link: "url(" + require("../../assets/control/layer3.png") + ")",
-          link1: "url(" + require("../../assets/control/layer3x.png") + ")",
-          isActive: true,
-          name: "设备",
-          width: "15%",
-          height: "100%",
-          textColor: "#fff",
-          textColor1: "#fdc43b",
-          ratio: "(62/68)"
-        },
-        {
           link: "url(" + require("../../assets/control/layer4.png") + ")",
           link1: "url(" + require("../../assets/control/layer4x.png") + ")",
           isActive: true,
-          name: "Wi-Fi",
+          name: "WiFi",
           width: "15%",
           height: "80%",
           textColor: "#fff",
           textColor1: "#fdc43b",
           ratio: "(62/126)"
-        },
-        {
-          link: "url(" + require("../../assets/control/layer5.png") + ")",
-          link1: "url(" + require("../../assets/control/layer5x.png") + ")",
-          isActive: true,
-          name: "景点",
-          width: "15%",
-          height: "100%",
-          textColor: "#fff",
-          textColor1: "#fdc43b",
-          ratio: "(23/26)"
         },
         {
           link: "url(" + require("../../assets/control/layer6.png") + ")",
@@ -259,7 +260,48 @@ export default {
       ],
       resourceData: [
         {
+          link: "url(" + require("../../assets/control/zhusu.png") + ")",
+          link1: "url(" + require("../../assets/control/zhusu1.png") + ")",
+          isActive: true,
+          name: "住宿",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          ratio: "(27)"
+        },
+        {
+          link: "url(" + require("../../assets/control/shoupiao.png") + ")",
+          link1: "url(" + require("../../assets/control/shoupiao1.png") + ")",
+          isActive: true,
+          name: "售票点",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          ratio: "(27)"
+        },
+        {
+          link: "url(" + require("../../assets/control/shop.png") + ")",
+          link1: "url(" + require("../../assets/control/shop1.png") + ")",
+          isActive: true,
+          name: "商店",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          ratio: "(27)"
+        },
+        {
+          link: "url(" + require("../../assets/control/yingjiwuzi.png") + ")",
+          link1: "url(" + require("../../assets/control/yingjiwuzi1.png") + ")",
+          isActive: true,
+          name: "应急物资",
+          width: "15%",
+          height: "100%",
+          textColor: "#fff",
+          ratio: "(27)"
+        },
+        {
           link: "url(" + require("../../assets/control/layer5.png") + ")",
+          link1: "url(" + require("../../assets/control/layer5x.png") + ")",
           isActive: true,
           name: "景点",
           width: "15%",
@@ -268,16 +310,8 @@ export default {
           ratio: "(27)"
         },
         {
-          link: "url(" + require("../../assets/control/malu.png") + ")",
-          isActive: true,
-          name: "游步道",
-          width: "15%",
-          height: "100%",
-          textColor: "#fff",
-          ratio: "(4)"
-        },
-        {
           link: "url(" + require("../../assets/control/wc.png") + ")",
+          link1: "url(" + require("../../assets/control/wc1.png") + ")",
           isActive: true,
           name: "卫生间",
           width: "15%",
@@ -287,6 +321,7 @@ export default {
         },
         {
           link: "url(" + require("../../assets/control/mian.png") + ")",
+          link1: "url(" + require("../../assets/control/mian1.png") + ")",
           isActive: true,
           name: "餐饮住宿",
           width: "15%",
@@ -296,6 +331,7 @@ export default {
         },
         {
           link: "url(" + require("../../assets/control/customer.png") + ")",
+          link1: "url(" + require("../../assets/control/customer1.png") + ")",
           isActive: true,
           name: "游客中心",
           width: "15%",
@@ -305,6 +341,7 @@ export default {
         },
         {
           link: "url(" + require("../../assets/control/an.png") + ")",
+          link1: "url(" + require("../../assets/control/an1.png") + ")",
           isActive: true,
           name: "治安点",
           width: "15%",
@@ -314,6 +351,7 @@ export default {
         },
         {
           link: "url(" + require("../../assets/control/p.png") + ")",
+          link1: "url(" + require("../../assets/control/p1.png") + ")",
           isActive: true,
           name: "停车场",
           width: "15%",
@@ -326,7 +364,9 @@ export default {
   },
   computed: {
     ...mapState({
-      hiddenValue: state => state.control.hiddenValue
+      hiddenValue: state => state.control.hiddenValue,
+      equipmentList: state => state.control.equipmentList,
+      resourcesList: state => state.control.resourcesList
     })
   },
   watch: {
@@ -347,6 +387,10 @@ export default {
       const self = this;
       // 数据概览
       this.$store.dispatch("_dataOverView", { organizationId: self.$store.state.init.organizationId });
+      this.$store.dispatch("_homepageDateoverview", { organizationId: self.$store.state.init.organizationId,
+        resourceData: this.resourceData,
+        deviceData: this.deviceData
+      });
     }
   }
 };

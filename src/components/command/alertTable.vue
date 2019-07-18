@@ -5,18 +5,24 @@
       v-for="(horn, index) in alerts.horns"
       :key="index"
       :style="horn" />
-      <div class="content cc">
+      <div class="content">
         <div class="light" :style="{ backgroundImage: alerts.light }" />
         <div class="off" :style="{ backgroundImage: alerts.off }" @click="offAlert" />
-        
+        <div class="table-title">
+          <titleModule width="100%" height="8%" title="事件记录" />
+        </div>
+        <div class="table-content">
+          <div class="operate-line"></div>
+          <div class="table"></div>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
-
+  import titleModule from "@/components/alertControl/titleModule"
 export default {
-  components: {  },
+  components: { titleModule },
   data() {
     return {
       alerts: {
@@ -89,9 +95,6 @@ export default {
     border: 1px solid #103da6;
     background: linear-gradient(to right, #02143a, #02020f);
     position: relative;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     .light {
       width: 68%;
       height: 4%;
@@ -117,4 +120,17 @@ export default {
     }
   }
 }
+  .table-title {
+    margin: 20px auto;
+    width: 50%;
+  }
+  .table-content {
+    height: calc(100% - 100px);
+    .operate-line {
+      height: 50px;
+    }
+    .table {
+      height: calc(100% - 50px);
+    }
+  }
 </style>

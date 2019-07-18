@@ -2,7 +2,7 @@ import { dataOverview } from "@/api/command.js"
 const state = {
   eventDateList: [],
   carPersonList: [],
-  tableAlertValue: null
+  tableAlertValue: null  // 1: 事件table列表
 }
 const mutations = {
   setState(state, { key, value}) {

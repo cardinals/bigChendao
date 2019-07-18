@@ -4,12 +4,12 @@
     <!-- <Center /> -->
     <Right />
     <transition name="el-zoom-in-top">
-      <newsAlert v-if="isNewsAlert"/>
+      <!--<newsAlert v-if="isNewsAlert"/>-->
       <tableAlert v-if="this.$store.state.command.tableAlertValue == 1" />
-      <tableAlert v-if="this.$store.state.command.tableAlertValue == 2" />
-      <tableAlert v-if="this.$store.state.command.tableAlertValue == 3" />
-      <alertControl v-if="isAlertBoolean" />
-      <lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />
+      <!--<tableAlert v-if="this.$store.state.command.tableAlertValue == 2" />-->
+      <!--<tableAlert v-if="this.$store.state.command.tableAlertValue == 3" />-->
+      <!--<alertControl v-if="isAlertBoolean" />-->
+      <!--<lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />-->
     </transition>
   </div>
 </template>

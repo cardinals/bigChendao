@@ -79,19 +79,19 @@ export default {
   methods: {
     pointEvent(index, article) {
       console.log(article, '当前条')
-      // 当前事件id存起来
-      this.$store.dispatch("saveCurrentEventId", article.id);
-      // 取当前areaId 地点 时间
-      const alarmList = this.alarmList;
-      const currentAreaId = alarmList[index].areaId;
-      const currentAddress = alarmList[index].eventAddr;
-      const currentTime = alarmList[index].happenedTime;
+      // 当前事件id, groupId， group存起来
+      this.$store.dispatch("saveCurrentEventId", {id: article.id, groupId: article.groupId, groupName: article.groupName});
       //把当前地址和时间存起来
-      this.$store.dispatch("saveAddressTime", { currentAddress: currentAddress, currentTime: currentTime });
+      this.$store.dispatch("saveAddressTime", { currentAddress: article.eventAddr, currentTime: article.happenedTime });
 
       // 去请求紧急联系人接口 - 附近人员 - 附近资源车辆
-      this.$store.dispatch("_emergencyContact", { organizationId: 1, areaId: currentAreaId, groupId: 2, layerTypeId: 11 })
+      this.$store.dispatch("_emergencyContact", { organizationId: 1, areaId: article.areaId, groupId: 2, layerTypeId: 11 })
       this.passAlert.pointId = index;
+      // if (article.handle === '处理中') {
+      //   this.$store.dispatch("savePlanOrmanOrNo", 3);
+      // } else if (article.handle === '待处理') {
+      //   this.$store.dispatch("savePlanOrmanOrNo", 5);
+      // }
       const passAlert = this.passAlert;
       this.$store.dispatch("showAlert", passAlert);
     }

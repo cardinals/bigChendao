@@ -31,8 +31,9 @@ export default {
       const self = this;
       this.$store.dispatch("savePlanOrmanOrNo", index)
       if (index == 2) {
-        self.$store.dispatch("showAlert", false);
-        self.$store.dispatch("savePlanOrmanOrNo", 6);
+        self.$store.dispatch("savePlanOrmanOrNo", 7);
+        // self.$store.dispatch("showAlert", false);
+        // self.$store.dispatch("savePlanOrmanOrNo", 6);
       }
     }
   }

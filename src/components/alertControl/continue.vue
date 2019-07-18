@@ -38,7 +38,7 @@ export default {
   components: { centerCommon, Top, Bottom, planMan },
   methods: {
     continues() {
-      this.$store.dispatch("savePlanOrmanOrNo", 4);
+      this.$store.dispatch("getEventDetail");
     }
   },
   data() {
