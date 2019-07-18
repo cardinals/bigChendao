@@ -5,9 +5,9 @@
     <Right />
     <transition name="el-zoom-in-top">
       <newsAlert v-if="isNewsAlert"/>
-      <tableAlert v-if="this.$store.state.command.tableAlertValue == 1" />
-      <tableAlert v-if="this.$store.state.command.tableAlertValue == 2" />
-      <tableAlert v-if="this.$store.state.command.tableAlertValue == 3" />
+      <tableAlert title="事件记录" v-if="this.$store.state.command.tableAlertValue == 1" />
+      <tableAlert title="人员名单" v-if="this.$store.state.command.tableAlertValue == 2" />
+      <tableAlert title="车辆名单" v-if="this.$store.state.command.tableAlertValue == 3" />
       <alertControl v-if="isAlertBoolean" />
       <lastOne v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 6" />
     </transition>

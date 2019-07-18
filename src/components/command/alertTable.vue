@@ -8,15 +8,23 @@
       <div class="content cc">
         <div class="light" :style="{ backgroundImage: alerts.light }" />
         <div class="off" :style="{ backgroundImage: alerts.off }" @click="offAlert" />
-        
+        <titleModule :title="title" width="50%" />
+        <commandTable />
       </div>
   </div>
 </template>
 
 <script>
-
+import titleModule from "@/components/alertControl/titleModule"
+import commandTable from "./table"
 export default {
-  components: {  },
+  components: { titleModule, commandTable },
+  props: {
+    title: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       alerts: {
@@ -90,6 +98,7 @@ export default {
     background: linear-gradient(to right, #02143a, #02020f);
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     .light {
