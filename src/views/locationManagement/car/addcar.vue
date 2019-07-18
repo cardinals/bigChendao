@@ -26,25 +26,25 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="驾驶人 :" >
+                    <el-form-item label="驾驶人 :" prop="driver">
                         <el-input
                                 size="medium"
                                 class="customized_input"
                                 placeholder="请输入内容"
                                 v-model="ruleForm.driver">
                         </el-input>
-                        （可填，不超过10个字符）
+                        （必填，不超过10个字符）
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                    <el-form-item label="联系方式 :" >
+                    <el-form-item label="手机号码 :" prop="driverPhone">
                         <el-input
                                 size="medium"
                                 placeholder="请输入内容"
                                 class="customized_input"
                                 v-model="ruleForm.driverPhone">
                         </el-input>
-                        （可填，不超过11个字符）
+                        （必填）
                     </el-form-item>
                 </el-col>
                 <el-col :span="24">
@@ -96,7 +96,7 @@
                         { required: true, message: '请输入驾驶人', trigger: 'blur' }
                     ],
                     driverPhone: [
-                        { required: true, message: '请输入联系方式', trigger: 'blur' }
+                        { required: true, message: '请输入手机号码', trigger: 'blur' }
                     ],
                     groupId: [
                         { required: true, message: '请选择通讯录部门', trigger: 'change' }
