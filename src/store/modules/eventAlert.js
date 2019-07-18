@@ -6,7 +6,8 @@ import {
   planGroup,
   planSelf,
   allPeopleId,
-  SubmitDisposal
+  SubmitDisposal,
+  eventDetail
 } from "@/api/alert";
 const state = {
   alertBoolean: false,
@@ -17,9 +18,11 @@ const state = {
   nearbyPeople: [{ name: "附近人1", tel: "13765678765" }],
   nearbyCar: [{ name: "车辆1", tel: "13765678765" }],
   nearbyRadio: [{ name: "西湖广播1", tel: "GB0010001", status: 0 }],
+  nearbyGoods: [],
   planGroup: [],
   planGroupId: null,
   planSelf: [],
+  planText: '', // 预案内容
   departmentMens: [
     {
       name: '领导组',
@@ -32,9 +35,10 @@ const state = {
     planId: null,
     sendPeopleId: [],
     message: "",
-    eventState: null
-  }
-
+    eventState: null,
+    managementTime: ''
+  },
+  eventDetailInfo: ''
 };
 
 const mutations = {
@@ -59,7 +63,6 @@ const mutations = {
     state['disposalParameters']['sendPeopleId'] = '';
     state['disposalParameters']['message'] = '';
     state['disposalParameters']['eventState'] = ''
-    
   }
 };
 
@@ -138,7 +141,7 @@ const actions = {
       })
       .catch();
     // 附近广播
-    nearbyRadio({ organizationId, groupId, layerTypeId })
+    nearbyRadio({ organizationId, groupId })
       .then(res => {
         console.log(res, "附近广播");
         if (res.status == 200) {
@@ -153,6 +156,26 @@ const actions = {
           context.commit("setState", {
             key: "nearbyRadio",
             value: nearbyRadio
+          });
+        }
+      })
+      .catch();
+    // 附近物资
+    nearbyRadio({ organizationId, groupId, layerTypeId: 18 })
+      .then(res => {
+        console.log(res, "附近物资");
+        if (res.status == 200) {
+          let nearbyGoods = [];
+          res.data.data.map(item => {
+            nearbyGoods.push({
+              name: item.name,
+              tel: item.equipmentCode,
+              status: item.status
+            });
+          });
+          context.commit("setState", {
+            key: "nearbyGoods",
+            value: nearbyGoods
           });
         }
       })
@@ -217,8 +240,10 @@ const actions = {
     }).catch()
   },
   // 提交【处置】预案id
-  _saveDisposalParamPlanId(context, planId) {
-    context.commit("setDisposal", { key: "planId", value: planId });
+  _saveDisposalParamPlanId(context, data) {
+    context.commit("setDisposal", { key: "planId", value: data.id });
+    context.commit("setState", { key: "planText", value: data.content.replace(/(\r\n|\n|\r)/gm, "<br />") }); // 预案内容
+    context.commit("setDisposal", { key: "message", value: data.message }); // 短信内容
   },
   // push【处置】联系人id数组
   // _saveDisposalParamSendId(context, sendPeopleId) {
@@ -239,21 +264,62 @@ const actions = {
   _saveDisposalParamMassage(context, message) {
     context.commit("setDisposal", { key: "message", value: message })
   },
+  // 提交【处置】人员信息
+  _saveDisposalParamPeople(context, sendPeopleId) {
+    context.commit("setDisposal", { key: "sendPeopleId", value: sendPeopleId })
+  },
   // 提交【处置】事件状态
   _saveDisposalParamStatus(context, eventStatus) {
     context.commit("setDisposal", { key: "eventState", value: eventStatus });
   },
-  // 处置提交
-  _SubmitDisposal(context, { id, data }) {
-    SubmitDisposal(id, data).then(res => {
-      console.log(res, "处置提交结果")
-      if (res.status == 200) {
-        // 提交完清空参数
-        context.commit("clearDisposalParam")
-      }
-      // this.$store.dispatch("clearDisposalParam");
-    }).catch()
+  // 提交【处置】事件事件
+  _saveDisposalParamTime(context, time) {
+    context.commit("setDisposal", { key: "managementTime", value: time });
   },
+  // 处置提交
+  _SubmitDisposal(context, {data}) {
+    const id = context.rootState.control.currentEventId;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        SubmitDisposal(id, data).then(res => {
+          console.log(res, "处置提交结果")
+          if (res.data.code == 200) {
+            // 提交完清空参数
+            context.commit("clearDisposalParam")
+            if (data.eventState === 1) {
+              context.dispatch("savePlanOrmanOrNo", 3);
+            } else {
+              context.dispatch("savePlanOrmanOrNo", 6);
+              context.dispatch("showAlert", {pointId: null, showAlert: false});
+            }
+            context.dispatch("_eventList", { organizationId: context.rootState.init.organizationId })
+            resolve()
+          } else {
+            console.log(res.data.data.message)
+            resolve(res.data.data.message)
+          }
+        }).catch()
+      }, 1000)
+    })
+
+  },
+  // 事件详情
+  getEventDetail(context) {
+    const id = context.rootState.control.currentEventId;
+    eventDetail(id).then((res) => {
+      console.log(res, '事件详情')
+      if (res.status === 200) {
+        const data = res.data.data;
+        if (data.emergencyPlan) {
+          data['planContent'] = data.emergencyPlan.content.replace(/(\r\n|\n|\r)/gm, "<br />")
+        } else {
+          data['planContent'] = ''
+        }
+        context.commit("setState", { key: "eventDetailInfo", value: data })
+        context.dispatch("savePlanOrmanOrNo", 4);
+      }
+    })
+  }
 };
 
 export default {

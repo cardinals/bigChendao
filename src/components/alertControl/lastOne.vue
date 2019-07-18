@@ -15,7 +15,7 @@ export default {
     const self = this;
     setTimeout(() => {
       self.$store.dispatch("savePlanOrmanOrNo", 5);
-    }, 3000)
+    }, 1000)
   }
 }
 </script>

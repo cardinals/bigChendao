@@ -94,6 +94,7 @@ export default {
         })
       })
       this.sendPeopleId = Array.from(new Set(_sendPeopleId));
+      this.$emit('checkedPeople', this.sendPeopleId)
       console.log(this.sendPeopleId, "每一个")
     },
     // 点类

@@ -13,8 +13,8 @@
         :isAlert="true"
         @propEvent="receiveEvent"
         :style="{ backgroundImage: datas.back }">
-        <tableModule :tableTitle="tableTitle1" :record="this.$store.state.control.alarmList" v-if="dataNumber == 0" />
-        <tableModule :tableTitle="tableTitle2" :record="this.$store.state.control.emergencyList" v-if="dataNumber == 1" />
+        <tableModule :tableTitle="tableTitle1" :record="this.$store.state.control.emergencyList" v-if="dataNumber == 0" />
+        <tableModule :tableTitle="tableTitle2" :record="this.$store.state.control.alarmList" v-if="dataNumber == 1" />
         <tableModule :tableTitle="tableTitle3" :record="this.$store.state.control.otherList" v-if="dataNumber == 2" />
       </common>
     </transition>
@@ -27,6 +27,7 @@ import { mapState } from "vuex"
 import common from "@/components/control/common";
 import tableModule from "@/components/common/table"
 import ranging from "@/components/common/ranging"
+
 export default {
   components: { common, tableModule, ranging },
   data() {

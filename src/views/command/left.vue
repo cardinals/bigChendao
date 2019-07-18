@@ -65,7 +65,7 @@ export default {
         width: "100%",
         height: "36%",
         title: "数据概览",
-        tabs: ["事件统计", "定位统计"],
+        tabs: ["事件统计", "人员/车辆统计"],
         back: "url(" + require("../../assets/control/datas.png") + ")"
       },
       layer: {

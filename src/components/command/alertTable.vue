@@ -5,7 +5,7 @@
       v-for="(horn, index) in alerts.horns"
       :key="index"
       :style="horn" />
-      <div class="content cc">
+      <div class="content">
         <div class="light" :style="{ backgroundImage: alerts.light }" />
         <div class="off" :style="{ backgroundImage: alerts.off }" @click="offAlert" />
         <titleModule :title="title" width="50%" />
@@ -126,4 +126,17 @@ export default {
     }
   }
 }
+  .table-title {
+    margin: 20px auto;
+    width: 50%;
+  }
+  .table-content {
+    height: calc(100% - 100px);
+    .operate-line {
+      height: 50px;
+    }
+    .table {
+      height: calc(100% - 50px);
+    }
+  }
 </style>

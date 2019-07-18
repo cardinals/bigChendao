@@ -25,7 +25,18 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="预案内容 :">
-                            {{ruleForm.content || '/'}}
+                            <!-- {{ruleForm.content || '/'}} -->
+                             <el-input
+                                class="textareaheight"
+                                type="textarea"
+                                placeholder="请填写介绍，不超过350个字符"
+                                v-model="ruleForm.content"
+                                :rows="4"
+                                style="margin-bottom: 16px;"
+                                disabled="true"
+                                show-word-limit
+                            >
+                        </el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>

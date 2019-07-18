@@ -10,7 +10,7 @@
       <div class="img" 
         :style="{ backgroundImage: name.isActive ? name.link : name.link1, marginLeft: name.marginLeft, width: name.width, height: name.height }" />
       <div class="name" :style="{ color: name.isActive ? name.textColor : name.textColor1 }">{{ name.name }}</div>
-      <span class="ratio" v-if="isRatio">{{ name.ratio }}</span>
+      <span class="ratio" v-if="isRatio">{{ name.ratio||name.count }}</span>
     </div>
   </div>
 </template>

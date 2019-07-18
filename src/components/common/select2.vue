@@ -51,11 +51,9 @@ export default {
       this.$store.dispatch("_planSelf", self.$store.state.eventAlert.planGroupId);
     },
     selectOption(item) {
-      const planId = item.id;
       this.isClick = false;
-      const groupId = item.groupId;
       this.title = item.planName
-      this.$store.dispatch("_saveDisposalParamPlanId", planId);
+      this.$store.dispatch("_saveDisposalParamPlanId", item);
     },
     onenter() {
       this.isClick = true;

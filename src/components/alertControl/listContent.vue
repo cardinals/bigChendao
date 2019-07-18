@@ -14,7 +14,7 @@
         <label :for="isChecked ? index: ''">{{ men.name }}</label>
       </p>
       <p class="tel" :style="{ width: telWidth }">
-        <label :for="isChecked ? index: ''">{{ men.tel }}</label>
+        <label :for="isChecked ? index: ''">{{ men[objName] }}</label>
       </p>
       <p class="status1" v-if="isChecked && men.status == 0">
         <label :for="isChecked ? index: ''">正常</label>
@@ -41,6 +41,10 @@ export default {
     isChecked: {
       type: Boolean,
       default: false
+    },
+    objName: {
+      type: String,
+      default: 'tel'
     },
     data: {
       type: Array,

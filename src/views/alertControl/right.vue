@@ -24,7 +24,8 @@
           v-if="dataNumber == 0"
           position="relative"
           top="10%"
-          :data="data2" />
+          objName='address'
+          :data="this.$store.state.eventAlert.nearbyGoods" />
         <listContent
           width="73%"
           height="65%"
@@ -54,42 +55,6 @@ export default {
         back: "url(" + require("../../assets/event/rbk.png") + ")",
         titleBack: "url(" + require("../../assets/event/titleBack.png") + ")"
       },
-      data1: [
-        { name: "附近人1", tel: "13765678765" },
-        { name: "附近人2", tel: "13765678765" },
-        { name: "附近人3", tel: "13765678765" },
-        { name: "附近人4", tel: "13765678765" },
-        { name: "附近人5", tel: "13765678765" },
-        { name: "附近人6", tel: "13765678765" },
-        { name: "附近人3", tel: "13765678765" },
-        { name: "附近人4", tel: "13765678765" },
-        { name: "附近人5", tel: "13765678765" },
-        { name: "附近人6", tel: "13765678765" }
-      ],
-      data2: [
-        { name: "灭火器1", tel: "13765678765" },
-        { name: "灭火器2", tel: "13765678765" },
-        { name: "灭火器3", tel: "13765678765" },
-        { name: "灭火器4", tel: "13765678765" },
-        { name: "灭火器5", tel: "13765678765" },
-        { name: "灭火器6", tel: "13765678765" },
-        { name: "灭火器3", tel: "13765678765" },
-        { name: "灭火器4", tel: "13765678765" },
-        { name: "灭火器5", tel: "13765678765" },
-        { name: "灭火器6", tel: "13765678765" }
-      ],
-      data3: [
-        { name: "车辆1", tel: "13765678765" },
-        { name: "车辆2", tel: "13765678765" },
-        { name: "车辆3", tel: "13765678765" },
-        { name: "车辆4", tel: "13765678765" },
-        { name: "车辆5", tel: "13765678765" },
-        { name: "车辆6", tel: "13765678765" },
-        { name: "车辆3", tel: "13765678765" },
-        { name: "车辆4", tel: "13765678765" },
-        { name: "车辆5", tel: "13765678765" },
-        { name: "车辆6", tel: "13765678765" }
-      ],
       dataNumber: 0
     };
   },

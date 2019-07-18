@@ -2,7 +2,7 @@
   <div class="alertCenterModule">
     <titleModule width="100%" height="8%" title="事件处理" />
     <centerStart v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 5 || this.$store.state.eventAlert.planOrmanOrNoNumber == 2" />
-    <planMan v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0 || this.$store.state.eventAlert.planOrmanOrNoNumber == 1" />
+    <planMan v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 0 || this.$store.state.eventAlert.planOrmanOrNoNumber == 1 || this.$store.state.eventAlert.planOrmanOrNoNumber == 7" />
     <continues v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 3" />
     <end v-if="this.$store.state.eventAlert.planOrmanOrNoNumber == 4" />
   </div>

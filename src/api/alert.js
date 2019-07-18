@@ -59,11 +59,19 @@ export function allPeopleId(params) {
   })
 }
 
-// 提交【处置】
+// 修改【处置】
 export function SubmitDisposal(id, data) {
   return request({
     url: `eventmanagement/update/${id}`,
     method: "PUT",
     data
+  })
+}
+
+// 获取事件详情
+export function eventDetail(id) {
+  return request({
+    url: `eventmanagement/info/${id}`,
+    method: "GET"
   })
 }

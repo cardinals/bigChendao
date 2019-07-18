@@ -14,9 +14,9 @@
         :isAlert="true"
         @propEvent="receiveEvent"
         :style="{ backgroundImage: datas.back }">
-        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle1" :record="record1" v-if="dataNumber == 0" />
-        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle2" :record="record2" v-if="dataNumber == 1" />
-        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle3" :record="record3" v-if="dataNumber == 2" />
+        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle1" :record="this.$store.state.control.emergencyList" v-if="dataNumber == 0" />
+        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle2" :record="this.$store.state.control.alarmList" v-if="dataNumber == 1" />
+        <tableModule contentHeight="35%" titleHeight="17%" tableHeight="84%" moduleHeight="95%" moduleMt="0%" :tableTitle="tableTitle3" :record="this.$store.state.control.otherList" v-if="dataNumber == 2" />
       </common>
     </transition>
     <transition name="el-zoom-in-top">
@@ -281,6 +281,9 @@ export default {
     hiddenValue(newValue, oldValue) {
       this.isHidden = newValue
     }
+  },
+  mounted() {
+    this.$store.dispatch("_eventList", { organizationId: this.$store.state.init.organizationId })
   },
   methods: {
     receiveEvent(e) {

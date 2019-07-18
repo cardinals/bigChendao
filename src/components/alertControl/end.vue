@@ -15,21 +15,18 @@
         <div class="top">
           <div class="s1name">{{ content.section1.title }}</div>
           <div class="selectBox">
-            <selects />
+            {{eventDetail.groupName}}
           </div>
         </div>
+        <div v-html="eventDetail.planContent"></div>
       </div>
       <div class="section2">
         <div class="section2Top">
           <div class="section2Title">{{ content.section2.title }}</div>
-          <div class="section2short cc">
-            <input type="radio" id="radis">
-            <label for="radis"><span>{{ content.section2.short[0] }}</span></label>
-          </div>
         </div>
         <div class="section2BottomBox">
           <div class="title">{{ content.section2.short[1] }}</div>
-          <div class="section2Bottom cc">{{ content.section2.text }}</div>
+          <div class="section2Bottom cc">{{ eventDetail.message }}</div>
         </div>
       </div>
       <div class="section3">
@@ -54,7 +51,7 @@
       </div>
       <div class="section4">
         <div class="section4Top">{{ content.section4.title[0] }}</div>
-        <textarea name="" id="" cols="30" rows="10" :placeholder="content.section4.title[1]"></textarea>
+        <textarea name="" id="" cols="30" rows="10" :placeholder="content.section4.title[1]" v-model="endDescription"></textarea>
       </div>
       <div class="btn">
         <div class="btn1 cc" @click="handle">{{ content.btn[0] }}</div>
@@ -65,9 +62,9 @@
 </template>
 
 <script>
-import selects from "@/components/common/select"
+  import moment from 'moment';
+  import { mapState } from "vuex";
 export default {
-  components: { selects },
   data() {
     return {
       out: {
@@ -79,7 +76,7 @@ export default {
         back: "url(" + require('../../assets/event/planOrmanBack.png') + ")",
         header: ["预案处理", "待处理"],
         section1: {
-          title: "(1) 请选择预案",
+          title: "(1) 预案内容",
           text: ["*预案内容", "(1)给工作人员发短信通知。", "(2)进行500米以内的人员和车辆调度。", "(3)请当日内填写《意外事故记录表》备案。"]
         },
         section2: {
@@ -96,16 +93,33 @@ export default {
           title: ["(4) 请对完结情况描述下", "请输入描述..."]
         },
         btn: ["完成调拨", "上一步"]
-      }
+      },
+      endDescription: ''
     }
   },
+  computed: {
+    ...mapState({
+      eventDetail: state => state.eventAlert.eventDetailInfo
+    })
+  },
   methods: {
+    moment,
     lastStep() {
       this.$store.dispatch("savePlanOrmanOrNo", 3);
     },
     handle() {
-      this.$store.dispatch("showAlert", false);
-      this.$store.dispatch("savePlanOrmanOrNo", 6);
+      if (!this.endDescription) { this.$message.error('请输入完成描述'); return }
+      const data = {
+        eventState: 2,
+        endDescription: this.endDescription,
+        endTime: moment().format('YYYY-MM-DD HH:MM:SS')
+      }
+      this.$store.dispatch("_saveDisposalParamStatus", 2);
+      this.$store.dispatch("_SubmitDisposal", { data: data }).then((res) => {
+        if (res) {
+          this.$message.error(res)
+        }
+      })
     }
   }
 }
@@ -176,7 +190,6 @@ export default {
         width: 91%;
         // height: 20%;
         .top {
-          height: 22%;
           width: 100%;
           display: flex;
           justify-content: space-between;
